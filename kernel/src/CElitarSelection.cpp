@@ -1,0 +1,96 @@
+/****************************************************************************
+** Copyright (C) 2009 Мясников Алексей Сергеевич.
+** Contact: AlekseyMyasnikov@yandex.ru
+**          amyasnikov@npomis.ru
+**          AlekseyMyasnikov@mail.ru
+**          MyasnikovAleksey@mail.ru
+** Этот файл является частью реализации библиотеки островного генетического
+** алгоритма с динамическим распределением вероятностей выбора генетических
+** операторов в каждой группе операторов
+** Данная библиотека является свободным программным обеспечением. Вы вправе
+** распространять её и/или модифицировать в соответствии с условиями версии 3
+** либо по вашему выбору с условиями более поздней версии Стандартной
+** Общественной Лицензии Ограниченного Применения GNU, опубликованной
+** Free Software Foundation.
+** Я распространяю эту библиотеку в надежде на то, что она будет вам
+** полезной, однако НЕ ПРЕДОСТАВЛЯЮ НА НЕЕ НИКАКИХ ГАРАНТИЙ, в том числе
+** ГАРАНТИИ ТОВАРНОГО СОСТОЯНИЯ ПРИ ПРОДАЖЕ и ПРИГОДНОСТИ ДЛЯ ИСПОЛЬЗОВАНИЯ
+** В КОНКРЕТНЫХ ЦЕЛЯХ. Для получения более подробной информации ознакомьтесь
+** со Стандартной Общественной Лицензией Ограниченного Применений GNU в
+** файле LICENSE в корне исходных текстов проекта или по адресу:
+** http://www.gnu.org/copyleft/lgpl.html.
+****************************************************************************/
+/**
+ * @file    CElitarSelection.cpp
+ * @brief   Файл содержит класс CElitarSelection отбора родительских хромосом
+ * @date    20/02/2009
+**/
+
+#include "../../include/CElitarSelection.h"
+#include <qglobal.h>
+#if QT_VERSION < 0x040000
+    #include <qstring.h>
+    #include <qobject.h>
+#else
+    #include <QtCore/QString>
+    #include <QtCore/QObject>
+#endif
+
+/**
+ * @brief   Базовый конструктор
+**/
+GeneticAlgorithm::
+CElitarSelection::
+CElitarSelection(double percentage) :
+    m_percentage(percentage)
+{};
+/**
+ * @brief   Деструктор
+**/
+GeneticAlgorithm::
+CElitarSelection::
+~CElitarSelection()
+{};
+
+/**
+ * @brief  Метод отбора из популяции хромосом для дальнейшего скрещивания и мутации
+ * @param  pop - популяция родителей, из которых производится отбор
+ * @return sel - популяция родителей для скрещивания и мутаций
+**/
+void
+GeneticAlgorithm::
+CElitarSelection::
+select( const CPopulation&pop,
+        CPopulation&      sel)
+{
+    Q_ASSERT(pop.size());
+    double miminum = pop.getMinimumFitness();
+    double summary = 0.;
+    for(int j = 0; j < pop.size(); j++)
+    {
+        summary += (pop.getChromosome(j).fitness() - miminum);
+    }
+    double number     = m_percentage * summary;
+    double accumulate = 0.;
+    for(int i = 0; i < pop.size(); i++)
+    {
+        accumulate += (pop.getChromosome(i).fitness() - miminum);
+        sel.addChromosome(pop.getChromosome(i));
+        if((accumulate > number) && (sel.size() > 1)) break;
+    }
+    Q_ASSERT(sel.size() > 1);
+};
+
+/**
+ * @brief   Метод получения наименования генетического оператора
+ * @return  наименование генетического оператора
+**/
+const
+QString
+GeneticAlgorithm::
+CElitarSelection::
+name()
+{
+    return QObject::trUtf8("%1-процентный элитарный отбор")
+           .arg(m_percentage * 100.);
+};
