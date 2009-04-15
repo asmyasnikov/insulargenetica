@@ -1,5 +1,5 @@
 /****************************************************************************
-** Copyright (C) 2009 Мясников Алексей Сергеевич.
+** Copyleft (C) 2009 Мясников Алексей Сергеевич.
 ** Contact: AlekseyMyasnikov@yandex.ru
 **          amyasnikov@npomis.ru
 **          AlekseyMyasnikov@mail.ru
@@ -19,16 +19,23 @@
 ** со Стандартной Общественной Лицензией Ограниченного Применений GNU в
 ** файле LICENSE в корне исходных текстов проекта или по адресу:
 ** http://www.gnu.org/copyleft/lgpl.html.
+** Обращаю Ваше внимание на то, что библиотека InsularGenetica
+** зарегистрирована Российским агенством по патентам и товарным знакам
+** (РОСПАТЕНТ), о чем выдано "Свидетельство об официальной регистрации
+** программы для ЭВМ" за № FIXME от FIXME FIXME FIXME года. Копия
+** свидетельства о регистрации представлена в файле CERTIFICATE
+** в корне проекта.
+** Это не накладывает на конечных разработчиков/пользователей никаких
+** дополнительных ограничений, кроме предусмотренных GNU Lesser GPL,
+** ПРИ СОХРАНЕНИИ ИНФОРМАЦИИ О РАЗРАБОТЧИКАХ ЭТОЙ БИБЛИОТЕКИ.
 ****************************************************************************/
 /**
  * @file    CRandomMutation.h
  * @brief   Файл содержит класс CRandomMutation отбора родительских хромосом
  * @date    20/02/2009
 **/
-
 #ifndef C_ELITAR_SELECTION_H_INCLUDED
 #define C_ELITAR_SELECTION_H_INCLUDED
-
 #include "../idl/IMutation.h"
 #include "CPopulation.h"
 #include "CChromosome.h"
@@ -40,7 +47,6 @@
     #include <QtCore/QString>
     #include <QtCore/QObject>
 #endif
-
 namespace GeneticAlgorithm
 {
     Q_DECL_EXPORT struct CRandomMutation : virtual public IMutation
@@ -55,7 +61,8 @@ namespace GeneticAlgorithm
         ~CRandomMutation();
         /**
          * @brief  Метод "рождения" мутированных потомков
-         * @param  chr  - родительская хромосома, из которой "рождается" мутированный потомок
+         * @param  chr  - родительская хромосома, из которой "рождается"
+         *                мутированный потомок
          * @return cids - популяция потомков
         **/
         void mutate(const CChromosome&  chr,
@@ -66,7 +73,7 @@ namespace GeneticAlgorithm
         **/
         const QString name();
     private:
-        int m_percentage; ///<! Доля генов хромосомы, которые учавствуют в мутации
+        int m_percentage; ///<! Доля генов хромосомы
     };
 };
-#endif // C_ELITAR_SELECTION_H_INCLUDED
+#endif // C_ELITAR_SELECTI

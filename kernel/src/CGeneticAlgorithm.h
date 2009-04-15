@@ -1,5 +1,5 @@
 /****************************************************************************
-** Copyright (C) 2009 Мясников Алексей Сергеевич.
+** Copyleft (C) 2009 Мясников Алексей Сергеевич.
 ** Contact: AlekseyMyasnikov@yandex.ru
 **          amyasnikov@npomis.ru
 **          AlekseyMyasnikov@mail.ru
@@ -19,18 +19,26 @@
 ** со Стандартной Общественной Лицензией Ограниченного Применений GNU в
 ** файле LICENSE в корне исходных текстов проекта или по адресу:
 ** http://www.gnu.org/copyleft/lgpl.html.
+** Обращаю Ваше внимание на то, что библиотека InsularGenetica
+** зарегистрирована Российским агенством по патентам и товарным знакам
+** (РОСПАТЕНТ), о чем выдано "Свидетельство об официальной регистрации
+** программы для ЭВМ" за № FIXME от FIXME FIXME FIXME года. Копия
+** свидетельства о регистрации представлена в файле CERTIFICATE
+** в корне проекта.
+** Это не накладывает на конечных разработчиков/пользователей никаких
+** дополнительных ограничений, кроме предусмотренных GNU Lesser GPL,
+** ПРИ СОХРАНЕНИИ ИНФОРМАЦИИ О РАЗРАБОТЧИКАХ ЭТОЙ БИБЛИОТЕКИ.
 ****************************************************************************/
 /**
  * @file    CGeneticAlgorithm.h
- * @brief   Файл содержит класс CGeneticAlgorithm, который отвечает за бизнес-логику
- *          генетического алгоритма, за загрузку модулей генетического алгоритма, за
- *          динамическое определение частот использования генетических операторов
+ * @brief   Файл содержит класс CGeneticAlgorithm, который отвечает за
+ *          бизнес-логику генетического алгоритма, за загрузку модулей
+ *          генетического алгоритма, за динамическое определение частот
+ *          использования генетических операторов
  * @date    05/03/2009
 **/
-
 #ifndef GENETIC_ALGORITHM_FACTORY_H_INCLUDED
 #define GENETIC_ALGORITHM_FACTORY_H_INCLUDED
-
 #include <qglobal.h>
 #if QT_VERSION < 0x040000
     #include <qthread.h>
@@ -45,9 +53,7 @@
 #endif
 #include "../idl/IGeneticOperator.h"
 #include "../include/CPopulation.h"
-
 class QString;
-
 namespace GeneticAlgorithm
 {
     class COperatorStatistics;
@@ -57,22 +63,21 @@ namespace GeneticAlgorithm
     class IReproduction;
     class IMutation;
     class IAccepting;
-
     Q_DECL_EXPORT struct CGeneticAlgorithm : public QThread,
                                      virtual public Interface
-
     {
         enum ResultCode
         {
-            NoCode              = -1, // Нет кода завершения алгоритма, алгоритм еще работает
+            NoCode              = -1, // Алгоритм еще работает
             Process             =  0, // Задача находится в процессе расчета
-            MaxTimes            =  1, // Выход по достижению максимального времени эволюции
-            DeadLock            =  2, // Выход по длительному неулучшению решения
-            GoodHomogeneity     =  3, // Выход по достижению 95-процентной однородности популяции
-            Cancel              =  4  // Выход по отмене
+            MaxTimes            =  1, // Максимальное время эволюции
+            DeadLock            =  2, // Длительное неулучшение решения
+            GoodHomogeneity     =  3, // Достижение 95-% однородности
+            Cancel              =  4  // Отмена
         };
         /**
-         * @brief Статический метод для установления размера популяции, одинакового на всех островах
+         * @brief Статический метод для установления размера популяции,
+         *        одинакового на всех островах
          * @param size - размер популяции
         **/
         static void setPopulationSize(unsigned int size);
@@ -98,7 +103,8 @@ namespace GeneticAlgorithm
         **/
         ResultCode result() const;
         /**
-         * @brief   Метод назначения ближайшего острова в островной модели с топологией "кольцо"
+         * @brief   Метод назначения ближайшего острова в островной модели
+         *          с топологией "кольцо"
          * @param   neighbour - генетический алгоритм соседнего острова
         **/
         void setNeighbourAlgorithm(CGeneticAlgorithm*neighbour);
@@ -116,11 +122,12 @@ namespace GeneticAlgorithm
          * @brief Прерывание работы основного цикла потока
         **/
         void cancel();
-
     private:
         /**
-         * @brief Шаблон инициализирует статистические частоты для генетических операторов
-         * @param map       - словарь, в который следует поместить модули генетических операторов
+         * @brief Шаблон инициализирует статистические частоты для
+         *        генетических операторов
+         * @param map       - словарь, в который следует поместить модули
+         *                    генетических операторов
          * @param operators - модули генетических операторов
         **/
         template<typename T>
@@ -132,37 +139,53 @@ namespace GeneticAlgorithm
 #endif
                           );
         /**
-         * @brief   Шаблон позволяет получить генетический оператор по его текущей частоте
-         * @param   map - словарь, в котором содержатся модули генетических операторов
+         * @brief   Шаблон позволяет получить генетический оператор по
+         *          его текущей частоте
+         * @param   map - словарь, в котором содержатся модули
+         *          генетических операторов
          * @return  Генетический оператор или NULL при ошибке
         **/
         template<typename T>
         inline T* getGeneticOperator(QMap<T*, COperatorStatistics>&map) const;
         /**
          * @brief Шаблон позволяет выгружать модули генетических операторов
-         * @param map       - словарь, в котором содержатся модули генетических операторов
-         * @param op        - генетический оператор, для которого производится пересчет частоты
+         * @param map       - словарь, в котором содержатся модули
+         *                    генетических операторов
+         * @param op        - генетический оператор, для которого
+         *                    производится пересчет частоты
          * @param used_time - затраченнное время на работу оператора
-         * @param best      - количество хороших хромосом при использовании оператора
+         * @param best      - количество хороших хромосом при использовании
+         *                    оператора
         **/
         template<typename T>
-        inline void recalcStatisticalFrequency( QMap<T*, COperatorStatistics>&  map,
-                                                const T*                        op,
-                                                double                          used_time,
-                                                unsigned int                    best);
-
+        inline void
+        recalcStatisticalFrequency( QMap<T*, COperatorStatistics>& map,
+                                    const T*                       op,
+                                    double                         used_time,
+                                    unsigned int                   best);
     private:
-        QMap <ISelection*   , COperatorStatistics> m_selections;     ///<! Словарь операторов отбора
-        QMap <IGrouping*    , COperatorStatistics> m_groupings;      ///<! Словарь операторов соединения пар
-        QMap <IReproduction*, COperatorStatistics> m_reproductions;  ///<! Словарь операторов скрещивания
-        QMap <IMutation*    , COperatorStatistics> m_mutations;      ///<! Словарь операторов мутации
-        QMap <IAccepting*   , COperatorStatistics> m_acceptings;     ///<! Словарь операторов оценки пригодности потомков
-        unsigned long                              m_minutes;        ///<! Ограничение по времени
-        ResultCode                                 m_result_code;    ///<! Код завершения алгоритма
-        static unsigned int                        m_population_size;///<! Размер популяции
-        CPopulation                                m_population;     ///<! Популяция острова
-        CGeneticAlgorithm*                         m_neighbour;      ///<! Алгоритм соседнего острова
-        mutable QMutex                             m_mutex;          ///<! Блокатор совместных данных
+        ///<! Словарь операторов отбора
+        QMap <ISelection*   , COperatorStatistics> m_selections;
+        ///<! Словарь операторов соединения пар
+        QMap <IGrouping*    , COperatorStatistics> m_groupings;
+        ///<! Словарь операторов скрещивания
+        QMap <IReproduction*, COperatorStatistics> m_reproductions;
+        ///<! Словарь операторов мутации
+        QMap <IMutation*    , COperatorStatistics> m_mutations;
+        ///<! Словарь операторов оценки пригодности потомков
+        QMap <IAccepting*   , COperatorStatistics> m_acceptings;
+        ///<! Ограничение по времени
+        unsigned long                              m_minutes;
+        ///<! Код завершения алгоритма
+        ResultCode                                 m_result_code;
+        ///<! Размер популяции
+        static unsigned int                        m_population_size;
+        ///<! Популяция острова
+        CPopulation                                m_population;
+        ///<! Алгоритм соседнего острова
+        CGeneticAlgorithm*                         m_neighbour;
+        ///<! Блокатор совместных данных
+        mutable QMutex                             m_mutex;
     };
 };
 #endif // GENETIC_ALGORITHM_FACTORY_H_INCLUDED

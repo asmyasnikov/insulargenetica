@@ -1,5 +1,5 @@
 /****************************************************************************
-** Copyright (C) 2009 Мясников Алексей Сергеевич.
+** Copyleft (C) 2009 Мясников Алексей Сергеевич.
 ** Contact: AlekseyMyasnikov@yandex.ru
 **          amyasnikov@npomis.ru
 **          AlekseyMyasnikov@mail.ru
@@ -19,16 +19,23 @@
 ** со Стандартной Общественной Лицензией Ограниченного Применений GNU в
 ** файле LICENSE в корне исходных текстов проекта или по адресу:
 ** http://www.gnu.org/copyleft/lgpl.html.
+** Обращаю Ваше внимание на то, что библиотека InsularGenetica
+** зарегистрирована Российским агенством по патентам и товарным знакам
+** (РОСПАТЕНТ), о чем выдано "Свидетельство об официальной регистрации
+** программы для ЭВМ" за № FIXME от FIXME FIXME FIXME года. Копия
+** свидетельства о регистрации представлена в файле CERTIFICATE
+** в корне проекта.
+** Это не накладывает на конечных разработчиков/пользователей никаких
+** дополнительных ограничений, кроме предусмотренных GNU Lesser GPL,
+** ПРИ СОХРАНЕНИИ ИНФОРМАЦИИ О РАЗРАБОТЧИКАХ ЭТОЙ БИБЛИОТЕКИ.
 ****************************************************************************/
 /**
  * @file    CBetterAverageFitness.h
- * @brief   Файл содержит класс CBetterAverageFitness отбора родительских хромосом
+ * @brief   Файл содержит класс CBetterAverageFitness отбора родителей
  * @date    20/02/2009
 **/
-
 #ifndef C_BETTER_AVERAGE_FITNESS_H_INCLUDED
 #define C_BETTER_AVERAGE_FITNESS_H_INCLUDED
-
 #include "../../../idl/IAccepting.h"
 #include "../../../include/CPopulation.h"
 #include "../../../include/CChromosome.h"
@@ -40,7 +47,6 @@
     #include <QtCore/QString>
     #include <QtCore/QObject>
 #endif
-
 namespace GeneticAlgorithm
 {
     struct CBetterAverageFitness : virtual public IAccepting
@@ -53,11 +59,10 @@ namespace GeneticAlgorithm
          * @brief   Деструктор
         **/
         ~CBetterAverageFitness(){};
-
         /**
          * @brief  Метод оценки пригодности хромосомы
-         * @param  pop - популяция родителей, относительно которых производится оценка пригодности
-         * @param  cur - хромосома, которая оценивается на пригодности популяции
+         * @param  pop - популяция родителей
+         * @param  cur - хромосома, которая оценивается на пригодность
          * @return true , если хромосома пригодна для популяции
          * @return false, если хромосома не пригодна для популяции
         **/
@@ -72,12 +77,10 @@ namespace GeneticAlgorithm
         **/
         const QString name()
         {
-            return QObject::trUtf8("Здоровье хромосомы больше среднего здоровья");
+            return QObject::trUtf8("Здоровье хромосомы больше "
+                                   "среднего здоровья");
         };
     };
 };
-
 using namespace GeneticAlgorithm;
-
 #endif // C_BETTER_AVERAGE_FITNESS_H_INCLUDED
-

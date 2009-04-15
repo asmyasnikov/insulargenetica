@@ -1,5 +1,5 @@
 /****************************************************************************
-** Copyright (C) 2009 Мясников Алексей Сергеевич.
+** Copyleft (C) 2009 Мясников Алексей Сергеевич.
 ** Contact: AlekseyMyasnikov@yandex.ru
 **          amyasnikov@npomis.ru
 **          AlekseyMyasnikov@mail.ru
@@ -19,16 +19,23 @@
 ** со Стандартной Общественной Лицензией Ограниченного Применений GNU в
 ** файле LICENSE в корне исходных текстов проекта или по адресу:
 ** http://www.gnu.org/copyleft/lgpl.html.
+** Обращаю Ваше внимание на то, что библиотека InsularGenetica
+** зарегистрирована Российским агенством по патентам и товарным знакам
+** (РОСПАТЕНТ), о чем выдано "Свидетельство об официальной регистрации
+** программы для ЭВМ" за № FIXME от FIXME FIXME FIXME года. Копия
+** свидетельства о регистрации представлена в файле CERTIFICATE
+** в корне проекта.
+** Это не накладывает на конечных разработчиков/пользователей никаких
+** дополнительных ограничений, кроме предусмотренных GNU Lesser GPL,
+** ПРИ СОХРАНЕНИИ ИНФОРМАЦИИ О РАЗРАБОТЧИКАХ ЭТОЙ БИБЛИОТЕКИ.
 ****************************************************************************/
 /**
  * @file    CGeneticController.cpp
- * @brief   Файл содержит реализацию класса CGeneticController, который отвечает
- *          за бизнес-логику островной модели генетического алгоритма
+ * @brief   Файл содержит реализацию класса CGeneticController, который
+ *          отвечает за бизнес-логику островной модели ГА
  * @date    23/03/2009
 **/
-
 #include <qglobal.h>
-
 #include <qglobal.h>
 #if QT_VERSION < 0x040000
     #include <qlibrary.h>
@@ -66,7 +73,6 @@
 #ifdef Q_OS_WIN
     #include <windows.h>
 #endif
-
 /**
  * @brief Конструктор
  * @param island - количество островов
@@ -91,7 +97,7 @@ CGeneticController(IFitness*     fitness,
     loadLibraries("."   );
     for(unsigned int i = 0; i < island; i++)
     {
-        CGeneticAlgorithm*alg = new CGeneticAlgorithm(m_operators, m_minutes);
+        CGeneticAlgorithm*alg = new CGeneticAlgorithm(m_operators,m_minutes);
         m_algorithms.append(alg);
     };
     CGeneticAlgorithm*prev = NULL;
@@ -210,8 +216,9 @@ run()
         {
             alg->wait();
         }
-        CPopulation pop = alg->getBestChromosomes(qMax(int(m_best_solutions_size)/
-                                                       m_algorithms.size(),1));
+        CPopulation pop = alg->
+                          getBestChromosomes(qMax(int(m_best_solutions_size)/
+                                                  m_algorithms.size(),1));
         for(int j = 0; j < pop.size(); j++)
         {
             if(m_best_solutions.size() < int(m_best_solutions_size))
@@ -271,7 +278,8 @@ calc(IFitness*    fitness,
             island = 0;
             QTextStream textStream(&file);
             do{
-                if ( textStream.readLine().startsWith("processor") ) island++;
+                if ( textStream.readLine().startsWith("processor") )
+                     island++;
             }while(!textStream.atEnd());
             file.close();
         }
@@ -286,9 +294,12 @@ calc(IFitness*    fitness,
     return control.m_best_solutions;
 };
 /**
- * @brief Шаблон позволяет загружать библиотки из соответствующих поддирректорий
- * @param map   - словарь, в который следует поместить модули генетических операторов
- * @param name  - наименование поддирректории, в которой следует производить поиск
+ * @brief Шаблон позволяет загружать библиотки из соответствующих
+ *        поддирректорий
+ * @param map   - словарь, в который следует поместить модули
+ *                генетических операторов
+ * @param name  - наименование поддирректории, в которой следует
+ *                производить поиск
 **/
 void
 GeneticAlgorithm::
@@ -324,7 +335,8 @@ loadLibraries(const QString& name)
                 if(!lib->isLoaded() && !lib->load())
                 {
                     qDebug("%s",
-                           QObject::trUtf8("Библиотека \"%1\" не загружена : %2")
+                           QObject::trUtf8("Библиотека \"%1\" "
+                                           "не загружена : %2")
 #if QT_VERSION < 0x040000
                            .arg(*list.at(i))
                            .arg(QString::null)
@@ -338,7 +350,8 @@ loadLibraries(const QString& name)
                     continue;
                 }
                 typedef Interface*(*CreateModule)(void);
-                CreateModule createModule = (CreateModule)(lib->resolve("CreateModule"));
+                CreateModule createModule =
+                    (CreateModule)(lib->resolve("CreateModule"));
                 if(!createModule)
                 {
                     qDebug("%s",
@@ -359,7 +372,8 @@ loadLibraries(const QString& name)
                     Interface*iface = createModule();
                     if(iface)
                     {
-                        IGeneticOperator* oper = dynamic_cast<IGeneticOperator*>(iface);
+                        IGeneticOperator* oper =
+                            dynamic_cast<IGeneticOperator*>(iface);
                         if(oper)
                         {
                             m_operators.append(oper);
@@ -402,7 +416,6 @@ cancel()
         }
     }
 };
-
 /**
  * @brief Статический метод конструирования потока "калькулятора"
  * @param fitness - целевая функция (функция здоровья),
@@ -451,7 +464,8 @@ getCalculator(IFitness*    fitness,
             island = 0;
             QTextStream textStream(&file);
             do{
-                if ( textStream.readLine().startsWith("processor") ) island++;
+                if ( textStream.readLine().startsWith("processor") )
+                     island++;
             }while(!textStream.atEnd());
             file.close();
         }
@@ -466,7 +480,6 @@ getCalculator(IFitness*    fitness,
                                                         minutes);
     return control;
 };
-
 /**
  * @brief Получить результаты расчета
 **/

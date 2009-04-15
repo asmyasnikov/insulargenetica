@@ -1,5 +1,5 @@
 /****************************************************************************
-** Copyright (C) 2009 Мясников Алексей Сергеевич.
+** Copyleft (C) 2009 Мясников Алексей Сергеевич.
 ** Contact: AlekseyMyasnikov@yandex.ru
 **          amyasnikov@npomis.ru
 **          AlekseyMyasnikov@mail.ru
@@ -19,16 +19,23 @@
 ** со Стандартной Общественной Лицензией Ограниченного Применений GNU в
 ** файле LICENSE в корне исходных текстов проекта или по адресу:
 ** http://www.gnu.org/copyleft/lgpl.html.
+** Обращаю Ваше внимание на то, что библиотека InsularGenetica
+** зарегистрирована Российским агенством по патентам и товарным знакам
+** (РОСПАТЕНТ), о чем выдано "Свидетельство об официальной регистрации
+** программы для ЭВМ" за № FIXME от FIXME FIXME FIXME года. Копия
+** свидетельства о регистрации представлена в файле CERTIFICATE
+** в корне проекта.
+** Это не накладывает на конечных разработчиков/пользователей никаких
+** дополнительных ограничений, кроме предусмотренных GNU Lesser GPL,
+** ПРИ СОХРАНЕНИИ ИНФОРМАЦИИ О РАЗРАБОТЧИКАХ ЭТОЙ БИБЛИОТЕКИ.
 ****************************************************************************/
 /**
  * @file    COutBriding.h
  * @brief   Файл содержит класс COutBriding отбора родительских хромосом
  * @date    20/02/2009
 **/
-
 #ifndef C_INBRIDING_H_INCLUDED
 #define C_INBRIDING_H_INCLUDED
-
 #include "../../../idl/IGrouping.h"
 #include "../../../include/CPopulation.h"
 #include "../../../include/CChromosome.h"
@@ -50,7 +57,6 @@
     #include <QtCore/QVector>
     #include <QtCore/QPair>
 #endif
-
 namespace GeneticAlgorithm
 {
     struct COutBriding : virtual public IGrouping
@@ -63,9 +69,8 @@ namespace GeneticAlgorithm
          * @brief   Деструктор
         **/
         ~COutBriding(){};
-
         /**
-         * @brief  Метод отбора пар родительских хромосом для дальнейшего скрещивания
+         * @brief  Метод отбора пар родительских хромосом для скрещивания
          * @param  sel - популяция родителей для скрещивания
          * @return par - набор пар родителей
         **/
@@ -73,9 +78,11 @@ namespace GeneticAlgorithm
         {
             Q_ASSERT(sel.size());
 #if QT_VERSION < 0x040000
-            QValueVector<QPair<double, QPair<const CChromosome*, const CChromosome*> > >h_matrix;
+            QValueVector<QPair<double, QPair<const CChromosome*,
+                                             const CChromosome*> > >h_matrix;
 #else
-            QVector<QPair<double, QPair<const CChromosome*, const CChromosome*> > >h_matrix;
+            QVector<QPair<double, QPair<const CChromosome*,
+                                        const CChromosome*> > >h_matrix;
 #endif
             for(int i = 0; i < sel.size(); i++)
             {
@@ -92,7 +99,8 @@ namespace GeneticAlgorithm
                             homogeinity += 1.;
                         }
                     }
-                    h_matrix.push_back(qMakePair(homogeinity, qMakePair(first,second)));
+                    h_matrix.push_back(qMakePair(homogeinity,
+                                                 qMakePair(first,second)));
                 }
             }
             for(int i = 0; i < h_matrix.size(); i++)
@@ -101,7 +109,9 @@ namespace GeneticAlgorithm
                 {
                     if(h_matrix[i].first > h_matrix[j].first)
                     {
-                        QPair<double, QPair<const CChromosome*, const CChromosome*> > temp = h_matrix[j];
+                        QPair<double, QPair<const CChromosome*,
+                                            const CChromosome*> > temp =
+                             h_matrix[j];
                         h_matrix[j] = h_matrix[i];
                         h_matrix[i] = temp;
                     }
@@ -118,10 +128,10 @@ namespace GeneticAlgorithm
         **/
         const QString name()
         {
-            return QObject::trUtf8("Аутбридинг (группировка дальних хромосом)");
+            return QObject::trUtf8("Аутбридинг (группировка "
+                                   "дальних хромосом)");
         };
     };
 };
 using namespace GeneticAlgorithm;
 #endif // C_INBRIDING_H_INCLUDED
-

@@ -1,5 +1,5 @@
 /****************************************************************************
-** Copyright (C) 2009 Мясников Алексей Сергеевич.
+** Copyleft (C) 2009 Мясников Алексей Сергеевич.
 ** Contact: AlekseyMyasnikov@yandex.ru
 **          amyasnikov@npomis.ru
 **          AlekseyMyasnikov@mail.ru
@@ -19,20 +19,25 @@
 ** со Стандартной Общественной Лицензией Ограниченного Применений GNU в
 ** файле LICENSE в корне исходных текстов проекта или по адресу:
 ** http://www.gnu.org/copyleft/lgpl.html.
+** Обращаю Ваше внимание на то, что библиотека InsularGenetica
+** зарегистрирована Российским агенством по патентам и товарным знакам
+** (РОСПАТЕНТ), о чем выдано "Свидетельство об официальной регистрации
+** программы для ЭВМ" за № FIXME от FIXME FIXME FIXME года. Копия
+** свидетельства о регистрации представлена в файле CERTIFICATE
+** в корне проекта.
+** Это не накладывает на конечных разработчиков/пользователей никаких
+** дополнительных ограничений, кроме предусмотренных GNU Lesser GPL,
+** ПРИ СОХРАНЕНИИ ИНФОРМАЦИИ О РАЗРАБОТЧИКАХ ЭТОЙ БИБЛИОТЕКИ.
 ****************************************************************************/
 /**
  * @file    IGeneticOperator.h
  * @brief   Файл содержит интерфейс IGeneticOperator
  * @date    20/02/2009
 **/
-
 #ifndef INTERFACE_GENETIC_OPERATOR_H
 #define INTERFACE_GENETIC_OPERATOR_H
-
 #include "Interface.h"
-
 class QString;
-
 namespace GeneticAlgorithm
 {
     struct IGeneticOperator : virtual public Interface
@@ -44,4 +49,4 @@ namespace GeneticAlgorithm
         virtual const QString name() = 0;
     };
 };
-#endif // INTERFACE_GENETIC_OPERATOR_H
+#endif // INTERFACE_GENETIC

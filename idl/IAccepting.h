@@ -1,5 +1,5 @@
 /****************************************************************************
-** Copyright (C) 2009 Мясников Алексей Сергеевич.
+** Copyleft (C) 2009 Мясников Алексей Сергеевич.
 ** Contact: AlekseyMyasnikov@yandex.ru
 **          amyasnikov@npomis.ru
 **          AlekseyMyasnikov@mail.ru
@@ -19,27 +19,34 @@
 ** со Стандартной Общественной Лицензией Ограниченного Применений GNU в
 ** файле LICENSE в корне исходных текстов проекта или по адресу:
 ** http://www.gnu.org/copyleft/lgpl.html.
+** Обращаю Ваше внимание на то, что библиотека InsularGenetica
+** зарегистрирована Российским агенством по патентам и товарным знакам
+** (РОСПАТЕНТ), о чем выдано "Свидетельство об официальной регистрации
+** программы для ЭВМ" за № FIXME от FIXME FIXME FIXME года. Копия
+** свидетельства о регистрации представлена в файле CERTIFICATE
+** в корне проекта.
+** Это не накладывает на конечных разработчиков/пользователей никаких
+** дополнительных ограничений, кроме предусмотренных GNU Lesser GPL,
+** ПРИ СОХРАНЕНИИ ИНФОРМАЦИИ О РАЗРАБОТЧИКАХ ЭТОЙ БИБЛИОТЕКИ.
 ****************************************************************************/
 /**
  * @file    IAccepting.h
  * @brief   Файл содержит интерфейс IAccepting отбора родительских пар
  * @date    17/02/2009
 **/
-
 #ifndef INTERFACE_ACCEPTING_H_INCLUDED
 #define INTERFACE_ACCEPTING_H_INCLUDED
-
 #include "IGeneticOperator.h"
 #include "../include/CChromosome.h"
 #include "../include/CPopulation.h"
-
 namespace GeneticAlgorithm
 {
     struct IAccepting : virtual public IGeneticOperator
     {
         /**
          * @brief  Метод оценки пригодности хромосомы
-         * @param  pop - популяция родителей, относительно которых производится оценка пригодности
+         * @param  pop - популяция родителей, относительно которых производится
+         *               оценка пригодности
          * @param  cur - хромосома, которая оценивается на пригодности популяции
          * @return true , если хромосома пригодна для популяции
          * @return false, если хромосома не пригодна для популяции
@@ -48,4 +55,4 @@ namespace GeneticAlgorithm
                             const CChromosome&cur) = 0;
     };
 };
-#endif // INTERFACE_ACCEPTING_H_INCLUDED
+#endif // INTERFACE_ACCEPTI

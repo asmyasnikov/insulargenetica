@@ -1,5 +1,5 @@
 /****************************************************************************
-** Copyright (C) 2009 Мясников Алексей Сергеевич.
+** Copyleft (C) 2009 Мясников Алексей Сергеевич.
 ** Contact: AlekseyMyasnikov@yandex.ru
 **          amyasnikov@npomis.ru
 **          AlekseyMyasnikov@mail.ru
@@ -19,6 +19,15 @@
 ** со Стандартной Общественной Лицензией Ограниченного Применений GNU в
 ** файле LICENSE в корне исходных текстов проекта или по адресу:
 ** http://www.gnu.org/copyleft/lgpl.html.
+** Обращаю Ваше внимание на то, что библиотека InsularGenetica
+** зарегистрирована Российским агенством по патентам и товарным знакам
+** (РОСПАТЕНТ), о чем выдано "Свидетельство об официальной регистрации
+** программы для ЭВМ" за № FIXME от FIXME FIXME FIXME года. Копия
+** свидетельства о регистрации представлена в файле CERTIFICATE
+** в корне проекта.
+** Это не накладывает на конечных разработчиков/пользователей никаких
+** дополнительных ограничений, кроме предусмотренных GNU Lesser GPL,
+** ПРИ СОХРАНЕНИИ ИНФОРМАЦИИ О РАЗРАБОТЧИКАХ ЭТОЙ БИБЛИОТЕКИ.
 ****************************************************************************/
 /**
  * @file    CChromosome.h
@@ -27,14 +36,11 @@
  *          в генетическом программировании
  * @date    20/02/2009
 **/
-
 #ifndef CCHROMOSOME_H_INCLUDED
 #define CCHROMOSOME_H_INCLUDED
-
 #include "export.h"
 #include "../idl/Interface.h"
 #include "../idl/IFitness.h"
-
 namespace GeneticAlgorithm
 {
     Q_DECL_EXPORT struct CChromosome : virtual public Interface
@@ -127,11 +133,11 @@ namespace GeneticAlgorithm
         double fitness() const;
     private:
         static unsigned int m_bit_size;      ///<! Длина хромосомы
-        static unsigned int m_byte_size;     ///<! Количество байт памяти для хрангения хромосомы
-        static IFitness*    m_function;      ///<! Функция расчета здоровья хромосомы
-        unsigned char*      m_data;          ///<! Хранилище данных в байт-представлении
-        double              m_fitness;       ///<! Значение функции здоровья хромосомы
-        int                 m_transactions;  ///<! Количество открытых транзакций
+        static unsigned int m_byte_size;     ///<! Количество байт памяти
+        static IFitness*    m_function;      ///<! Функция расчета здоровья
+        unsigned char*      m_data;          ///<! Хранилище данных
+        double              m_fitness;       ///<! Значение функции здоровья
+        int                 m_transactions;  ///<! Кол-во открытых транзакций
     };
 };
-#endif // CCHROMOSOME_H_INCLUDED
+#endif // CCHROMOSOME

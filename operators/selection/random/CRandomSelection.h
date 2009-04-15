@@ -1,5 +1,5 @@
 /****************************************************************************
-** Copyright (C) 2009 Мясников Алексей Сергеевич.
+** Copyleft (C) 2009 Мясников Алексей Сергеевич.
 ** Contact: AlekseyMyasnikov@yandex.ru
 **          amyasnikov@npomis.ru
 **          AlekseyMyasnikov@mail.ru
@@ -19,16 +19,23 @@
 ** со Стандартной Общественной Лицензией Ограниченного Применений GNU в
 ** файле LICENSE в корне исходных текстов проекта или по адресу:
 ** http://www.gnu.org/copyleft/lgpl.html.
+** Обращаю Ваше внимание на то, что библиотека InsularGenetica
+** зарегистрирована Российским агенством по патентам и товарным знакам
+** (РОСПАТЕНТ), о чем выдано "Свидетельство об официальной регистрации
+** программы для ЭВМ" за № FIXME от FIXME FIXME FIXME года. Копия
+** свидетельства о регистрации представлена в файле CERTIFICATE
+** в корне проекта.
+** Это не накладывает на конечных разработчиков/пользователей никаких
+** дополнительных ограничений, кроме предусмотренных GNU Lesser GPL,
+** ПРИ СОХРАНЕНИИ ИНФОРМАЦИИ О РАЗРАБОТЧИКАХ ЭТОЙ БИБЛИОТЕКИ.
 ****************************************************************************/
 /**
  * @file    CRandomSelection.h
  * @brief   Файл содержит класс CRandomSelection отбора родительских хромосом
  * @date    20/02/2009
 **/
-
 #ifndef C_RANDOM_SELECTION_H_INCLUDED
 #define C_RANDOM_SELECTION_H_INCLUDED
-
 #include "../../../idl/ISelection.h"
 #include "../../../include/CPopulation.h"
 #include "../../../include/CChromosome.h"
@@ -40,7 +47,6 @@
     #include <QtCore/QString>
     #include <QtCore/QObject>
 #endif
-
 namespace GeneticAlgorithm
 {
     struct CRandomSelection : virtual public ISelection
@@ -53,9 +59,9 @@ namespace GeneticAlgorithm
          * @brief   Деструктор
         **/
         ~CRandomSelection(){};
-
         /**
-         * @brief  Метод отбора из популяции хромосом для дальнейшего скрещивания и мутации
+         * @brief  Метод отбора из популяции хромосом для дальнейшего
+         *         скрещивания и мутации
          * @param  pop - популяция родителей, из которых производится отбор
          * @return sel - популяция родителей для скрещивания и мутаций
         **/
@@ -79,5 +85,4 @@ namespace GeneticAlgorithm
     };
 };
 using namespace GeneticAlgorithm;
-#endif // C_RANDOM_SELECTION_H_INCLUDED
-
+#endif // C_RANDO

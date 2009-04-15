@@ -1,5 +1,5 @@
 /****************************************************************************
-** Copyright (C) 2009 Мясников Алексей Сергеевич.
+** Copyleft (C) 2009 Мясников Алексей Сергеевич.
 ** Contact: AlekseyMyasnikov@yandex.ru
 **          amyasnikov@npomis.ru
 **          AlekseyMyasnikov@mail.ru
@@ -19,6 +19,15 @@
 ** со Стандартной Общественной Лицензией Ограниченного Применений GNU в
 ** файле LICENSE в корне исходных текстов проекта или по адресу:
 ** http://www.gnu.org/copyleft/lgpl.html.
+** Обращаю Ваше внимание на то, что библиотека InsularGenetica
+** зарегистрирована Российским агенством по патентам и товарным знакам
+** (РОСПАТЕНТ), о чем выдано "Свидетельство об официальной регистрации
+** программы для ЭВМ" за № FIXME от FIXME FIXME FIXME года. Копия
+** свидетельства о регистрации представлена в файле CERTIFICATE
+** в корне проекта.
+** Это не накладывает на конечных разработчиков/пользователей никаких
+** дополнительных ограничений, кроме предусмотренных GNU Lesser GPL,
+** ПРИ СОХРАНЕНИИ ИНФОРМАЦИИ О РАЗРАБОТЧИКАХ ЭТОЙ БИБЛИОТЕКИ.
 ****************************************************************************/
 /**
  * @file    CGeneticController.h
@@ -29,10 +38,8 @@
  *          использовать, например, метод штрафных (барьерных) функций.
  * @date    23/03/2009
 **/
-
 #ifndef C_GENETIC_CONTROLLER_H_INCLUDED
 #define C_GENETIC_CONTROLLER_H_INCLUDED
-
 #include <qglobal.h>
 #if QT_VERSION < 0x040000
     #include <qthread.h>
@@ -42,14 +49,11 @@
     #include <QtCore/QSet>
 #endif
 #include "CPopulation.h"
-
 class QLibrary;
-
 namespace GeneticAlgorithm
 {
     class CGeneticAlgorithm;
     class IGeneticOperator;
-
     /**
      * @brief Это основной класс генетического алгоритма
      *        Конструктор класса намеренно недоступен
@@ -71,13 +75,17 @@ namespace GeneticAlgorithm
      *        | {
      *        |    ::calc = CGeneticController::getCalculator(...);
      *        |                                    |
-     *        |                                    | Обработка событий пользователя, например,
-     *        |                                    | нажатие на кнопку "Отмена", приводящее
-     *        |                                    | к срабатыванию слота SomeDialog::cancel()
+     *        |                                    | Обработка событий
+     *        |                                    | пользователя, например,
+     *        |                                    | нажатие на кнопку
+     *        |                                    | "Отмена", приводящее
+     *        |                                    | к срабатыванию слота
+     *        |                                    | SomeDialog::cancel()
      *        |                                    | // Слот отмены расчета
      *        |    CPopulation pop =               | SomeDialog::cancel()
      *        |      ::calc->getBestSolutions(3);  | {
-     *        |                                    |   if(::calc) ::calc->cancel();
+     *        |                                    |   if(::calc)
+     *        |                                    |      ::calc->cancel();
      *        |                                    | }
      *        |                                    |
      *        |    delete ::calc;
@@ -108,7 +116,7 @@ namespace GeneticAlgorithm
          * @param minutes - максимальное количество минут для расчета,
          * @param island - количество островов алгоритма. При (island = -1)
          *                 количество островов определяется автоматически
-         *                 (в2 раза больше числа установленных процессоров) .
+         *                 (в2 раза больше числа установленных процессоров).
          *  `              По определению, надежность решения повышается при
          *                 увеличении числа островов. Однако время поиска
          *                 увеличивается за счет потребления ресурсов при
@@ -128,19 +136,18 @@ namespace GeneticAlgorithm
          * @param minutes - максимальное количество минут для расчета,
          * @param island - количество островов алгоритма. При (island = -1)
          *                 количество островов определяется автоматически
-         *                 (в2 раза больше числа установленных процессоров) .
+         *                 (в2 раза больше числа установленных процессоров).
          *  `              По определению, надежность решения повышается при
          *                 увеличении числа островов. Однако время поиска
          *                 увеличивается за счет потребления ресурсов при
          *                 передаче управления "островам".
          * Допускается НЕпотокобезопасная реализация функции здоровья
         **/
-        static CGeneticController*getCalculator( IFitness*    fitness,
-                                                 unsigned int chromosom,
-                                                 unsigned int population = 128,
-                                                 unsigned int minutes = 60,
-                                                 int          island = -1 );
-
+        static CGeneticController*getCalculator(IFitness*    fitness,
+                                                unsigned int chromosom,
+                                                unsigned int population = 128,
+                                                unsigned int minutes = 60,
+                                                int          island = -1 );
     private:
         /**
          * @brief Конструктор
@@ -151,30 +158,42 @@ namespace GeneticAlgorithm
                            unsigned int  island,
                            unsigned long minutes);
         /**
-         * @brief Шаблон позволяет загружать библиотки из соответствующих поддирректорий
-         * @param map   - словарь, в который следует поместить модули генетических операторов
-         * @param name  - наименование поддирректории, в которой следует производить поиск
+         * @brief Шаблон позволяет загружать библиотки из соответствующих
+         *        поддирректорий
+         * @param map   - словарь, в который следует поместить модули
+         *                генетических операторов
+         * @param name  - наименование поддирректории, в которой следует
+         *                производить поиск
         **/
         void loadLibraries(const QString& name);
         /**
          * @brief Основной цикл потока
         **/
         void run();
-
     private:
 #if QT_VERSION < 0x040000
-        QValueList <CGeneticAlgorithm*>         m_algorithms;         ///<! Острова - потоки генетических алгоритмов
-        QValueList <IGeneticOperator*>          m_operators;          ///<! Словарь операторов отбора
-        QValueList<QLibrary*>                   m_load_libs;          ///<! Список загруженных библиотек
+        ///<! Острова - потоки генетических алгоритмов
+        QValueList <CGeneticAlgorithm*>m_algorithms;
+        ///<! Словарь операторов отбора
+        QValueList <IGeneticOperator*> m_operators;
+        ///<! Список загруженных библиотек
+        QValueList<QLibrary*>          m_load_libs;
 #else
-        QList <CGeneticAlgorithm*>              m_algorithms;         ///<! Острова - потоки генетических алгоритмов
-        QList <IGeneticOperator*>               m_operators;          ///<! Словарь операторов отбора
-        QList <QLibrary*>                       m_load_libs;          ///<! Список загруженных библиотек
+        ///<! Острова - потоки генетических алгоритмов
+        QList <CGeneticAlgorithm*>     m_algorithms;
+        ///<! Словарь операторов отбора
+        QList <IGeneticOperator*>      m_operators;
+        ///<! Список загруженных библиотек
+        QList <QLibrary*>              m_load_libs;
 #endif
-        CPopulation                             m_best_solutions;     ///<! Популяция лучших решений
-        unsigned long                           m_best_solutions_size;///<! Размер популяции лучших решений
-        unsigned long                           m_minutes;		      ///<! Длительность расчета в минутах
-        IFitness*                               m_function;           ///<! Функция расчета здоровья хромосомы
+        ///<! Популяция лучших решений
+        CPopulation                    m_best_solutions;
+        ///<! Размер популяции лучших решений
+        unsigned long                  m_best_solutions_size;
+        ///<! Длительность расчета в минутах
+        unsigned long                  m_minutes;
+        ///<! Функция расчета здоровья хромосомы
+        IFitness*                      m_function;
     };
 };
 #endif // C_GENETIC_CONTROLLER_H_INCLUDED

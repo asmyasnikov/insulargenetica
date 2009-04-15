@@ -1,5 +1,5 @@
 /****************************************************************************
-** Copyright (C) 2009 Мясников Алексей Сергеевич.
+** Copyleft (C) 2009 Мясников Алексей Сергеевич.
 ** Contact: AlekseyMyasnikov@yandex.ru
 **          amyasnikov@npomis.ru
 **          AlekseyMyasnikov@mail.ru
@@ -19,6 +19,15 @@
 ** со Стандартной Общественной Лицензией Ограниченного Применений GNU в
 ** файле LICENSE в корне исходных текстов проекта или по адресу:
 ** http://www.gnu.org/copyleft/lgpl.html.
+** Обращаю Ваше внимание на то, что библиотека InsularGenetica
+** зарегистрирована Российским агенством по патентам и товарным знакам
+** (РОСПАТЕНТ), о чем выдано "Свидетельство об официальной регистрации
+** программы для ЭВМ" за № FIXME от FIXME FIXME FIXME года. Копия
+** свидетельства о регистрации представлена в файле CERTIFICATE
+** в корне проекта.
+** Это не накладывает на конечных разработчиков/пользователей никаких
+** дополнительных ограничений, кроме предусмотренных GNU Lesser GPL,
+** ПРИ СОХРАНЕНИИ ИНФОРМАЦИИ О РАЗРАБОТЧИКАХ ЭТОЙ БИБЛИОТЕКИ.
 ****************************************************************************/
 /**
  * @file    CPopulation.h
@@ -27,10 +36,8 @@
  *          в генетическом программировании
  * @date    13/02/2009
 **/
-
 #ifndef CPOPULATION_H_INCLUDED
 #define CPOPULATION_H_INCLUDED
-
 #include "export.h"
 #include <qglobal.h>
 #if QT_VERSION < 0x040000
@@ -42,7 +49,6 @@
 #endif
 #include "../idl/IFitness.h"
 #include "CChromosome.h"
-
 namespace GeneticAlgorithm
 {
     Q_DECL_EXPORT struct CPopulation : virtual public Interface
@@ -102,12 +108,12 @@ namespace GeneticAlgorithm
         double getMinimumFitness() const;
         /**
          * @brief  Рассчитать стенень однородности популяции
-         * @param  pseudo - параметр позволяет рассчитать при (pseudo == true)
+         * @param  pseudo - параметр позволяет рассчитать при (pseudo==true)
          *         псвдооднородность популяции. Псвдооднородность популяции
-         *         рассчитывается с учетом незначительности отдельных несовпадений
-         *         в генах приподавляющем большинстве совпадений.
-         * @return Стенень однородности популяции в диапазоне от 0 до 1
-         * @return Стенень псевдооднородности популяции в диапазоне от 0.5 до 1
+         *         рассчитывается с учетом незначительности отдельных
+         *         несовпадений в генах приподавляющем большинстве совпадений
+         * @return Стенень однородности популяции от 0 до 1
+         * @return Стенень псевдооднородности популяции от 0.5 до 1
         **/
         double getHomogeneity(bool pseudo = false) const;
         /**
@@ -120,14 +126,14 @@ namespace GeneticAlgorithm
          * @param  chr - хромосома для проверки
         **/
         bool isPresent(const CChromosome&chr) const;
-
     private:
 #if QT_VERSION < 0x040000
         QValueVector<CChromosome*> m_data; ///<! Хромосомы в популяции
 #else
         QVector<CChromosome*> m_data;      ///<! Хромосомы в популяции
 #endif
-        mutable QMutex        m_mutex;     ///<! Блокатор доступа, обеспечивающий атомарность методов
+        ///<! Блокатор доступа, обеспечивающий атомарность методов
+        mutable QMutex        m_mutex;
     };
 };
 #endif // CPOPULATION_H_INCLUDED

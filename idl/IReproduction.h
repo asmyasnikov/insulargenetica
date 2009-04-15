@@ -1,5 +1,5 @@
 /****************************************************************************
-** Copyright (C) 2009 Мясников Алексей Сергеевич.
+** Copyleft (C) 2009 Мясников Алексей Сергеевич.
 ** Contact: AlekseyMyasnikov@yandex.ru
 **          amyasnikov@npomis.ru
 **          AlekseyMyasnikov@mail.ru
@@ -19,16 +19,24 @@
 ** со Стандартной Общественной Лицензией Ограниченного Применений GNU в
 ** файле LICENSE в корне исходных текстов проекта или по адресу:
 ** http://www.gnu.org/copyleft/lgpl.html.
+** Обращаю Ваше внимание на то, что библиотека InsularGenetica
+** зарегистрирована Российским агенством по патентам и товарным знакам
+** (РОСПАТЕНТ), о чем выдано "Свидетельство об официальной регистрации
+** программы для ЭВМ" за № FIXME от FIXME FIXME FIXME года. Копия
+** свидетельства о регистрации представлена в файле CERTIFICATE
+** в корне проекта.
+** Это не накладывает на конечных разработчиков/пользователей никаких
+** дополнительных ограничений, кроме предусмотренных GNU Lesser GPL,
+** ПРИ СОХРАНЕНИИ ИНФОРМАЦИИ О РАЗРАБОТЧИКАХ ЭТОЙ БИБЛИОТЕКИ.
 ****************************************************************************/
 /**
  * @file    IReproduction.h
- * @brief   Файл содержит интерфейс IReproduction создания потомков из родительской пары
+ * @brief   Файл содержит интерфейс IReproduction создания потомков из
+ *          родительской пары
  * @date    17/02/2009
 **/
-
 #ifndef INTERFACE_REPRODUCTION_H_INCLUDED
 #define INTERFACE_REPRODUCTION_H_INCLUDED
-
 #include <qglobal.h>
 #if QT_VERSION < 0x040000
     #include <qpair.h>
@@ -38,18 +46,19 @@
 #include "IGeneticOperator.h"
 #include "../include/CChromosome.h"
 #include "../include/CPopulation.h"
-
 namespace GeneticAlgorithm
 {
     struct IReproduction : virtual public IGeneticOperator
     {
         /**
-         * @brief  Метод получения из двух родителей одного или нескольких потомков путем скрещивания
+         * @brief  Метод получения из двух родителей одного или нескольких
+         *         потомков путем скрещивания
          * @param  pair - пара родителей, из которых "рождаются" потомки
          * @return cids - популяция потомков
         **/
-        virtual void reproduct( const QPair<const CChromosome*,const CChromosome*>  pair,
-                                CPopulation&                                        cids) = 0;
+        virtual void reproduct( const QPair<const CChromosome*,
+                                            const CChromosome*>  pair,
+                                CPopulation&                     cids) = 0;
     };
 };
-#endif // INTERFACE_REPRODUCTION_H_INCLUDED
+#endif // INTERFACE_REPROD

@@ -1,5 +1,5 @@
 /****************************************************************************
-** Copyright (C) 2009 Мясников Алексей Сергеевич.
+** Copyleft (C) 2009 Мясников Алексей Сергеевич.
 ** Contact: AlekseyMyasnikov@yandex.ru
 **          amyasnikov@npomis.ru
 **          AlekseyMyasnikov@mail.ru
@@ -19,16 +19,23 @@
 ** со Стандартной Общественной Лицензией Ограниченного Применений GNU в
 ** файле LICENSE в корне исходных текстов проекта или по адресу:
 ** http://www.gnu.org/copyleft/lgpl.html.
+** Обращаю Ваше внимание на то, что библиотека InsularGenetica
+** зарегистрирована Российским агенством по патентам и товарным знакам
+** (РОСПАТЕНТ), о чем выдано "Свидетельство об официальной регистрации
+** программы для ЭВМ" за № FIXME от FIXME FIXME FIXME года. Копия
+** свидетельства о регистрации представлена в файле CERTIFICATE
+** в корне проекта.
+** Это не накладывает на конечных разработчиков/пользователей никаких
+** дополнительных ограничений, кроме предусмотренных GNU Lesser GPL,
+** ПРИ СОХРАНЕНИИ ИНФОРМАЦИИ О РАЗРАБОТЧИКАХ ЭТОЙ БИБЛИОТЕКИ.
 ****************************************************************************/
 /**
  * @file    IGrouping.h
  * @brief   Файл содержит интерфейс IGrouping отбора родительских пар
  * @date    17/02/2009
 **/
-
 #ifndef INTERFACE_GROUPING_H_INCLUDED
 #define INTERFACE_GROUPING_H_INCLUDED
-
 #include "IGeneticOperator.h"
 #include "../include/CPopulation.h"
 #include <qglobal.h>
@@ -39,7 +46,6 @@
     #include <QtCore/QList>
     #include <QtCore/QPair>
 #endif
-
 namespace GeneticAlgorithm
 {
     #if QT_VERSION < 0x040000
@@ -47,11 +53,11 @@ namespace GeneticAlgorithm
     #else
     typedef QList<QPair<const CChromosome*, const CChromosome*> >CParents;
     #endif
-
     struct IGrouping : virtual public IGeneticOperator
     {
         /**
-         * @brief  Метод отбора пар родительских хромосом для дальнейшего скрещивания
+         * @brief  Метод отбора пар родительских хромосом для дальнейшего
+         *         скрещивания
          * @param  sel - популяция родителей для скрещивания
          * @return par - набор пар родителей
         **/
@@ -59,4 +65,4 @@ namespace GeneticAlgorithm
                             CParents&           par) = 0;
     };
 };
-#endif // INTERFACE_GROUPING_H_INCLUDED
+#endif // INTERFACE_GROUPIN

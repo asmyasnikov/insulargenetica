@@ -1,5 +1,5 @@
 /****************************************************************************
-** Copyright (C) 2009 Мясников Алексей Сергеевич.
+** Copyleft (C) 2009 Мясников Алексей Сергеевич.
 ** Contact: AlekseyMyasnikov@yandex.ru
 **          amyasnikov@npomis.ru
 **          AlekseyMyasnikov@mail.ru
@@ -19,20 +19,26 @@
 ** со Стандартной Общественной Лицензией Ограниченного Применений GNU в
 ** файле LICENSE в корне исходных текстов проекта или по адресу:
 ** http://www.gnu.org/copyleft/lgpl.html.
+** Обращаю Ваше внимание на то, что библиотека InsularGenetica
+** зарегистрирована Российским агенством по патентам и товарным знакам
+** (РОСПАТЕНТ), о чем выдано "Свидетельство об официальной регистрации
+** программы для ЭВМ" за № FIXME от FIXME FIXME FIXME года. Копия
+** свидетельства о регистрации представлена в файле CERTIFICATE
+** в корне проекта.
+** Это не накладывает на конечных разработчиков/пользователей никаких
+** дополнительных ограничений, кроме предусмотренных GNU Lesser GPL,
+** ПРИ СОХРАНЕНИИ ИНФОРМАЦИИ О РАЗРАБОТЧИКАХ ЭТОЙ БИБЛИОТЕКИ.
 ****************************************************************************/
 /**
  * @file    CElitarSelection.h
  * @brief   Файл содержит класс CElitarSelection отбора родительских хромосом
  * @date    20/02/2009
 **/
-
 #ifndef C_ELITAR_SELECTION_H_INCLUDED
 #define C_ELITAR_SELECTION_H_INCLUDED
-
 #include "../idl/ISelection.h"
 #include "CPopulation.h"
 #include "CChromosome.h"
-
 namespace GeneticAlgorithm
 {
     Q_DECL_EXPORT struct CElitarSelection : virtual public ISelection
@@ -45,9 +51,9 @@ namespace GeneticAlgorithm
          * @brief   Деструктор
         **/
         ~CElitarSelection();
-
         /**
-         * @brief  Метод отбора из популяции хромосом для дальнейшего скрещивания и мутации
+         * @brief  Метод отбора из популяции хромосом для дальнейшего
+         *         скрещивания и мутации
          * @param  pop - популяция родителей, из которых производится отбор
          * @return sel - популяция родителей для скрещивания и мутаций
         **/
@@ -59,7 +65,7 @@ namespace GeneticAlgorithm
         **/
         const QString name();
     private:
-        double m_percentage; ///<! Доля хромосом родительской популяции, которые учавствуют в отборе
+        double m_percentage; ///<! Доля хромосом родительской популяции
     };
 };
-#endif // C_ELITAR_SELECTION_H_INCLUDED
+#endif // C_ELITAR_SEL

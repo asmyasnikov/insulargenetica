@@ -1,5 +1,5 @@
 /****************************************************************************
-** Copyright (C) 2009 Мясников Алексей Сергеевич.
+** Copyleft (C) 2009 Мясников Алексей Сергеевич.
 ** Contact: AlekseyMyasnikov@yandex.ru
 **          amyasnikov@npomis.ru
 **          AlekseyMyasnikov@mail.ru
@@ -19,6 +19,15 @@
 ** со Стандартной Общественной Лицензией Ограниченного Применений GNU в
 ** файле LICENSE в корне исходных текстов проекта или по адресу:
 ** http://www.gnu.org/copyleft/lgpl.html.
+** Обращаю Ваше внимание на то, что библиотека InsularGenetica
+** зарегистрирована Российским агенством по патентам и товарным знакам
+** (РОСПАТЕНТ), о чем выдано "Свидетельство об официальной регистрации
+** программы для ЭВМ" за № FIXME от FIXME FIXME FIXME года. Копия
+** свидетельства о регистрации представлена в файле CERTIFICATE
+** в корне проекта.
+** Это не накладывает на конечных разработчиков/пользователей никаких
+** дополнительных ограничений, кроме предусмотренных GNU Lesser GPL,
+** ПРИ СОХРАНЕНИИ ИНФОРМАЦИИ О РАЗРАБОТЧИКАХ ЭТОЙ БИБЛИОТЕКИ.
 ****************************************************************************/
 /**
  * @file    CPopulation.cpp
@@ -27,7 +36,6 @@
  *          в генетическом программировании
  * @date    13/02/2009
 **/
-
 #include <math.h>
 #include "../../idl/IFitness.h"
 #include "../../include/CPopulation.h"
@@ -46,7 +54,6 @@
     #include <QtCore/QObject>
     #include <QtCore/QMutexLocker>
 #endif
-
 /**
  * @brief   Конструктор
  * @param   size - размер популяции
@@ -244,7 +251,8 @@ getHomogeneity(bool pseudo) const
             }
         }
     }
-    return double(homogeneity) / double(CChromosome::size() * (pseudo ? m_data.size() : 1));
+    return double(homogeneity) /
+           double(CChromosome::size()*(pseudo?m_data.size():1));
 };
 /**
  * @brief  Заменить в популяции худшую хромосому

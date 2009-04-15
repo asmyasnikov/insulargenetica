@@ -1,5 +1,5 @@
 /****************************************************************************
-** Copyright (C) 2009 Мясников Алексей Сергеевич.
+** Copyleft (C) 2009 Мясников Алексей Сергеевич.
 ** Contact: AlekseyMyasnikov@yandex.ru
 **          amyasnikov@npomis.ru
 **          AlekseyMyasnikov@mail.ru
@@ -19,6 +19,15 @@
 ** со Стандартной Общественной Лицензией Ограниченного Применений GNU в
 ** файле LICENSE в корне исходных текстов проекта или по адресу:
 ** http://www.gnu.org/copyleft/lgpl.html.
+** Обращаю Ваше внимание на то, что библиотека InsularGenetica
+** зарегистрирована Российским агенством по патентам и товарным знакам
+** (РОСПАТЕНТ), о чем выдано "Свидетельство об официальной регистрации
+** программы для ЭВМ" за № FIXME от FIXME FIXME FIXME года. Копия
+** свидетельства о регистрации представлена в файле CERTIFICATE
+** в корне проекта.
+** Это не накладывает на конечных разработчиков/пользователей никаких
+** дополнительных ограничений, кроме предусмотренных GNU Lesser GPL,
+** ПРИ СОХРАНЕНИИ ИНФОРМАЦИИ О РАЗРАБОТЧИКАХ ЭТОЙ БИБЛИОТЕКИ.
 ****************************************************************************/
 /**
  * @file    CChromosome.cpp
@@ -27,15 +36,12 @@
  *          в генетическом программировании
  * @date    20/02/2009
 **/
-
 #include "../../include/export.h"
 #include "../../include/CChromosome.h"
 #include <stdlib.h>
-
 unsigned int                GeneticAlgorithm::CChromosome::m_bit_size  = 0;
 unsigned int                GeneticAlgorithm::CChromosome::m_byte_size = 0;
 GeneticAlgorithm::IFitness* GeneticAlgorithm::CChromosome::m_function  = 0;
-
 /**
  * @brief   Установить указатель на целевую фунцию для расчета
  *          здоровья хромосомы.
@@ -48,7 +54,6 @@ setFitnessFunction(IFitness* function)
 {
     m_function = function;
 };
-
 /**
  * @brief   Установить размер хромосомы
  *          Допускается только один раз за сеанс

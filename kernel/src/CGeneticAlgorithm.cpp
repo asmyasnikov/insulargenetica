@@ -1,5 +1,5 @@
 /****************************************************************************
-** Copyright (C) 2009 Мясников Алексей Сергеевич.
+** Copyleft (C) 2009 Мясников Алексей Сергеевич.
 ** Contact: AlekseyMyasnikov@yandex.ru
 **          amyasnikov@npomis.ru
 **          AlekseyMyasnikov@mail.ru
@@ -19,15 +19,24 @@
 ** со Стандартной Общественной Лицензией Ограниченного Применений GNU в
 ** файле LICENSE в корне исходных текстов проекта или по адресу:
 ** http://www.gnu.org/copyleft/lgpl.html.
+** Обращаю Ваше внимание на то, что библиотека InsularGenetica
+** зарегистрирована Российским агенством по патентам и товарным знакам
+** (РОСПАТЕНТ), о чем выдано "Свидетельство об официальной регистрации
+** программы для ЭВМ" за № FIXME от FIXME FIXME FIXME года. Копия
+** свидетельства о регистрации представлена в файле CERTIFICATE
+** в корне проекта.
+** Это не накладывает на конечных разработчиков/пользователей никаких
+** дополнительных ограничений, кроме предусмотренных GNU Lesser GPL,
+** ПРИ СОХРАНЕНИИ ИНФОРМАЦИИ О РАЗРАБОТЧИКАХ ЭТОЙ БИБЛИОТЕКИ.
 ****************************************************************************/
 /**
  * @file    CGeneticAlgorithm.cpp
- * @brief   Файл содержит реализацию класс CGeneticAlgorithm, который отвечает за бизнес-логику
- *          генетического алгоритма, за загрузку модулей генетического алгоритма, за
- *          динамическое определение частот использования генетических операторов
+ * @brief   Файл содержит реализацию класс CGeneticAlgorithm, который
+ *          отвечает за бизнес-логику генетического алгоритма, за загрузку
+ *          модулей генетического алгоритма, за динамическое определение
+ *          частот использования генетических операторов
  * @date    05/03/2009
 **/
-
 #include "CGeneticAlgorithm.h"
 #include <math.h>
 #include <qglobal.h>
@@ -52,7 +61,6 @@
 #include "../../idl/IReproduction.h"
 #include "../../idl/IMutation.h"
 #include "../../idl/IAccepting.h"
-
 // Коэффициент "забывания" частот
 #define FORGET_PERIOD 5
 // Время для контроля бесконечных циклов - 30 секунд
@@ -81,7 +89,6 @@ setPopulationSize(unsigned int size)
 {
     m_population_size = size;
 };
-
 /**
  * @brief Конструктор
  * @param limit_time  - Ограничение по времени
@@ -135,8 +142,10 @@ CGeneticAlgorithm::
     m_acceptings.clear();
 };
 /**
- * @brief Шаблон инициализирует статистические частоты для генетических операторов
- * @param map       - словарь, в который следует поместить модули генетических операторов
+ * @brief Шаблон инициализирует статистические частоты для генетических
+ *        операторов
+ * @param map       - словарь, в который следует поместить модули
+ *                    генетических операторов
  * @param operators - модули генетических операторов
 **/
 template<typename T>
@@ -153,7 +162,8 @@ initLibraries(QMap<T*, COperatorStatistics>&map,
 {
     QMutexLocker locker(&m_mutex);
 #if QT_VERSION < 0x040000
-    for(QValueList<IGeneticOperator*>::iterator i = operators.begin(); i != operators.end(); i++)
+    for(QValueList<IGeneticOperator*>::iterator i = operators.begin();
+        i != operators.end(); i++)
     {
         IGeneticOperator*op = *i;
 #else
@@ -171,7 +181,8 @@ initLibraries(QMap<T*, COperatorStatistics>&map,
         }
     }
 #if QT_VERSION < 0x040000
-    for(QMap<T*, COperatorStatistics>::iterator i = map.begin(); i != map.end(); i++)
+    for(QMap<T*, COperatorStatistics>::iterator i = map.begin();
+        i != map.end(); i++)
     {
         T*op = i.key();
 #else
@@ -182,8 +193,10 @@ initLibraries(QMap<T*, COperatorStatistics>&map,
     }
 };
 /**
- * @brief   Шаблон позволяет получить генетический оператор по его текущей частоте
- * @param   map - словарь, в котором содержатся модули генетических операторов
+ * @brief   Шаблон позволяет получить генетический оператор по его
+ *          текущей частоте
+ * @param   map - словарь, в котором содержатся модули генетических
+ *          операторов
  * @return  Генетический оператор или NULL при ошибке
 **/
 template<typename T>
@@ -193,9 +206,11 @@ CGeneticAlgorithm::
 getGeneticOperator( QMap<T*,COperatorStatistics>&map) const
 {
     QMutexLocker locker(&m_mutex);
-    // Сначала выдаются генетические операторы, которые ранее не использовались
+    // Сначала выдаются генетические операторы, которые ранее не
+    // использовались
 #if QT_VERSION < 0x040000
-    for(QMap<T*, COperatorStatistics>::iterator i = map.begin(); i != map.end(); i++)
+    for(QMap<T*, COperatorStatistics>::iterator i = map.begin();
+        i != map.end(); i++)
     {
         T*op = (T*)(i.key());
 #else
@@ -204,11 +219,13 @@ getGeneticOperator( QMap<T*,COperatorStatistics>&map) const
 #endif
         if(map[op].m_used_time < 1.e-7) return op;
     }
-    // Если все операторы уже использовались, то выдаем оператор по его частоте
+    // Если все операторы уже использовались, то выдаем оператор
+    // по его частоте
     double random = double(rand())/double(RAND_MAX);
     double summ   = 0.;
 #if QT_VERSION < 0x040000
-    for(QMap<T*, COperatorStatistics>::iterator i = map.begin(); i != map.end(); i++)
+    for(QMap<T*, COperatorStatistics>::iterator i = map.begin();
+        i != map.end(); i++)
     {
         T*op = (T*)(i.key());
 #else
@@ -222,8 +239,10 @@ getGeneticOperator( QMap<T*,COperatorStatistics>&map) const
 };
 /**
  * @brief Шаблон позволяет выгружать модули генетических операторов
- * @param map       - словарь, в котором содержатся модули генетических операторов
- * @param op        - генетический оператор, для которого производится пересчет частоты
+ * @param map       - словарь, в котором содержатся модули генетических
+ *                    операторов
+ * @param op        - генетический оператор, для которого производится
+ *                    пересчет частоты
  * @param used_time - затраченнное время на работу оператора
  * @param best      - количество хороших хромосом при использовании оператора
 **/
@@ -240,7 +259,8 @@ recalcStatisticalFrequency( QMap<T*, COperatorStatistics>&map,
     if(map.size() < 2) return;
     double summ = 0.;
 #if QT_VERSION < 0x040000
-    for(QMap<T*, COperatorStatistics>::iterator i = map.begin(); i != map.end(); i++)
+    for(QMap<T*, COperatorStatistics>::iterator i = map.begin();
+        i != map.end(); i++)
     {
         T*op = (T*)(i.key());
 #else
@@ -250,15 +270,22 @@ recalcStatisticalFrequency( QMap<T*, COperatorStatistics>&map,
         if(oper == op)
         {
             map[op].m_used_time      = 2./double(FORGET_PERIOD+1)*used_time +
-                                         double(FORGET_PERIOD-1)/double(FORGET_PERIOD+1)*(map[op].m_used_time);
-            map[op].m_best_solutions = 2./double(FORGET_PERIOD+1)*double(best) +
-                                         double(FORGET_PERIOD-1)/double(FORGET_PERIOD+1)*(map[op].m_best_solutions);
+                                         double(FORGET_PERIOD-1)/
+                                         double(FORGET_PERIOD+1)*
+                                         (map[op].m_used_time);
+            map[op].m_best_solutions = 2./double(FORGET_PERIOD+1)*
+                                         double(best) +
+                                         double(FORGET_PERIOD-1)/
+                                         double(FORGET_PERIOD+1)*
+                                         (map[op].m_best_solutions);
         }
-        map[op].m_statistical_frequency = qMax(map[op].m_best_solutions,0.5)/qMax(map[op].m_used_time,0.5);
+        map[op].m_statistical_frequency = qMax(map[op].m_best_solutions,0.5)/
+                                          qMax(map[op].m_used_time,0.5);
         summ += map[op].m_statistical_frequency;
     }
 #if QT_VERSION < 0x040000
-    for(QMap<T*, COperatorStatistics>::iterator i = map.begin(); i != map.end(); i++)
+    for(QMap<T*, COperatorStatistics>::iterator i = map.begin();
+        i != map.end(); i++)
     {
         T*op = (T*)(i.key());
 #else
@@ -276,12 +303,14 @@ GeneticAlgorithm::
 CGeneticAlgorithm::
 run()
 {
-    QDateTime time_control = QDateTime::currentDateTime().addSecs(m_minutes*60);
+    QDateTime time_control = QDateTime::currentDateTime()
+                             .addSecs(m_minutes*60);
     m_mutex.lock();
     m_result_code = Process;
     m_mutex.unlock();
     // Проверяем разнородность популяции. Из зацикливания выходим по времени
-    QDateTime dtime = QDateTime::currentDateTime().addSecs(INFINITE_LOOPING_TIME_SECONDS);
+    QDateTime dtime = QDateTime::currentDateTime()
+                      .addSecs(INFINITE_LOOPING_TIME_SECONDS);
     while(m_population.getHomogeneity(true) > 0.55 &&
           QDateTime::currentDateTime().secsTo(dtime) > 0)
     {
@@ -309,11 +338,11 @@ run()
 #endif
             timer.restart();
         }
-        ISelection   *m_selection    = getGeneticOperator(m_selections   ); // Оператор отбора
-        IGrouping    *m_grouping     = getGeneticOperator(m_groupings    ); // Оператор соединения пар
-        IReproduction*m_reproduction = getGeneticOperator(m_reproductions); // Оператор скрещивания
-        IMutation    *m_mutation     = getGeneticOperator(m_mutations    ); // Оператор мутации
-        IAccepting   *m_accepting    = getGeneticOperator(m_acceptings   ); // Оператор оценки пригодности потомков
+        ISelection   *m_selection    = getGeneticOperator(m_selections   );
+        IGrouping    *m_grouping     = getGeneticOperator(m_groupings    );
+        IReproduction*m_reproduction = getGeneticOperator(m_reproductions);
+        IMutation    *m_mutation     = getGeneticOperator(m_mutations    );
+        IAccepting   *m_accepting    = getGeneticOperator(m_acceptings   );
         Q_ASSERT(m_selection);
         Q_ASSERT(m_grouping);
         Q_ASSERT(m_reproduction);
@@ -331,24 +360,32 @@ run()
             best_fitness = m_population.getMaximumFitness();
             unimprovability.restart();
         }
-        bool timeIsUp = (unimprovability.elapsed()>qMax(int(m_minutes)*600,6000));
+        bool timeIsUp = (unimprovability.elapsed()>
+                         qMax(int(m_minutes)*600,6000));
         if(timeIsUp)
         {
             // Миграция
             if(m_neighbour)
             {
-                CPopulation best_of_neighbour = m_neighbour->getBestChromosomes(qMax(m_population_size/10,(unsigned int)(1)));
+                CPopulation best_of_neighbour =
+                    m_neighbour->getBestChromosomes(qMax(m_population_size/10,
+                                                         (unsigned int)(1)));
                 for(int i = 0; i < best_of_neighbour.size(); i++)
                 {
                     QMutexLocker locker(&m_mutex);
-                    m_population.replaceChromosome(best_of_neighbour.getChromosome(i));
+                    m_population.replaceChromosome(best_of_neighbour
+                                                   .getChromosome(i));
                 }
             }
         }
-        CPopulation reproduct;          // Популяция хромосом, рожденных скрещиванием
-        CPopulation mutation;           // Популяция мутированных хромосом
-        unsigned int good_reproduct = 0;// Скрещивание дало хорошее потомство
-        unsigned int good_mutation  = 0;// Мутация дала хорошее потомство
+        // Популяция хромосом, рожденных скрещиванием
+        CPopulation reproduct;
+        // Популяция мутированных хромосом
+        CPopulation mutation;
+        // Скрещивание дало хорошее потомство
+        unsigned int good_reproduct = 0;
+        // Мутация дала хорошее потомство
+        unsigned int good_mutation  = 0;
         CParents parents;
         time.restart();
         m_grouping->group(selection, parents);
@@ -363,16 +400,21 @@ run()
         for(int i = 0; i < reproduct.size(); i++)
         {
             QMutexLocker locker(&m_mutex);
-            if(reproduct.getChromosome(i).fitness() < m_population.getMaximumFitness()) break;
+            if(reproduct.getChromosome(i).fitness() <
+               m_population.getMaximumFitness()) break;
             good_reproduct++;
         }
         // Если среди потомков, рожденных скрещиванием, есть лучшие,
         // то пересчиатем частоты операторов группировки и репродукции
-        // Даже если после оценки пригодности лучшая хромосома будет отвергнута,
+        // Если после оценки пригодности лучшая хромосома будет отвергнута,
         // то в результате изменения частот вероятность "рождения" такой же
         // хромосомы повышается
-        recalcStatisticalFrequency(m_groupings    , m_grouping    , grouping_time+reproduct_time, good_reproduct);
-        recalcStatisticalFrequency(m_reproductions, m_reproduction, grouping_time+reproduct_time, good_reproduct);
+        recalcStatisticalFrequency(m_groupings    , m_grouping    ,
+                                   grouping_time+reproduct_time,
+                                   good_reproduct);
+        recalcStatisticalFrequency(m_reproductions, m_reproduction,
+                                   grouping_time+reproduct_time,
+                                   good_reproduct);
         // "Мутируем" потомков
         time.restart();
         for(int i = 0; i < selection.size(); i++)
@@ -383,31 +425,34 @@ run()
         for(int i = 0; i < mutation.size(); i++)
         {
             QMutexLocker locker(&m_mutex);
-            if(mutation.getChromosome(i).fitness() < m_population.getMaximumFitness()) break;
+            if(mutation.getChromosome(i).fitness() <
+               m_population.getMaximumFitness()) break;
             good_mutation++;
         }
         // Если среди потомков, рожденных скрещиванием, есть лучшие,
         // то пересчиатем частоты операторов мутации
-        // Даже если после оценки пригодности лучшая хромосома будет отвергнута,
-        // то в результате изменения частот вероятность "мутации" к такой же
-        // хромосоме повышается
-        recalcStatisticalFrequency(m_mutations, m_mutation, mutation_time, good_mutation);
-        // Если среди потомков есть лучшие и родительсий пул не включал случайных хромосом,
-        // то пересчиатем частоты операторов отбора,
+        // Даже если после оценки пригодности лучшая хромосома будет
+        // отвергнута, то в результате изменения частот вероятность
+        // "мутации" к такой же хромосоме повышается
+        recalcStatisticalFrequency(m_mutations, m_mutation,
+                                   mutation_time, good_mutation);
+        // Если среди потомков есть лучшие и родительсий пул не включал
+        // случайных хромосом, то пересчиатем частоты операторов отбора,
         // Так как отобранные хромосомы мутировали, скрещивались и дали
         // хорошее потомство, то, очевидно, что такой отбор хороший
         if(!timeIsUp)
         {
             recalcStatisticalFrequency( m_selections,
                                         m_selection,
-                                        selection_time+reproduct_time+mutation_time+grouping_time,
+                                        selection_time+reproduct_time+
+                                        mutation_time+grouping_time,
                                         good_reproduct+good_mutation);
         }
         time.restart();
         for(int i = 0; i < reproduct.size(); i++)
         {
             QMutexLocker locker(&m_mutex);
-            if(m_accepting->accept(&m_population, reproduct.getChromosome(i)))
+            if(m_accepting->accept(&m_population,reproduct.getChromosome(i)))
             {
                 QMutexLocker locker(&m_mutex);
                 m_population.replaceChromosome(reproduct.getChromosome(i));
@@ -438,9 +483,13 @@ run()
         if(result() != Cancel)
         {
             QMutexLocker locker(&m_mutex);
-            if(unimprovability.elapsed() > qMax(int(m_minutes)*6000,60000)   ) m_result_code = DeadLock;
-            else if(m_population.getHomogeneity() > 0.95                     ) m_result_code = GoodHomogeneity;
-            else if(QDateTime::currentDateTime().secsTo(time_control) < 0    ) m_result_code = MaxTimes;
+            if(unimprovability.elapsed() >
+               qMax(int(m_minutes)*6000,60000))
+                 m_result_code = DeadLock;
+            else if(m_population.getHomogeneity() > 0.95)
+                 m_result_code = GoodHomogeneity;
+            else if(QDateTime::currentDateTime().secsTo(time_control)<0)
+                 m_result_code = MaxTimes;
         }
     }
 };
