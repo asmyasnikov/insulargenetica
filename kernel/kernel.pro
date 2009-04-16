@@ -22,7 +22,7 @@ SOURCES += src/CFitnessHelper.cpp
 SOURCES += src/CElitarSelection.cpp
 SOURCES += src/CRandomMutation.cpp
 
-UI_DIR = ./src.gen/.ui
-MOC_DIR = ./src.gen/.moc
+UI_DIR = ./src.gen/ui
+MOC_DIR = ./src.gen/moc
 OBJECTS_DIR = ./src.gen/obj
 DESTDIR = ../build
