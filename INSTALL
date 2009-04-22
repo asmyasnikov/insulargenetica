@@ -21,6 +21,6 @@ You need Qt library 3.* or 4.* version installed in your system
 5b)In Linux
    
    cd ./build
-   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH;`pwd`
+   export LD_LIBRARY_PATH=`pwd`
    ./genetic
 

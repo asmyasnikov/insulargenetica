@@ -1,5 +1,5 @@
 /****************************************************************************
-** Copyleft (C) 2009 Мясников Алексей Сергеевич.
+** Copyright (C) 2009 Мясников Алексей Сергеевич.
 ** Contact: AlekseyMyasnikov@yandex.ru
 **          amyasnikov@npomis.ru
 **          AlekseyMyasnikov@mail.ru
