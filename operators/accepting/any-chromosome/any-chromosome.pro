@@ -3,7 +3,7 @@ TARGET = genetic-any-chromosome
 DEPENDPATH += .
 INCLUDEPATH += .
 QT -= gui
-LIBS += -L../../../build -lgenetic
+LIBS += -L../../../build -linsulargenetica
 # Input
 HEADERS += CAnyChromosome.h
 SOURCES += main.cpp

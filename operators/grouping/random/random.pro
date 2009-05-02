@@ -3,7 +3,7 @@ TARGET = genetic-random-grouping
 DEPENDPATH += .
 INCLUDEPATH += .
 QT -= gui
-LIBS += -L../../../build -lgenetic
+LIBS += -L../../../build -linsulargenetica
 # Input
 HEADERS += CRandomGrouping.h
 SOURCES += main.cpp

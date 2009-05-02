@@ -3,7 +3,7 @@ TARGET = genetic-best-with-best
 DEPENDPATH += .
 INCLUDEPATH += .
 QT -= gui
-LIBS += -L../../../build -lgenetic
+LIBS += -L../../../build -linsulargenetica
 # Input
 HEADERS += CBestWithBest.h
 SOURCES += main.cpp

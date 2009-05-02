@@ -3,7 +3,7 @@ TARGET = genetic-random25-mutation
 DEPENDPATH += .
 INCLUDEPATH += .
 QT -= gui
-LIBS += -L../../../build -lgenetic
+LIBS += -L../../../build -linsulargenetica
 # Input
 SOURCES += main.cpp
 CONFIG += plugin release

@@ -3,7 +3,7 @@ TARGET = genetic-better-average-fitness
 DEPENDPATH += .
 INCLUDEPATH += .
 QT -= gui
-LIBS += -L../../../build -lgenetic
+LIBS += -L../../../build -linsulargenetica
 # Input
 HEADERS += CBetterAverageFitness.h
 SOURCES += main.cpp

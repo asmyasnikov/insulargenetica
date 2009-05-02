@@ -3,7 +3,7 @@ TARGET = genetic-best-fitness
 DEPENDPATH += .
 INCLUDEPATH += .
 QT -= gui
-LIBS += -L../../../build -lgenetic
+LIBS += -L../../../build -linsulargenetica
 # Input
 HEADERS += CBestFitness.h
 SOURCES += main.cpp

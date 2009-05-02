@@ -3,7 +3,7 @@ TARGET = genetic-two-dot-mutation
 DEPENDPATH += .
 INCLUDEPATH += .
 QT -= gui
-LIBS += -L../../../build -lgenetic
+LIBS += -L../../../build -linsulargenetica
 # Input
 HEADERS += CTwoDotMutation.h
 SOURCES += main.cpp

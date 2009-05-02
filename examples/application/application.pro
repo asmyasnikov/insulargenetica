@@ -1,11 +1,11 @@
 TEMPLATE = app
-TARGET = genetic
+TARGET = insulargenetica
 DEPENDPATH += .
 INCLUDEPATH += .
 LANGUAGE = C++
 QT -= gui
 CONFIG += console release
-LIBS += -L../../build -lgenetic
+LIBS += -L../../build -linsulargenetica
 # Input
 SOURCES += main.cpp
 UI_DIR = ./src.gen/ui

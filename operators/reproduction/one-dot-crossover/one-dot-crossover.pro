@@ -3,7 +3,7 @@ TARGET = genetic-one-dot-crossover
 DEPENDPATH += .
 INCLUDEPATH += .
 QT -= gui
-LIBS += -L../../../build -lgenetic
+LIBS += -L../../../build -linsulargenetica
 # Input
 HEADERS += COneDotCrossover.h
 SOURCES += main.cpp

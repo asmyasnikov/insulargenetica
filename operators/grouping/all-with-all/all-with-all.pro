@@ -3,7 +3,7 @@ TARGET = genetic-all-with-all
 DEPENDPATH += .
 INCLUDEPATH += .
 QT -= gui
-LIBS += -L../../../build -lgenetic
+LIBS += -L../../../build -linsulargenetica
 # Input
 HEADERS += CAllWithAll.h
 SOURCES += main.cpp

@@ -3,7 +3,7 @@ TARGET = genetic-full-mutation
 DEPENDPATH += .
 INCLUDEPATH += .
 QT -= gui
-LIBS += -L../../../build -lgenetic
+LIBS += -L../../../build -linsulargenetica
 # Input
 HEADERS += CFullMutation.h
 SOURCES += main.cpp

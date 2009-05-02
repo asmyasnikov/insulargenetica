@@ -1,5 +1,5 @@
 TEMPLATE = lib
-TARGET = genetic
+TARGET = insulargenetica
 DEPENDPATH += . src ../include
 INCLUDEPATH += .
 LANGUAGE = C++

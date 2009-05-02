@@ -3,7 +3,7 @@ TARGET = genetic-unified-crossover
 DEPENDPATH += .
 INCLUDEPATH += .
 QT -= gui
-LIBS += -L../../../build -lgenetic
+LIBS += -L../../../build -linsulargenetica
 # Input
 HEADERS += CUnifiedCrossover.h
 SOURCES += main.cpp
