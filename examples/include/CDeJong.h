@@ -46,7 +46,7 @@
 
 class QString;
 
-using namespace GeneticAlgorithm;
+using namespace InsularGenetica;
 
 Q_DECL_EXPORT struct CDeJong : virtual public IFitness,
                                virtual public CFitnessHelper

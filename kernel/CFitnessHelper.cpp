@@ -30,27 +30,77 @@
 ** ПРИ СОХРАНЕНИИ ИНФОРМАЦИИ О РАЗРАБОТЧИКЕ ЭТОЙ БИБЛИОТЕКИ.
 ****************************************************************************/
 /**
- * @file    IMutation.h
- * @brief   Файл содержит интерфейс IMutation отбора родительских пар
- * @date    17/02/2009
+ * @file    CFitnessHelper.cpp
+ * @brief   Файл содержит реализацию вспомогательных методов,
+ *          необходимых при расчете целевой функции
+ * @date    20/02/2009
 **/
-#ifndef INTERFACE_MUTATION_H_INCLUDED
-#define INTERFACE_MUTATION_H_INCLUDED
-#include "IGeneticOperator.h"
-#include "../include/CChromosome.h"
-#include "../include/CPopulation.h"
-namespace InsularGenetica
+#include "../../include/CFitnessHelper.h"
+#include "../../include/CChromosome.h"
+#include <qglobal.h>
+#if QT_VERSION < 0x040000
+    #include <qobject.h>
+#else
+    #include <QtCore/QObject>
+#endif
+/**
+ * @brief   Базовый конструктор
+**/
+InsularGenetica::
+CFitnessHelper::
+CFitnessHelper(unsigned int count) :
+    m_count(count)
 {
-    struct IMutation : virtual public IGeneticOperator
-    {
-        /**
-         * @brief  Метод "рождения" мутированных потомков
-         * @param  chr  - родительская хромосома, из которой "рождается"
-         *                мутированный потомок
-         * @return cids - популяция потомков
-        **/
-        virtual void mutate(const CChromosome&  chr,
-                            CPopulation&        cids) = 0;
-    };
+    m_counter = 0;
 };
-#endif // INTERFACE_MUTATIO
+/**
+ * @brief   Деструктор
+**/
+InsularGenetica::
+CFitnessHelper::
+~CFitnessHelper()
+{
+};
+/** @brief  Метод для преобразования части хромосомы к типу double
+            Перед использованием этого метода переменная m_count обязательно
+            должна быть инициализирована ненулевым положительным значеним.
+    @param  chr     - хромосома,
+    @param  index   - номер переменной,
+    @return значение в диапазоне от 0 до 1, соответствующее участку хромосомы
+**/
+double
+InsularGenetica::
+CFitnessHelper::
+decode( const CChromosome&  chr,
+        unsigned int        index) const
+{
+    Q_ASSERT(CChromosome::size() >= m_count);
+    unsigned int start  = (CChromosome::size()/m_count*index);
+    unsigned int end    = (index == (m_count-1)) ?
+                           CChromosome::size() :
+                          (CChromosome::size()/m_count*(index+1));
+    double result   = 0.;
+    double base     = 1.;
+    double maximum  = 0.;
+    for(unsigned int i = end; i > start; i--)
+    {
+        if(chr.getGene(i-1))
+        {
+            result += base;
+        }
+        maximum += base;
+        base *= 2.;
+    }
+    return (result/maximum);
+};
+/**
+ * @brief   Метод получения количества рассчитанных целевых функций
+ * @return  Количество рассчитанных целевых функций
+**/
+unsigned int
+InsularGenetica::
+CFitnessHelper::
+count()
+{
+    return m_counter;
+};

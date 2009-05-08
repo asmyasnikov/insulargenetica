@@ -30,27 +30,57 @@
 ** ПРИ СОХРАНЕНИИ ИНФОРМАЦИИ О РАЗРАБОТЧИКЕ ЭТОЙ БИБЛИОТЕКИ.
 ****************************************************************************/
 /**
- * @file    IMutation.h
- * @brief   Файл содержит интерфейс IMutation отбора родительских пар
- * @date    17/02/2009
+ * @file    CBetterAverageFitness.h
+ * @brief   Файл содержит класс CBetterAverageFitness отбора родителей
+ * @date    20/02/2009
 **/
-#ifndef INTERFACE_MUTATION_H_INCLUDED
-#define INTERFACE_MUTATION_H_INCLUDED
-#include "IGeneticOperator.h"
-#include "../include/CChromosome.h"
-#include "../include/CPopulation.h"
+#ifndef C_BETTER_AVERAGE_FITNESS_H_INCLUDED
+#define C_BETTER_AVERAGE_FITNESS_H_INCLUDED
+#include "../../idl/IAccepting.h"
+#include "../../include/CPopulation.h"
+#include "../../include/CChromosome.h"
+#include <qglobal.h>
+#if QT_VERSION < 0x040000
+    #include <qstring.h>
+    #include <qobject.h>
+#else
+    #include <QtCore/QString>
+    #include <QtCore/QObject>
+#endif
 namespace InsularGenetica
 {
-    struct IMutation : virtual public IGeneticOperator
+    struct CBetterAverageFitness : virtual public IAccepting
     {
         /**
-         * @brief  Метод "рождения" мутированных потомков
-         * @param  chr  - родительская хромосома, из которой "рождается"
-         *                мутированный потомок
-         * @return cids - популяция потомков
+         * @brief   Базовый конструктор
         **/
-        virtual void mutate(const CChromosome&  chr,
-                            CPopulation&        cids) = 0;
+        CBetterAverageFitness(){};
+        /**
+         * @brief   Деструктор
+        **/
+        ~CBetterAverageFitness(){};
+        /**
+         * @brief  Метод оценки пригодности хромосомы
+         * @param  pop - популяция родителей
+         * @param  cur - хромосома, которая оценивается на пригодность
+         * @return true , если хромосома пригодна для популяции
+         * @return false, если хромосома не пригодна для популяции
+        **/
+        bool accept(const CPopulation*pop, const CChromosome&cur)
+        {
+            Q_ASSERT(CChromosome::size());
+            return (pop->getAverageFitness() < cur.fitness());
+        };
+        /**
+         * @brief   Метод получения наименования генетического оператора
+         * @return  наименование генетического оператора
+        **/
+        const QString name()
+        {
+            return QObject::trUtf8("Здоровье хромосомы больше "
+                                   "среднего здоровья");
+        };
     };
 };
-#endif // INTERFACE_MUTATIO
+using namespace InsularGenetica;
+#endif // C_BETTER_AVERAGE_FITNESS_H_INCLUDED

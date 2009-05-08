@@ -30,27 +30,71 @@
 ** ПРИ СОХРАНЕНИИ ИНФОРМАЦИИ О РАЗРАБОТЧИКЕ ЭТОЙ БИБЛИОТЕКИ.
 ****************************************************************************/
 /**
- * @file    IMutation.h
- * @brief   Файл содержит интерфейс IMutation отбора родительских пар
- * @date    17/02/2009
+ * @file    CFitnessSafeThreadFunction.h
+ * @brief   Класс CFitnessSafeThreadFunction позволяет обернуть
+ *          функцию здоровья для её потокобезопасноного использования
+ * @date    23/03/2009
 **/
-#ifndef INTERFACE_MUTATION_H_INCLUDED
-#define INTERFACE_MUTATION_H_INCLUDED
-#include "IGeneticOperator.h"
-#include "../include/CChromosome.h"
-#include "../include/CPopulation.h"
+#ifndef C_FITNESS_SAFE_THREAD_FUNCTION_H_INCLUDED
+#define C_FITNESS_SAFE_THREAD_FUNCTION_H_INCLUDED
+#include <qglobal.h>
+#if QT_VERSION < 0x040000
+    #include <qmutex.h>
+#else
+    #include <QtCore/QMutex>
+#endif
+#include "../../idl/IFitness.h"
 namespace InsularGenetica
 {
-    struct IMutation : virtual public IGeneticOperator
+    /**
+     * @brief Класс CFitnessSafeThreadFunction позволяет обернуть
+     *        функцию здоровья для потокобезопасноного использования
+    **/
+    struct CFitnessSafeThreadFunction : public IFitness
     {
         /**
-         * @brief  Метод "рождения" мутированных потомков
-         * @param  chr  - родительская хромосома, из которой "рождается"
-         *                мутированный потомок
-         * @return cids - популяция потомков
+         * @brief Конструктор
+         * @param fitness - основная функция здоровья
         **/
-        virtual void mutate(const CChromosome&  chr,
-                            CPopulation&        cids) = 0;
+        CFitnessSafeThreadFunction(IFitness*fitness)
+        {
+            m_fitness = fitness;
+        };
+        ~CFitnessSafeThreadFunction()
+        {
+            m_fitness = NULL;
+        };
+        /**
+         * @brief   Метод вычисления значения целевой функции
+         * @return  значение функции
+        **/
+        double calc(const CChromosome& chr)
+        {
+            Q_ASSERT(m_fitness);
+            QMutexLocker locker(&m_mutex);
+            return m_fitness->calc(chr);
+        };
+        /**
+         * @brief   Метод получения наименования функции
+         * @return  наименование функции
+        **/
+        const QString name()
+        {
+            QMutexLocker locker(&m_mutex);
+            return m_fitness->name();
+        };
+        /**
+         * @brief   Метод получения количества рассчитанных целевых функций
+         * @return  Количество рассчитанных целевых функций
+        **/
+        unsigned int count()
+        {
+            QMutexLocker locker(&m_mutex);
+            return m_fitness->count();
+        };
+    private:
+        IFitness*m_fitness;
+        QMutex   m_mutex;
     };
 };
-#endif // INTERFACE_MUTATIO
+#endif // C_FITNESS

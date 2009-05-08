@@ -30,27 +30,42 @@
 ** ПРИ СОХРАНЕНИИ ИНФОРМАЦИИ О РАЗРАБОТЧИКЕ ЭТОЙ БИБЛИОТЕКИ.
 ****************************************************************************/
 /**
- * @file    IMutation.h
- * @brief   Файл содержит интерфейс IMutation отбора родительских пар
- * @date    17/02/2009
+ * @file    CElitarSelection.h
+ * @brief   Файл содержит класс CElitarSelection отбора родительских хромосом
+ * @date    20/02/2009
 **/
-#ifndef INTERFACE_MUTATION_H_INCLUDED
-#define INTERFACE_MUTATION_H_INCLUDED
-#include "IGeneticOperator.h"
-#include "../include/CChromosome.h"
-#include "../include/CPopulation.h"
+#ifndef C_ELITAR_SELECTION_H_INCLUDED
+#define C_ELITAR_SELECTION_H_INCLUDED
+#include "../../idl/ISelection.h"
+#include "../../include/CPopulation.h"
+#include "../../include/CChromosome.h"
 namespace InsularGenetica
 {
-    struct IMutation : virtual public IGeneticOperator
+    Q_DECL_EXPORT struct CElitarSelection : virtual public ISelection
     {
         /**
-         * @brief  Метод "рождения" мутированных потомков
-         * @param  chr  - родительская хромосома, из которой "рождается"
-         *                мутированный потомок
-         * @return cids - популяция потомков
+         * @brief   Базовый конструктор
         **/
-        virtual void mutate(const CChromosome&  chr,
-                            CPopulation&        cids) = 0;
+        CElitarSelection(double percentage = 0.5);
+        /**
+         * @brief   Деструктор
+        **/
+        ~CElitarSelection();
+        /**
+         * @brief  Метод отбора из популяции хромосом для дальнейшего
+         *         скрещивания и мутации
+         * @param  pop - популяция родителей, из которых производится отбор
+         * @return sel - популяция родителей для скрещивания и мутаций
+        **/
+        void select(const CPopulation&  pop,
+                    CPopulation&        sel);
+        /**
+         * @brief   Метод получения наименования генетического оператора
+         * @return  наименование генетического оператора
+        **/
+        const QString name();
+    private:
+        double m_percentage; ///<! Доля хромосом родительской популяции
     };
 };
-#endif // INTERFACE_MUTATIO
+#endif // C_ELITAR_SEL

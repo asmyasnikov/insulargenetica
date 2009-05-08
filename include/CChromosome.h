@@ -41,7 +41,7 @@
 #include "export.h"
 #include "../idl/Interface.h"
 #include "../idl/IFitness.h"
-namespace GeneticAlgorithm
+namespace InsularGenetica
 {
     Q_DECL_EXPORT struct CChromosome : virtual public Interface
     {

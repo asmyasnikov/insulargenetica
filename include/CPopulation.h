@@ -49,7 +49,7 @@
 #endif
 #include "../idl/IFitness.h"
 #include "CChromosome.h"
-namespace GeneticAlgorithm
+namespace InsularGenetica
 {
     Q_DECL_EXPORT struct CPopulation : virtual public Interface
     {

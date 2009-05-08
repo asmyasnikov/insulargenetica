@@ -59,7 +59,7 @@
 #endif
 #include <math.h>
 
-using namespace GeneticAlgorithm;
+using namespace InsularGenetica;
 
 int main(int argc, char**argv)
 {

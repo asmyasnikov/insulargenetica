@@ -39,7 +39,7 @@
 #define C_FITNESS_HELPER_HEADER
 #include "../idl/IFitness.h"
 #include "export.h"
-namespace GeneticAlgorithm
+namespace InsularGenetica
 {
     class CChromosome;
     Q_DECL_EXPORT struct CFitnessHelper : virtual public IFitness

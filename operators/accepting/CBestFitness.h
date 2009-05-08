@@ -30,27 +30,59 @@
 ** ПРИ СОХРАНЕНИИ ИНФОРМАЦИИ О РАЗРАБОТЧИКЕ ЭТОЙ БИБЛИОТЕКИ.
 ****************************************************************************/
 /**
- * @file    IMutation.h
- * @brief   Файл содержит интерфейс IMutation отбора родительских пар
- * @date    17/02/2009
+ * @file    CBestFitness.h
+ * @brief   Файл содержит класс CBestFitness отбора родительских хромосом
+ * @date    20/02/2009
 **/
-#ifndef INTERFACE_MUTATION_H_INCLUDED
-#define INTERFACE_MUTATION_H_INCLUDED
-#include "IGeneticOperator.h"
-#include "../include/CChromosome.h"
-#include "../include/CPopulation.h"
+#ifndef C_BEST_FITNESS_H_INCLUDED
+#define C_BEST_FITNESS_H_INCLUDED
+#include "../../idl/IAccepting.h"
+#include "../../include/CPopulation.h"
+#include "../../include/CChromosome.h"
+#include <qglobal.h>
+#if QT_VERSION < 0x040000
+    #include <qstring.h>
+    #include <qobject.h>
+#else
+    #include <QtCore/QString>
+    #include <QtCore/QObject>
+#endif
 namespace InsularGenetica
 {
-    struct IMutation : virtual public IGeneticOperator
+    struct CBestFitness : virtual public IAccepting
     {
         /**
-         * @brief  Метод "рождения" мутированных потомков
-         * @param  chr  - родительская хромосома, из которой "рождается"
-         *                мутированный потомок
-         * @return cids - популяция потомков
+         * @brief   Базовый конструктор
         **/
-        virtual void mutate(const CChromosome&  chr,
-                            CPopulation&        cids) = 0;
+        CBestFitness(){};
+        /**
+         * @brief   Деструктор
+        **/
+        ~CBestFitness(){};
+        /**
+         * @brief   Метод оценки пригодности хромосомы
+         * @warning Здоровье хромосомы должно быть заранеее рассчитано
+         * @param   pop - популяция родителей, относительно которых
+         *                производится оценка пригодности
+         * @param   cur - хромосома, которая оценивается на пригодность
+         * @return  true , если хромосома пригодна для популяции
+         * @return  false, если хромосома не пригодна для популяции
+        **/
+        bool accept(const CPopulation*pop, const CChromosome&cur)
+        {
+            Q_ASSERT(CChromosome::size());
+            return (pop->getMaximumFitness() < cur.fitness());
+        };
+        /**
+         * @brief   Метод получения наименования генетического оператора
+         * @return  наименование генетического оператора
+        **/
+        const QString name()
+        {
+            return QObject::trUtf8("Здоровье хромосомы лучше, "
+                                   "чем лучшее в популяции");
+        };
     };
 };
-#endif // INTERFACE_MUTATIO
+using namespace InsularGenetica;
+#endif // C_BE

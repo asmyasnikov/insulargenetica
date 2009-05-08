@@ -30,27 +30,59 @@
 ** ПРИ СОХРАНЕНИИ ИНФОРМАЦИИ О РАЗРАБОТЧИКЕ ЭТОЙ БИБЛИОТЕКИ.
 ****************************************************************************/
 /**
- * @file    IMutation.h
- * @brief   Файл содержит интерфейс IMutation отбора родительских пар
- * @date    17/02/2009
+ * @file    CRandomSelection.h
+ * @brief   Файл содержит класс CRandomSelection отбора родительских хромосом
+ * @date    20/02/2009
 **/
-#ifndef INTERFACE_MUTATION_H_INCLUDED
-#define INTERFACE_MUTATION_H_INCLUDED
-#include "IGeneticOperator.h"
-#include "../include/CChromosome.h"
-#include "../include/CPopulation.h"
+#ifndef C_RANDOM_SELECTION_H_INCLUDED
+#define C_RANDOM_SELECTION_H_INCLUDED
+#include "../../idl/ISelection.h"
+#include "../../include/CPopulation.h"
+#include "../../include/CChromosome.h"
+#include <qglobal.h>
+#if QT_VERSION < 0x040000
+    #include <qstring.h>
+    #include <qobject.h>
+#else
+    #include <QtCore/QString>
+    #include <QtCore/QObject>
+#endif
 namespace InsularGenetica
 {
-    struct IMutation : virtual public IGeneticOperator
+    struct CRandomSelection : virtual public ISelection
     {
         /**
-         * @brief  Метод "рождения" мутированных потомков
-         * @param  chr  - родительская хромосома, из которой "рождается"
-         *                мутированный потомок
-         * @return cids - популяция потомков
+         * @brief   Базовый конструктор
         **/
-        virtual void mutate(const CChromosome&  chr,
-                            CPopulation&        cids) = 0;
+        CRandomSelection(){};
+        /**
+         * @brief   Деструктор
+        **/
+        ~CRandomSelection(){};
+        /**
+         * @brief  Метод отбора из популяции хромосом для дальнейшего
+         *         скрещивания и мутации
+         * @param  pop - популяция родителей, из которых производится отбор
+         * @return sel - популяция родителей для скрещивания и мутаций
+        **/
+        void select(const CPopulation&pop, CPopulation&sel)
+        {
+            Q_ASSERT(pop.size());
+            for(int i = 0; i < pop.size(); i++)
+            {
+                sel.addChromosome(pop.getChromosome(rand() % pop.size()));
+            }
+            Q_ASSERT(sel.size() > 1);
+        };
+        /**
+         * @brief   Метод получения наименования генетического оператора
+         * @return  наименование генетического оператора
+        **/
+        const QString name()
+        {
+            return QObject::trUtf8("Случайный отбор");
+        };
     };
 };
-#endif // INTERFACE_MUTATIO
+using namespace InsularGenetica;
+#endif // C_RANDO

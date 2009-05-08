@@ -30,27 +30,56 @@
 ** ПРИ СОХРАНЕНИИ ИНФОРМАЦИИ О РАЗРАБОТЧИКЕ ЭТОЙ БИБЛИОТЕКИ.
 ****************************************************************************/
 /**
- * @file    IMutation.h
- * @brief   Файл содержит интерфейс IMutation отбора родительских пар
- * @date    17/02/2009
+ * @file    CRandomMutation.cpp
+ * @brief   Файл содержит класс CRandomMutation отбора родительских хромосом
+ * @date    20/02/2009
 **/
-#ifndef INTERFACE_MUTATION_H_INCLUDED
-#define INTERFACE_MUTATION_H_INCLUDED
-#include "IGeneticOperator.h"
-#include "../include/CChromosome.h"
-#include "../include/CPopulation.h"
-namespace InsularGenetica
+#include "CRandomMutation.h"
+#include <math.h>
+/**
+ * @brief   Базовый конструктор
+**/
+InsularGenetica::
+CRandomMutation::
+CRandomMutation(double percentage) :
+    m_percentage(int(double(RAND_MAX)*percentage))
+{};
+/**
+ * @brief   Деструктор
+**/
+InsularGenetica::
+CRandomMutation::
+~CRandomMutation(){};
+/**
+ * @brief  Метод "рождения" мутированных потомков
+ * @param  chr  - родительская хромосома, из которой "рождается" мутант
+ * @return cids - популяция потомков
+**/
+void
+InsularGenetica::
+CRandomMutation::
+mutate( const CChromosome&chr,
+        CPopulation&cids)
 {
-    struct IMutation : virtual public IGeneticOperator
+    Q_ASSERT(CChromosome::size());
+    CChromosome child(chr);
+    child.begin();
+    for(unsigned int i = 0; i < CChromosome::size(); i++)
     {
-        /**
-         * @brief  Метод "рождения" мутированных потомков
-         * @param  chr  - родительская хромосома, из которой "рождается"
-         *                мутированный потомок
-         * @return cids - популяция потомков
-        **/
-        virtual void mutate(const CChromosome&  chr,
-                            CPopulation&        cids) = 0;
-    };
+        if(rand() < m_percentage) child.invertGene(i);
+    }
+    child.commit();
+    cids.addChromosome(child);
 };
-#endif // INTERFACE_MUTATIO
+/**
+ * @brief   Метод получения наименования генетического оператора
+ * @return  наименование генетического оператора
+**/
+const
+QString
+InsularGenetica::
+CRandomMutation::
+name()
+{
+    return QObject::trUtf8("%1-процентная случайная мутация").arg(ceil(m_percentage / double(RAND_MAX) * 100. - 0.01));
+};

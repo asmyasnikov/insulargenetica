@@ -40,7 +40,7 @@
 #define FITNESS_INTERFACE
 #include "Interface.h"
 class QString;
-namespace GeneticAlgorithm
+namespace InsularGenetica
 {
     class CChromosome;
     struct IFitness : virtual public Interface

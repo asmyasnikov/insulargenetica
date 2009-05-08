@@ -46,7 +46,7 @@
     #include <QtCore/QList>
     #include <QtCore/QPair>
 #endif
-namespace GeneticAlgorithm
+namespace InsularGenetica
 {
     #if QT_VERSION < 0x040000
     typedef QValueList<QPair<const CChromosome*, const CChromosome*> >CParents;

@@ -46,7 +46,7 @@
 #include "IGeneticOperator.h"
 #include "../include/CChromosome.h"
 #include "../include/CPopulation.h"
-namespace GeneticAlgorithm
+namespace InsularGenetica
 {
     struct IReproduction : virtual public IGeneticOperator
     {

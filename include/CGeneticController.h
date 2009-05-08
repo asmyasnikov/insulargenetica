@@ -49,8 +49,7 @@
     #include <QtCore/QSet>
 #endif
 #include "CPopulation.h"
-class QLibrary;
-namespace GeneticAlgorithm
+namespace InsularGenetica
 {
     class CGeneticAlgorithm;
     class IGeneticOperator;
@@ -94,8 +93,16 @@ namespace GeneticAlgorithm
      *        |
      *
     **/
-    Q_DECL_EXPORT struct CGeneticController : protected QThread
+    struct Q_DECL_EXPORT CGeneticController : protected QThread
     {
+        enum OperatorType
+        {
+            Accepting,
+            Grouping,
+            Reproduction,
+            Selection,
+            Mutation
+        };
         /**
          * @brief Деструктор
         **/
@@ -160,12 +167,9 @@ namespace GeneticAlgorithm
         /**
          * @brief Шаблон позволяет загружать библиотки из соответствующих
          *        поддирректорий
-         * @param map   - словарь, в который следует поместить модули
-         *                генетических операторов
-         * @param name  - наименование поддирректории, в которой следует
-         *                производить поиск
+         * @param type  - тип загружаемых операторов
         **/
-        void loadLibraries(const QString& name);
+        void loadLibraries(OperatorType type);
         /**
          * @brief Основной цикл потока
         **/
@@ -176,15 +180,11 @@ namespace GeneticAlgorithm
         QValueList <CGeneticAlgorithm*>m_algorithms;
         ///<! Словарь операторов отбора
         QValueList <IGeneticOperator*> m_operators;
-        ///<! Список загруженных библиотек
-        QValueList<QLibrary*>          m_load_libs;
 #else
         ///<! Острова - потоки генетических алгоритмов
         QList <CGeneticAlgorithm*>     m_algorithms;
         ///<! Словарь операторов отбора
         QList <IGeneticOperator*>      m_operators;
-        ///<! Список загруженных библиотек
-        QList <QLibrary*>              m_load_libs;
 #endif
         ///<! Популяция лучших решений
         CPopulation                    m_best_solutions;

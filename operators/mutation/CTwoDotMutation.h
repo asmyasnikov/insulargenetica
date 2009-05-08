@@ -30,27 +30,75 @@
 ** ПРИ СОХРАНЕНИИ ИНФОРМАЦИИ О РАЗРАБОТЧИКЕ ЭТОЙ БИБЛИОТЕКИ.
 ****************************************************************************/
 /**
- * @file    IMutation.h
- * @brief   Файл содержит интерфейс IMutation отбора родительских пар
- * @date    17/02/2009
+ * @file    CTwoDotMutation.h
+ * @brief   Файл содержит класс CTwoDotMutation отбора родительских хромосом
+ * @date    20/02/2009
 **/
-#ifndef INTERFACE_MUTATION_H_INCLUDED
-#define INTERFACE_MUTATION_H_INCLUDED
-#include "IGeneticOperator.h"
-#include "../include/CChromosome.h"
-#include "../include/CPopulation.h"
+#ifndef C_TWO_DOT_MUTATION_H_INCLUDED
+#define C_TWO_DOT_MUTATION_H_INCLUDED
+#include "../../idl/IMutation.h"
+#include "../../include/CPopulation.h"
+#include "../../include/CChromosome.h"
+#include <qglobal.h>
+#if QT_VERSION < 0x040000
+    #include <qstring.h>
+    #include <qobject.h>
+    #ifndef qMin
+        #define qMin(a,b) QMIN((a),(b))
+    #endif
+    #ifndef qMax
+        #define qMax(a,b) QMAX((a),(b))
+    #endif
+#else
+    #include <QtCore/QString>
+    #include <QtCore/QObject>
+#endif
 namespace InsularGenetica
 {
-    struct IMutation : virtual public IGeneticOperator
+    struct CTwoDotMutation : virtual public IMutation
     {
+        /**
+         * @brief   Базовый конструктор
+        **/
+        CTwoDotMutation(){};
+        /**
+         * @brief   Деструктор
+        **/
+        ~CTwoDotMutation(){};
         /**
          * @brief  Метод "рождения" мутированных потомков
          * @param  chr  - родительская хромосома, из которой "рождается"
          *                мутированный потомок
          * @return cids - популяция потомков
         **/
-        virtual void mutate(const CChromosome&  chr,
-                            CPopulation&        cids) = 0;
+        void mutate(const CChromosome&chr, CPopulation&cids)
+        {
+            Q_ASSERT(CChromosome::size());
+            CChromosome child(chr);
+            unsigned int locus2 = 0;
+            unsigned int locus1 = 0;
+            while(locus1 == locus2)
+            {
+                locus1 = qMin(int(CChromosome::size()) - 1,
+                              rand() % int(CChromosome::size()));
+                locus2 = qMin(int(CChromosome::size()) - 1,
+                              rand() % int(CChromosome::size()));
+            }
+            child.begin();
+            child.invertGene(locus1);
+            child.invertGene(locus2);
+            child.commit();
+            cids.addChromosome(child);
+        };
+        /**
+         * @brief   Метод получения наименования генетического оператора
+         * @return  наименование генетического оператора
+        **/
+        const QString name()
+        {
+            return QObject::trUtf8("Двухточечная мутация");
+        };
     };
 };
-#endif // INTERFACE_MUTATIO
+using namespace InsularGenetica;
+#endif // C_T

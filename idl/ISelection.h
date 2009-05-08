@@ -38,7 +38,7 @@
 #define INTERFACE_SELECTION_H_INCLUDED
 #include "IGeneticOperator.h"
 #include "../include/CPopulation.h"
-namespace GeneticAlgorithm
+namespace InsularGenetica
 {
     struct ISelection : virtual public IGeneticOperator
     {

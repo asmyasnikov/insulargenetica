@@ -30,27 +30,81 @@
 ** ПРИ СОХРАНЕНИИ ИНФОРМАЦИИ О РАЗРАБОТЧИКЕ ЭТОЙ БИБЛИОТЕКИ.
 ****************************************************************************/
 /**
- * @file    IMutation.h
- * @brief   Файл содержит интерфейс IMutation отбора родительских пар
- * @date    17/02/2009
+ * @file    CBestWithBest.h
+ * @brief   Файл содержит класс CBestWithBest отбора родительских хромосом
+ * @date    20/02/2009
 **/
-#ifndef INTERFACE_MUTATION_H_INCLUDED
-#define INTERFACE_MUTATION_H_INCLUDED
-#include "IGeneticOperator.h"
-#include "../include/CChromosome.h"
-#include "../include/CPopulation.h"
+#ifndef C_BEST_WITH_BEST_H_INCLUDED
+#define C_BEST_WITH_BEST_H_INCLUDED
+#include "../../idl/IGrouping.h"
+#include "../../include/CPopulation.h"
+#include "../../include/CChromosome.h"
+#include <qglobal.h>
+#include <qglobal.h>
+#if QT_VERSION < 0x040000
+    #include <qstring.h>
+    #include <qobject.h>
+    #ifndef qMin
+        #define qMin(a,b) QMIN((a),(b))
+    #endif
+    #ifndef qMax
+        #define qMax(a,b) QMAX((a),(b))
+    #endif
+#else
+    #include <QtCore/QString>
+    #include <QtCore/QObject>
+#endif
 namespace InsularGenetica
 {
-    struct IMutation : virtual public IGeneticOperator
+    struct CBestWithBest : virtual public IGrouping
     {
         /**
-         * @brief  Метод "рождения" мутированных потомков
-         * @param  chr  - родительская хромосома, из которой "рождается"
-         *                мутированный потомок
-         * @return cids - популяция потомков
+         * @brief   Базовый конструктор
         **/
-        virtual void mutate(const CChromosome&  chr,
-                            CPopulation&        cids) = 0;
+        CBestWithBest(){};
+        /**
+         * @brief   Деструктор
+        **/
+        ~CBestWithBest(){};
+        /**
+         * @brief  Метод отбора пар родительских хромосом для скрещивания
+         * @param  sel - популяция родителей для скрещивания
+         * @return par - набор пар родителей
+        **/
+        void group(const CPopulation&sel, CParents&par)
+        {
+            Q_ASSERT(sel.size());
+        if(sel.size()>3)
+        {
+                unsigned int size_new = int(double(sel.size()) *
+                                            double(rand()) /
+                                            double(RAND_MAX));
+                for(unsigned int i = 0; i < size_new; i++)
+                {
+                unsigned int best1 = 0;
+                unsigned int best2 = 0;
+                while(best1 == best2)
+                {
+                        best1 = rand()%(sel.size()/2);
+                        best2 = rand()%(sel.size()/2);
+                }
+                par.append(qMakePair(&sel.getChromosome(best1),
+                                         &sel.getChromosome(best2)));
+            }
+            }else if(sel.size()>1){
+                par.append(qMakePair(&sel.getChromosome(0),
+                                     &sel.getChromosome(1)));
+        }
+        };
+        /**
+         * @brief   Метод получения наименования генетического оператора
+         * @return  наименование генетического оператора
+        **/
+        const QString name()
+        {
+            return QObject::trUtf8("Группировка лучших хромосом с лучшими");
+        };
     };
 };
-#endif // INTERFACE_MUTATIO
+using namespace InsularGenetica;
+#endif // C_BE

@@ -30,27 +30,74 @@
 ** ПРИ СОХРАНЕНИИ ИНФОРМАЦИИ О РАЗРАБОТЧИКЕ ЭТОЙ БИБЛИОТЕКИ.
 ****************************************************************************/
 /**
- * @file    IMutation.h
- * @brief   Файл содержит интерфейс IMutation отбора родительских пар
- * @date    17/02/2009
+ * @file    CAllWithAll.h
+ * @brief   Файл содержит класс CAllWithAll отбора родительских хромосом
+ * @date    20/02/2009
 **/
-#ifndef INTERFACE_MUTATION_H_INCLUDED
-#define INTERFACE_MUTATION_H_INCLUDED
-#include "IGeneticOperator.h"
-#include "../include/CChromosome.h"
-#include "../include/CPopulation.h"
+#ifndef C_ALL_WITH_ALL_H_INCLUDED
+#define C_ALL_WITH_ALL_H_INCLUDED
+#include "../../idl/IGrouping.h"
+#include "../../include/CPopulation.h"
+#include "../../include/CChromosome.h"
+#include <qglobal.h>
+#if QT_VERSION < 0x040000
+    #include <qstring.h>
+    #include <qobject.h>
+    #ifndef qMin
+        #define qMin(a,b) QMIN((a),(b))
+    #endif
+    #ifndef qMax
+        #define qMax(a,b) QMAX((a),(b))
+    #endif
+#else
+    #include <QtCore/QString>
+    #include <QtCore/QObject>
+#endif
 namespace InsularGenetica
 {
-    struct IMutation : virtual public IGeneticOperator
+    struct CAllWithAll : virtual public IGrouping
     {
         /**
-         * @brief  Метод "рождения" мутированных потомков
-         * @param  chr  - родительская хромосома, из которой "рождается"
-         *                мутированный потомок
-         * @return cids - популяция потомков
+         * @brief   Базовый конструктор
         **/
-        virtual void mutate(const CChromosome&  chr,
-                            CPopulation&        cids) = 0;
+        CAllWithAll(){};
+        /**
+         * @brief   Деструктор
+        **/
+        ~CAllWithAll(){};
+        /**
+         * @brief  Метод отбора пар родительских хромосом для скрещивания
+         * @param  sel - популяция родителей для скрещивания
+         * @return par - набор пар родителей
+        **/
+        void group(const CPopulation&sel, CParents&par)
+        {
+        if(sel.size()>1)
+        {
+                unsigned int size_new = rand()%sel.size();
+                for(unsigned int i = 0; i < size_new; i++)
+                {
+                    unsigned int sel1 = 0;
+                    unsigned int sel2 = 0;
+                    while(sel1 == sel2)
+                    {
+                            sel1 = rand()%sel.size();
+                            sel2 = rand()%sel.size();
+                    }
+                    par.append(qMakePair(&sel.getChromosome(sel1),
+                                             &sel.getChromosome(sel2)));
+                }
+            }
+        };
+        /**
+         * @brief   Метод получения наименования генетического оператора
+         * @return  наименование генетического оператора
+        **/
+        const QString name()
+        {
+            return QObject::trUtf8("Группировка всех хромосом со всеми");
+        };
     };
 };
-#endif // INTERFACE_MUTATIO
+using namespace InsularGenetica;
+#endif // C_ALL_WITH_ALL

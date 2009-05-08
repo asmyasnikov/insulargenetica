@@ -39,7 +39,7 @@
 #include "IGeneticOperator.h"
 #include "../include/CChromosome.h"
 #include "../include/CPopulation.h"
-namespace GeneticAlgorithm
+namespace InsularGenetica
 {
     struct IAccepting : virtual public IGeneticOperator
     {

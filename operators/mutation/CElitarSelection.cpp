@@ -30,27 +30,73 @@
 ** ПРИ СОХРАНЕНИИ ИНФОРМАЦИИ О РАЗРАБОТЧИКЕ ЭТОЙ БИБЛИОТЕКИ.
 ****************************************************************************/
 /**
- * @file    IMutation.h
- * @brief   Файл содержит интерфейс IMutation отбора родительских пар
- * @date    17/02/2009
+ * @file    CElitarSelection.cpp
+ * @brief   Файл содержит класс CElitarSelection отбора родительских хромосом
+ * @date    20/02/2009
 **/
-#ifndef INTERFACE_MUTATION_H_INCLUDED
-#define INTERFACE_MUTATION_H_INCLUDED
-#include "IGeneticOperator.h"
-#include "../include/CChromosome.h"
-#include "../include/CPopulation.h"
-namespace InsularGenetica
+#include "CElitarSelection.h"
+#include <qglobal.h>
+#if QT_VERSION < 0x040000
+    #include <qstring.h>
+    #include <qobject.h>
+#else
+    #include <QtCore/QString>
+    #include <QtCore/QObject>
+#endif
+/**
+ * @brief   Базовый конструктор
+**/
+InsularGenetica::
+CElitarSelection::
+CElitarSelection(double percentage) :
+    m_percentage(percentage)
+{};
+/**
+ * @brief   Деструктор
+**/
+InsularGenetica::
+CElitarSelection::
+~CElitarSelection()
+{};
+/**
+ * @brief  Метод отбора из популяции хромосом для дальнейшего скрещивания
+ *         и мутации
+ * @param  pop - популяция родителей, из которых производится отбор
+ * @return sel - популяция родителей для скрещивания и мутаций
+**/
+void
+InsularGenetica::
+CElitarSelection::
+select( const CPopulation&pop,
+        CPopulation&      sel)
 {
-    struct IMutation : virtual public IGeneticOperator
+    Q_ASSERT(pop.size());
+    double miminum = pop.getMinimumFitness();
+    double summary = 0.;
+    for(int j = 0; j < pop.size(); j++)
     {
-        /**
-         * @brief  Метод "рождения" мутированных потомков
-         * @param  chr  - родительская хромосома, из которой "рождается"
-         *                мутированный потомок
-         * @return cids - популяция потомков
-        **/
-        virtual void mutate(const CChromosome&  chr,
-                            CPopulation&        cids) = 0;
-    };
+        summary += (pop.getChromosome(j).fitness() - miminum);
+    }
+    double number     = m_percentage * summary;
+    double accumulate = 0.;
+    for(int i = 0; i < pop.size(); i++)
+    {
+        accumulate += (pop.getChromosome(i).fitness() - miminum);
+        sel.addChromosome(pop.getChromosome(i));
+        if((accumulate > number) && (sel.size() > 1)) break;
+    }
+    Q_ASSERT(sel.size() > 1);
 };
-#endif // INTERFACE_MUTATIO
+/**
+ * @brief   Метод получения наименования генетического оператора
+ * @return  наименование генетического оператора
+**/
+const
+QString
+InsularGenetica::
+CElitarSelection::
+name()
+{
+    return QObject::trUtf8("%1-процентный элитарный отбор")
+           .arg(m_percentage * 100.);
+};

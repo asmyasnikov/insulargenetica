@@ -38,7 +38,7 @@
 #define INTERFACE_GENETIC_OPERATOR_H
 #include "Interface.h"
 class QString;
-namespace GeneticAlgorithm
+namespace InsularGenetica
 {
     struct IGeneticOperator : virtual public Interface
     {

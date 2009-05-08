@@ -30,27 +30,50 @@
 ** ПРИ СОХРАНЕНИИ ИНФОРМАЦИИ О РАЗРАБОТЧИКЕ ЭТОЙ БИБЛИОТЕКИ.
 ****************************************************************************/
 /**
- * @file    IMutation.h
- * @brief   Файл содержит интерфейс IMutation отбора родительских пар
- * @date    17/02/2009
+ * @file    CRandomMutation.h
+ * @brief   Файл содержит класс CRandomMutation отбора родительских хромосом
+ * @date    20/02/2009
 **/
-#ifndef INTERFACE_MUTATION_H_INCLUDED
-#define INTERFACE_MUTATION_H_INCLUDED
-#include "IGeneticOperator.h"
-#include "../include/CChromosome.h"
-#include "../include/CPopulation.h"
+#ifndef C_ELITAR_SELECTION_H_INCLUDED
+#define C_ELITAR_SELECTION_H_INCLUDED
+#include "../../idl/IMutation.h"
+#include "../../include/CPopulation.h"
+#include "../../include/CChromosome.h"
+#include <qglobal.h>
+#if QT_VERSION < 0x040000
+    #include <qstring.h>
+    #include <qobject.h>
+#else
+    #include <QtCore/QString>
+    #include <QtCore/QObject>
+#endif
 namespace InsularGenetica
 {
-    struct IMutation : virtual public IGeneticOperator
+    Q_DECL_EXPORT struct CRandomMutation : virtual public IMutation
     {
+        /**
+         * @brief   Базовый конструктор
+        **/
+        CRandomMutation(double percentage = 0.5);
+        /**
+         * @brief   Деструктор
+        **/
+        ~CRandomMutation();
         /**
          * @brief  Метод "рождения" мутированных потомков
          * @param  chr  - родительская хромосома, из которой "рождается"
          *                мутированный потомок
          * @return cids - популяция потомков
         **/
-        virtual void mutate(const CChromosome&  chr,
-                            CPopulation&        cids) = 0;
+        void mutate(const CChromosome&  chr,
+                    CPopulation&        cids);
+        /**
+         * @brief   Метод получения наименования генетического оператора
+         * @return  наименование генетического оператора
+        **/
+        const QString name();
+    private:
+        int m_percentage; ///<! Доля генов хромосомы
     };
 };
-#endif // INTERFACE_MUTATIO
+#endif // C_ELITAR_SELECTI
