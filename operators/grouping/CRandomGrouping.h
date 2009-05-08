@@ -99,5 +99,5 @@ namespace InsularGenetica
         };
     };
 };
-using namespace InsularGenetica;
+
 #endif // C_RANDOM_GROUPING_H_INCLUDED

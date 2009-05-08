@@ -34,8 +34,8 @@
  * @brief   Файл содержит класс CRandomMutation отбора родительских хромосом
  * @date    20/02/2009
 **/
-#ifndef C_ELITAR_SELECTION_H_INCLUDED
-#define C_ELITAR_SELECTION_H_INCLUDED
+#ifndef C_RANDOM_MUTATION_H_INCLUDED
+#define C_RANDOM_MUTATION_H_INCLUDED
 #include "../../idl/IMutation.h"
 #include "../../include/CPopulation.h"
 #include "../../include/CChromosome.h"
@@ -76,4 +76,4 @@ namespace InsularGenetica
         int m_percentage; ///<! Доля генов хромосомы
     };
 };
-#endif // C_ELITAR_SELECTI
+#endif // C_RANDOM_MUTATION_H_INCLUDED

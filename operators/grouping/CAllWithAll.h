@@ -99,5 +99,5 @@ namespace InsularGenetica
         };
     };
 };
-using namespace InsularGenetica;
+
 #endif // C_ALL_WITH_ALL

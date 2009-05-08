@@ -82,5 +82,5 @@ namespace InsularGenetica
         };
     };
 };
-using namespace InsularGenetica;
+
 #endif // C_A

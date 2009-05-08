@@ -46,7 +46,7 @@
 
 class QString;
 
-using namespace InsularGenetica;
+
 
 Q_DECL_EXPORT struct CRastrigin : virtual public IFitness,
                                   virtual public CFitnessHelper

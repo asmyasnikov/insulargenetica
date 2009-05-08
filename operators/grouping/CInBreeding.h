@@ -133,5 +133,5 @@ namespace InsularGenetica
         };
     };
 };
-using namespace InsularGenetica;
+
 #endif // C_INBRIDING_H_INCLUDED

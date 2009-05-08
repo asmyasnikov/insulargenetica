@@ -165,12 +165,6 @@ namespace InsularGenetica
                            unsigned int  island,
                            unsigned long minutes);
         /**
-         * @brief Шаблон позволяет загружать библиотки из соответствующих
-         *        поддирректорий
-         * @param type  - тип загружаемых операторов
-        **/
-        void loadLibraries(OperatorType type);
-        /**
          * @brief Основной цикл потока
         **/
         void run();

@@ -97,4 +97,4 @@ namespace InsularGenetica
         QMutex   m_mutex;
     };
 };
-#endif // C_FITNESS
+#endif // C_FITNESS_SAFE_THREAD_FUNCTION_H_INCLUDED

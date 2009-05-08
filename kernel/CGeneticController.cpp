@@ -103,11 +103,32 @@ CGeneticController(IFitness*     fitness,
     m_best_solutions_size = population;
     m_best_solutions = CPopulation(0);
     m_minutes = minutes;
-    loadLibraries(Selection   );
-    loadLibraries(Grouping    );
-    loadLibraries(Reproduction);
-    loadLibraries(Mutation    );
-    loadLibraries(Accepting   );
+    m_operators.append(new CElitarSelection(0.1));
+    m_operators.append(new CElitarSelection(0.2));
+    m_operators.append(new CElitarSelection(0.3));
+    m_operators.append(new CElitarSelection(0.4));
+    m_operators.append(new CElitarSelection(0.5));
+    m_operators.append(new CElitarSelection(0.6));
+    m_operators.append(new CRandomSelection);
+    m_operators.append(new CRouletteSelection);
+    m_operators.append(new COutBreeding);
+    m_operators.append(new CAllWithAll);
+    m_operators.append(new CBestWithAll);
+    m_operators.append(new CBestWithBest);
+    m_operators.append(new CInBreeding);
+    m_operators.append(new CRandomGrouping);
+    m_operators.append(new COneDotCrossover);
+    m_operators.append(new CTwoDotCrossover);
+    m_operators.append(new CUnifiedCrossover);
+    m_operators.append(new COneDotMutation);
+    m_operators.append(new CTwoDotMutation);
+    m_operators.append(new CFullMutation);
+    m_operators.append(new CRandomMutation(0.25));
+    m_operators.append(new CRandomMutation(0.50));
+    m_operators.append(new CRandomMutation(0.75));
+    m_operators.append(new CAnyChromosome);
+    m_operators.append(new CBestFitness);
+    m_operators.append(new CBetterAverageFitness);
     for(unsigned int i = 0; i < island; i++)
     {
         CGeneticAlgorithm*alg = new CGeneticAlgorithm(m_operators,m_minutes);
@@ -293,61 +314,6 @@ calc(IFitness*    fitness,
     control.start(QThread::LowPriority);
     control.wait();
     return control.m_best_solutions;
-};
-/**
- * @brief Шаблон позволяет загружать библиотки из соответствующих
- *        поддирректорий
- * @param type  - тип загружаемых операторов
-**/
-void
-InsularGenetica::
-CGeneticController::
-loadLibraries(OperatorType type)
-{
-    switch(type)
-    {
-        case Selection :
-        {
-            m_operators.append(new InsularGenetica::CElitarSelection(0.1));
-            m_operators.append(new InsularGenetica::CElitarSelection(0.2));
-            m_operators.append(new InsularGenetica::CElitarSelection(0.3));
-            m_operators.append(new InsularGenetica::CElitarSelection(0.4));
-            m_operators.append(new InsularGenetica::CElitarSelection(0.5));
-            m_operators.append(new InsularGenetica::CElitarSelection(0.6));
-            m_operators.append(new InsularGenetica::CRandomSelection);
-            m_operators.append(new InsularGenetica::CRouletteSelection);
-        }break;
-        case Grouping :
-        {
-            m_operators.append(new CAllWithAll);
-            m_operators.append(new CBestWithAll);
-            m_operators.append(new CBestWithBest);
-            m_operators.append(new CInBreeding);
-            m_operators.append(new COutBreeding);
-            m_operators.append(new CRandomGrouping);
-        }break;
-        case Reproduction :
-        {
-            m_operators.append(new COneDotCrossover);
-            m_operators.append(new CTwoDotCrossover);
-            m_operators.append(new CUnifiedCrossover);
-        }break;
-        case Mutation :
-        {
-            m_operators.append(new COneDotMutation);
-            m_operators.append(new CTwoDotMutation);
-            m_operators.append(new CFullMutation);
-            m_operators.append(new CRandomMutation(0.25));
-            m_operators.append(new CRandomMutation(0.50));
-            m_operators.append(new CRandomMutation(0.75));
-        }break;
-        case Accepting :
-        {
-            m_operators.append(new CAnyChromosome);
-            m_operators.append(new CBestFitness);
-            m_operators.append(new CBetterAverageFitness);
-        }break;
-    }
 };
 /**
  * @brief Отмена расчета алгоритма

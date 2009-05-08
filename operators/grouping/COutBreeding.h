@@ -34,8 +34,8 @@
  * @brief   Файл содержит класс COutBreeding отбора родительских хромосом
  * @date    20/02/2009
 **/
-#ifndef C_INBRIDING_H_INCLUDED
-#define C_INBRIDING_H_INCLUDED
+#ifndef C_OUTBRIDING_H_INCLUDED
+#define C_OUTBRIDING_H_INCLUDED
 #include "../../idl/IGrouping.h"
 #include "../../include/CPopulation.h"
 #include "../../include/CChromosome.h"
@@ -133,5 +133,5 @@ namespace InsularGenetica
         };
     };
 };
-using namespace InsularGenetica;
-#endif // C_INBRIDING_H_INCLUDED
+
+#endif // C_OUTBRIDING_H_INCLUDED

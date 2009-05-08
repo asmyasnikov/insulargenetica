@@ -87,5 +87,5 @@ namespace InsularGenetica
         };
     };
 };
-using namespace InsularGenetica;
+
 #endif //

@@ -82,5 +82,5 @@ namespace InsularGenetica
         };
     };
 };
-using namespace InsularGenetica;
+
 #endif // C_BETTER_AVERAGE_FITNESS_H_INCLUDED
