@@ -69,7 +69,7 @@ CDeJong::~CDeJong(){};
  * @brief   Метод вычисления значения целевой функции
  * @return  значение функции
 **/
-double CDeJong::calc(const CChromosome& chr)
+double CDeJong::calc(const InsularGenetica::CChromosome& chr)
 {
     double result = (m_count == 2 ? 0.002 : 0.);
     if(m_count == 2)

@@ -51,7 +51,7 @@
 #include "CChromosome.h"
 namespace InsularGenetica
 {
-    Q_DECL_EXPORT struct CPopulation : virtual public Interface
+    struct Q_DECL_EXPORT CPopulation : virtual public Interface
     {
         /**
          * @brief   Конструктор

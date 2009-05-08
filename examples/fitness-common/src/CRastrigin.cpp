@@ -76,7 +76,7 @@ CRastrigin::~CRastrigin(){};
  * @brief   Метод вычисления значения целевой функции
  * @return  значение функции
 **/
-double CRastrigin::calc(const CChromosome& chr)
+double CRastrigin::calc(const InsularGenetica::CChromosome& chr)
 {
     double result = 0.;
     for(unsigned long i = 0; i < m_count; i++)
@@ -87,11 +87,11 @@ double CRastrigin::calc(const CChromosome& chr)
     if(m_filter > 0. && m_filter <= 1.)
     {
         unsigned int count = 0;
-        for(uint i = 0; i < CChromosome::size(); i++)
+        for(uint i = 0; i < InsularGenetica::CChromosome::size(); i++)
         {
             if(chr.getGene(i)) count++;
         }
-        result *= exp(qMax(0.,double(count)-m_filter*double(CChromosome::size())));
+        result *= exp(qMax(0.,double(count)-m_filter*double(InsularGenetica::CChromosome::size())));
     }
     m_counter++;
     return ((m_invert)?(-1.):(1.))*result;

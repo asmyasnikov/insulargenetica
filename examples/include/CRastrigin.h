@@ -48,8 +48,8 @@ class QString;
 
 
 
-Q_DECL_EXPORT struct CRastrigin : virtual public IFitness,
-                                  virtual public CFitnessHelper
+struct Q_DECL_EXPORT CRastrigin : virtual public InsularGenetica::IFitness,
+                                  virtual public InsularGenetica::CFitnessHelper
 {
     /**
      * @brief   Базовый конструктор
@@ -69,7 +69,7 @@ Q_DECL_EXPORT struct CRastrigin : virtual public IFitness,
      * @brief   Метод вычисления значения целевой функции
      * @return  значение функции
     **/
-    double calc(const CChromosome& chr);
+    double calc(const InsularGenetica::CChromosome& chr);
     /**
      * @brief   Метод получения наименования функции
      * @return  наименование функции

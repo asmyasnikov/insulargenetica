@@ -31,9 +31,9 @@
 ****************************************************************************/
 #include "../../include/CDeJong.h"
 
-DLLEXPORT Interface* CreateModule();
+DLLEXPORT InsularGenetica::Interface* CreateModule();
 
-Interface* CreateModule()
+InsularGenetica::Interface* CreateModule()
 {
-    return (Interface*)(new CDeJong(5,true));
+    return (InsularGenetica::Interface*)(new CDeJong(5,true));
 }

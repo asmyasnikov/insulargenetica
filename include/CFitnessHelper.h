@@ -42,7 +42,7 @@
 namespace InsularGenetica
 {
     class CChromosome;
-    Q_DECL_EXPORT struct CFitnessHelper : virtual public IFitness
+    struct Q_DECL_EXPORT CFitnessHelper : virtual public IFitness
     {
         /**
          * @brief   Базовый конструктор

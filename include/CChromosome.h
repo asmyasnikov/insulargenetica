@@ -43,7 +43,7 @@
 #include "../idl/IFitness.h"
 namespace InsularGenetica
 {
-    Q_DECL_EXPORT struct CChromosome : virtual public Interface
+    struct Q_DECL_EXPORT CChromosome : virtual public Interface
     {
         /**
          * @brief   Установить размер хромосомы

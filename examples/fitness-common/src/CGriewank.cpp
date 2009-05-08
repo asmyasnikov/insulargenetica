@@ -68,7 +68,7 @@ CGriewank::~CGriewank(){};
  * @brief   Метод вычисления значения целевой функции
  * @return  значение функции
 **/
-double CGriewank::calc(const CChromosome& chr)
+double CGriewank::calc(const InsularGenetica::CChromosome& chr)
 {
     double result = 0.;
     double multiplicate = 1.;

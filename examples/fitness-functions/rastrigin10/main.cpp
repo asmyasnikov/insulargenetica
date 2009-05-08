@@ -31,9 +31,9 @@
 ****************************************************************************/
 #include "../../include/CRastrigin.h"
 
-DLLEXPORT Interface* CreateModule();
+DLLEXPORT InsularGenetica::Interface* CreateModule();
 
-Interface* CreateModule()
+InsularGenetica::Interface* CreateModule()
 {
-    return (Interface*)(new CRastrigin(10));
+    return (InsularGenetica::Interface*)(new CRastrigin(10));
 }

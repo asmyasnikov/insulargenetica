@@ -31,9 +31,9 @@
 ****************************************************************************/
 #include "../../include/CGriewank.h"
 
-DLLEXPORT Interface* CreateModule();
+DLLEXPORT InsularGenetica::Interface* CreateModule();
 
-Interface* CreateModule()
+InsularGenetica::Interface* CreateModule()
 {
-    return (Interface*)(new CGriewank(10));
+    return (InsularGenetica::Interface*)(new CGriewank(10));
 }
