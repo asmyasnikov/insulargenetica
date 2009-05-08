@@ -6,7 +6,7 @@ CONFIG += plugin release
 UI_DIR = ./src.gen/ui
 MOC_DIR = ./src.gen/moc
 OBJECTS_DIR = ./src.gen/obj
-DESTDIR = ../build
+DESTDIR = ./build
 
 DEPENDPATH += . \
               idl \
@@ -19,7 +19,6 @@ DEPENDPATH += . \
               operators\selection 
 INCLUDEPATH += .
 
-# Input
 HEADERS += idl/IAccepting.h \
            idl/IFitness.h \
            idl/IGeneticOperator.h \

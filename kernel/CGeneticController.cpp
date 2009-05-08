@@ -323,7 +323,7 @@ loadLibraries(OperatorType type)
             m_operators.append(new CBestWithAll);
             m_operators.append(new CBestWithBest);
             m_operators.append(new CInBreeding);
-//            m_operators.append(new COutBreeding);
+            m_operators.append(new COutBreeding);
             m_operators.append(new CRandomGrouping);
         }break;
         case Reproduction :
@@ -337,9 +337,9 @@ loadLibraries(OperatorType type)
             m_operators.append(new COneDotMutation);
             m_operators.append(new CTwoDotMutation);
             m_operators.append(new CFullMutation);
-//            m_operators.append(new CRandomMutation(0.25));
-//            m_operators.append(new CRandomMutation(0.50));
-//            m_operators.append(new CRandomMutation(0.75));
+            m_operators.append(new CRandomMutation(0.25));
+            m_operators.append(new CRandomMutation(0.50));
+            m_operators.append(new CRandomMutation(0.75));
         }break;
         case Accepting :
         {
