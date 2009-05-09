@@ -35,7 +35,7 @@
  *          который обеспечивает единообразие
  *          доступа к целевым функциям
  * @date    20/02/2009
- * @version 1.14
+ * @version 1.15
 **/
 #ifndef FITNESS_INTERFACE
 #define FITNESS_INTERFACE

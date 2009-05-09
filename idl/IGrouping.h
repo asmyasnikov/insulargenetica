@@ -33,7 +33,7 @@
  * @file    IGrouping.h
  * @brief   Файл содержит интерфейс IGrouping отбора родительских пар
  * @date    17/02/2009
- * @version 1.14
+ * @version 1.15
 **/
 #ifndef INTERFACE_GROUPING_H_INCLUDED
 #define INTERFACE_GROUPING_H_INCLUDED

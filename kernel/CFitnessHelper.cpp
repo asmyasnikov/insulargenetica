@@ -34,7 +34,7 @@
  * @brief   Файл содержит реализацию вспомогательных методов,
  *          необходимых при расчете целевой функции
  * @date    20/02/2009
- * @version 1.14
+ * @version 1.15
 **/
 #include "../include/CFitnessHelper.h"
 #include "../include/CChromosome.h"

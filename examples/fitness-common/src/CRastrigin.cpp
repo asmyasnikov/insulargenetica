@@ -34,7 +34,7 @@
  * @brief   Файл содержит класс CRastrigin,
  *          который реализует тестовую целевую функцию Растригина.
  * @date    10/02/2009
- * @version 1.14
+ * @version 1.15
 **/
 
 #include "../../include/CRastrigin.h"
@@ -104,8 +104,8 @@ double CRastrigin::calc(const InsularGenetica::CChromosome& chr)
 **/
 const QString CRastrigin::name()
 {
-    return QObject::trUtf8("Растригина [%1%2перем.%3]")
-           .arg(m_invert ? QObject::trUtf8("инверт.") : QString::null)
+    return QObject::trUtf8("Rastrigin [%1%2vars%3]")
+           .arg(m_invert ? QObject::trUtf8("invert,") : QString::null)
            .arg(m_count)
-           .arg(m_filter>0.?QObject::trUtf8(",огран.%1%бит").arg(int(m_filter*100.)):QString::null);
+           .arg(m_filter>0.?QObject::trUtf8(",limit%1%bit").arg(int(m_filter*100.)):QString::null);
 };

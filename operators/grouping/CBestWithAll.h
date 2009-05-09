@@ -33,7 +33,7 @@
  * @file    CBestWithAll.h
  * @brief   Файл содержит класс CBestWithAll отбора родительских хромосом
  * @date    20/02/2009
- * @version 1.14
+ * @version 1.15
 **/
 #ifndef C_BEST_WITH_ALL_H_INCLUDED
 #define C_BEST_WITH_ALL_H_INCLUDED

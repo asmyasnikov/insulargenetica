@@ -33,7 +33,7 @@
  * @file    CRandomMutation.cpp
  * @brief   Файл содержит класс CRandomMutation отбора родительских хромосом
  * @date    20/02/2009
- * @version 1.14
+ * @version 1.15
 **/
 #include "CRandomMutation.h"
 #include <math.h>

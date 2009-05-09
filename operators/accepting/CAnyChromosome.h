@@ -33,7 +33,7 @@
  * @file    CAnyChromosome.h
  * @brief   Файл содержит класс CAnyChromosome отбора родительских хромосом
  * @date    20/02/2009
- * @version 1.14
+ * @version 1.15
 **/
 #ifndef C_ANY_CHROMOSOME_H_INCLUDED
 #define C_ANY_CHROMOSOME_H_INCLUDED

@@ -33,7 +33,7 @@
  * @file    CBestFitness.h
  * @brief   Файл содержит класс CBestFitness отбора родительских хромосом
  * @date    20/02/2009
- * @version 1.14
+ * @version 1.15
 **/
 #ifndef C_BEST_FITNESS_H_INCLUDED
 #define C_BEST_FITNESS_H_INCLUDED

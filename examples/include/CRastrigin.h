@@ -34,7 +34,7 @@
  * @brief   Файл содержит класс CRastrigin,
  *          который реализует тестовую целевую функцию Растригина.
  * @date    10/02/2009
- * @version 1.14
+ * @version 1.15
 **/
 
 #ifndef CRASTRIGIN_MODULE_H_INCLUDED

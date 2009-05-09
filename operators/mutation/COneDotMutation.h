@@ -33,7 +33,7 @@
  * @file    COneDotMutation.h
  * @brief   Файл содержит класс COneDotMutation отбора родительских хромосом
  * @date    20/02/2009
- * @version 1.14
+ * @version 1.15
 **/
 #ifndef C_ONE_DOT_MUTATION_H_INCLUDED
 #define C_ONE_DOT_MUTATION_H_INCLUDED

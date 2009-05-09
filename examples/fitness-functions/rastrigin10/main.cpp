@@ -33,7 +33,7 @@
  * @file    main.cpp
  * @brief   Файл содержит внешнюю функцию для конструирования целевой функции
  * @date    09/05/2009
- * @version 1.14
+ * @version 1.15
 **/
 #include "../../include/CRastrigin.h"
 

@@ -34,7 +34,7 @@
  * @brief   Файл содержит интерфейс IReproduction создания потомков из
  *          родительской пары
  * @date    17/02/2009
- * @version 1.14
+ * @version 1.15
 **/
 #ifndef INTERFACE_REPRODUCTION_H_INCLUDED
 #define INTERFACE_REPRODUCTION_H_INCLUDED

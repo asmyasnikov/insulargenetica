@@ -33,7 +33,7 @@
  * @file    CBetterAverageFitness.h
  * @brief   Файл содержит класс CBetterAverageFitness отбора родителей
  * @date    20/02/2009
- * @version 1.14
+ * @version 1.15
 **/
 #ifndef C_BETTER_AVERAGE_FITNESS_H_INCLUDED
 #define C_BETTER_AVERAGE_FITNESS_H_INCLUDED

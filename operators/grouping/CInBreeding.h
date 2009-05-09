@@ -33,7 +33,7 @@
  * @file    CInBreeding.h
  * @brief   Файл содержит класс CInBreeding отбора родительских хромосом
  * @date    20/02/2009
- * @version 1.14
+ * @version 1.15
 **/
 #ifndef C_INBRIDING_H_INCLUDED
 #define C_INBRIDING_H_INCLUDED

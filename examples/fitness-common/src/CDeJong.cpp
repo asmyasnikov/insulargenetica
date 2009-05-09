@@ -34,7 +34,7 @@
  * @brief   Файл содержит класс CDeJong,
  *          который реализует тестовую целевую функцию DeJong'а.
  * @date    22/02/2009
- * @version 1.14
+ * @version 1.15
 **/
 
 #include "../../include/CDeJong.h"
@@ -99,7 +99,7 @@ double CDeJong::calc(const InsularGenetica::CChromosome& chr)
 **/
 const QString CDeJong::name()
 {
-    return QObject::trUtf8("DeJong [%1%2перем.]")
-           .arg(m_invert ? QObject::trUtf8("инверт.,") : QString::null)
+    return QObject::trUtf8("DeJong [%1%2vars]")
+           .arg(m_invert ? QObject::trUtf8("invert,") : QString::null)
            .arg(m_count);
 };

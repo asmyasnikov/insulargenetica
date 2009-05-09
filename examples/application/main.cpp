@@ -33,7 +33,7 @@
  * @file    main.cpp
  * @brief   Основной файл запуска алгоритма, когда алгоритм собран как исполняемый файл
  * @date    04/03/2009
- * @version 1.14
+ * @version 1.15
 **/
 
 #include <iostream>
@@ -128,7 +128,7 @@ int main(int argc, char**argv)
         delete lib;
     }
     Q_ASSERT(m_fitness_modules.size());
-    std::cout << QObject::trUtf8("Выберите функцию из списка:")
+    std::cout << QObject::trUtf8("Select function from list:")
 #if QT_VERSION < 0x040000
                  .local8Bit()
 #else
@@ -137,7 +137,7 @@ int main(int argc, char**argv)
                  .data() << std::endl;
     for(int i = 0; i < m_fitness_modules.size(); i++)
     {
-        std::cout << QObject::trUtf8("%1. Функция \'%2\'")
+        std::cout << QObject::trUtf8("%1. Function \'%2\'")
                      .arg(i)
 #if QT_VERSION < 0x040000
                      .arg((*m_fitness_modules.at(i))->name())
@@ -151,7 +151,7 @@ int main(int argc, char**argv)
     int fid = m_fitness_modules.size();
     while(fid >= m_fitness_modules.size())
     {
-        std::cout << QObject::trUtf8("Введите номер функции [0..%1] : ")
+        std::cout << QObject::trUtf8("Select number of function [0..%1] : ")
                      .arg(m_fitness_modules.size()-1)
 #if QT_VERSION < 0x040000
                      .local8Bit()
@@ -164,7 +164,7 @@ int main(int argc, char**argv)
     int chrsize = 0;
     while(chrsize < 2 || chrsize > 1024)
     {
-        std::cout << QObject::trUtf8("Введите длину хромосомы [2..1024] : ")
+        std::cout << QObject::trUtf8("Enter length of chromosome [2..1024] : ")
 #if QT_VERSION < 0x040000
                      .local8Bit()
 #else
@@ -176,7 +176,7 @@ int main(int argc, char**argv)
     int popsize = 0;
     while(popsize < 2 || popsize > 1024)
     {
-        std::cout << QObject::trUtf8("Введите размер популяции [2..1024] : ")
+        std::cout << QObject::trUtf8("Enter size of population [2..1024] : ")
 #if QT_VERSION < 0x040000
                      .local8Bit()
 #else
@@ -188,7 +188,7 @@ int main(int argc, char**argv)
     int limit = 0;
     while(limit < 1 || limit > 10080)
     {
-        std::cout << QObject::trUtf8("Введите максимальное время эволюции, минут [1..10080] : ")
+        std::cout << QObject::trUtf8("Enter maximum time of evolution, minutes [1..10080] : ")
 #if QT_VERSION < 0x040000
                      .local8Bit()
 #else
@@ -200,7 +200,7 @@ int main(int argc, char**argv)
     int island = -1;
     while(island < 0 || island > 512)
     {
-        std::cout << QObject::trUtf8("Введите количество островов [0..512] : ")
+        std::cout << QObject::trUtf8("Enter number of islands [0..512] : ")
 #if QT_VERSION < 0x040000
                      .local8Bit()
 #else
@@ -217,7 +217,7 @@ int main(int argc, char**argv)
     CGeneticController*calculator = CGeneticController::getCalculator(f,chrsize,popsize,limit,island);
     CPopulation best = calculator->getBestSolutions(3);
     delete calculator;
-    std::cout << QObject::trUtf8("Среднее здоровье   популяции = %1")
+    std::cout << QObject::trUtf8("Average fitness of population = %1")
                  .arg(best.getAverageFitness())
 #if QT_VERSION < 0x040000
                  .local8Bit()
@@ -225,7 +225,7 @@ int main(int argc, char**argv)
                  .toLocal8Bit()
 #endif
                  .data() << std::endl;
-    std::cout << QObject::trUtf8("Гомогенность       популяции = %1")
+    std::cout << QObject::trUtf8("Population homogeneity = %1")
                  .arg(best.getHomogeneity())
 #if QT_VERSION < 0x040000
                  .local8Bit()
@@ -233,7 +233,7 @@ int main(int argc, char**argv)
                  .toLocal8Bit()
 #endif
                  .data() << std::endl;
-    std::cout << QObject::trUtf8("Псевдогомогенность популяции = %1")
+    std::cout << QObject::trUtf8("Population pseudo-homogeneity = %1")
                  .arg(best.getHomogeneity(true))
 #if QT_VERSION < 0x040000
                  .local8Bit()
@@ -276,7 +276,7 @@ int main(int argc, char**argv)
     }
     m_fitness_libraries.clear();
     qDebug("--------------------------------------------------------------");
-    std::cout << QObject::trUtf8("Для выхода введите \"ok\": ")
+    std::cout << QObject::trUtf8("Enter \"ok\" to exit: ")
 #if QT_VERSION < 0x040000
                  .local8Bit()
 #else

@@ -34,7 +34,7 @@
  * @brief   Файл содержит класс CGriewank,
  *          который реализует тестовую целевую функцию Griewank.
  * @date    10/02/2009
- * @version 1.14
+ * @version 1.15
 **/
 
 #include "../../include/CGriewank.h"
@@ -91,7 +91,7 @@ double CGriewank::calc(const InsularGenetica::CChromosome& chr)
 **/
 const QString CGriewank::name()
 {
-    return QObject::trUtf8("Griewank [%1%2перем.]")
-           .arg(m_invert ? QObject::trUtf8("инверт.,") : QString::null)
+    return QObject::trUtf8("Griewank [%1%2vars]")
+           .arg(m_invert ? QObject::trUtf8("invert,") : QString::null)
            .arg(m_count);
 };
