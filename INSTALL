@@ -1,26 +1,28 @@
 You need Qt library 3.* or 4.* version installed in your system
 
-1) If you want to compile examples, you need uncomment line in
-   insulargenetica.pro file
-   
-   #SUBDIRS += examples
-   
-2) qmake
+1) qmake
 
-3) make
+2) make
 
-4) In build dirrectory you found distributive insulargenetica project
+3) In build dirrectory you found distributive insulargenetica project
 
-5) If you want to execute examples, you need:
+4) If you want to execute examples, you need:
 
-5a)In Windows
+4a) If you want to compile examples, you need execute following 
+    instructions in console (command line)
    
-   cd .\build
-   .\genetic.exe
+    cd examples
+    qmake
+    make
    
-5b)In Linux
+4b)In Windows
    
-   cd ./build
+   cd ..\build
+   insulargenetica.exe
+   
+4c)In Linux
+   
+   cd ../build
    export LD_LIBRARY_PATH=`pwd`
-   ./genetic
+   ./insulargenetica
 
