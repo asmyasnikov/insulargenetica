@@ -35,8 +35,8 @@
  *          необходимых при расчете целевой функции
  * @date    20/02/2009
 **/
-#include "../../include/CFitnessHelper.h"
-#include "../../include/CChromosome.h"
+#include "../include/CFitnessHelper.h"
+#include "../include/CChromosome.h"
 #include <qglobal.h>
 #if QT_VERSION < 0x040000
     #include <qobject.h>

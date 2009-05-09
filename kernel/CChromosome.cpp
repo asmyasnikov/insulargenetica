@@ -36,8 +36,7 @@
  *          в генетическом программировании
  * @date    20/02/2009
 **/
-#include "../../include/export.h"
-#include "../../include/CChromosome.h"
+#include "../include/CChromosome.h"
 #include <stdlib.h>
 unsigned int                InsularGenetica::CChromosome::m_bit_size  = 0;
 unsigned int                InsularGenetica::CChromosome::m_byte_size = 0;

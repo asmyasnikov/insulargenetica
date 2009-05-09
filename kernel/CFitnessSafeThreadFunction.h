@@ -43,7 +43,7 @@
 #else
     #include <QtCore/QMutex>
 #endif
-#include "../../idl/IFitness.h"
+#include "../idl/IFitness.h"
 namespace InsularGenetica
 {
     /**

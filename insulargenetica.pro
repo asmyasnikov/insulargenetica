@@ -9,25 +9,16 @@ OBJECTS_DIR = ./src.gen/obj
 DESTDIR = ./build
 
 DEPENDPATH += . \
-              idl \
               include \
               kernel \
               operators\accepting \
               operators\grouping \
               operators\mutation \
               operators\reproduction \
-              operators\selection 
+              operators\selection
 INCLUDEPATH += .
 
-HEADERS += idl/IAccepting.h \
-           idl/IFitness.h \
-           idl/IGeneticOperator.h \
-           idl/IGrouping.h \
-           idl/IMutation.h \
-           idl/Interface.h \
-           idl/IReproduction.h \
-           idl/ISelection.h \
-           include/CChromosome.h \
+HEADERS += include/CChromosome.h \
            include/CFitnessHelper.h \
            include/CGeneticController.h \
            include/CPopulation.h \
@@ -52,11 +43,11 @@ HEADERS += idl/IAccepting.h \
            operators/reproduction/CUnifiedCrossover.h \
            operators/selection/CElitarSelection.h \
            operators/selection/CRandomSelection.h \
-           operators/selection/CRouletteSelection.h 
+           operators/selection/CRouletteSelection.h
 SOURCES += kernel/CChromosome.cpp \
            kernel/CFitnessHelper.cpp \
            kernel/CGeneticAlgorithm.cpp \
            kernel/CGeneticController.cpp \
            kernel/CPopulation.cpp \
            operators/selection/CElitarSelection.cpp \
-           operators/mutation/CRandomMutation.cpp 
+           operators/mutation/CRandomMutation.cpp

@@ -56,11 +56,11 @@
     #include <QtCore/QTime>
     #include <QtCore/QPair>
 #endif
-#include "../../idl/ISelection.h"
-#include "../../idl/IGrouping.h"
-#include "../../idl/IReproduction.h"
-#include "../../idl/IMutation.h"
-#include "../../idl/IAccepting.h"
+#include "../idl/ISelection.h"
+#include "../idl/IGrouping.h"
+#include "../idl/IReproduction.h"
+#include "../idl/IMutation.h"
+#include "../idl/IAccepting.h"
 // Коэффициент "забывания" частот
 #define FORGET_PERIOD 5
 // Время для контроля бесконечных циклов - 30 секунд

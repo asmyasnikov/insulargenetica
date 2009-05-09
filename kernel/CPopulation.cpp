@@ -37,8 +37,8 @@
  * @date    13/02/2009
 **/
 #include <math.h>
-#include "../../idl/IFitness.h"
-#include "../../include/CPopulation.h"
+#include "../idl/IFitness.h"
+#include "../include/CPopulation.h"
 #include <qglobal.h>
 #if QT_VERSION < 0x040000
     #include <qobject.h>
