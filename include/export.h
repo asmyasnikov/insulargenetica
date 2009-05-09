@@ -34,6 +34,7 @@
  * @brief   Файл содержит объявление макроса экпортирования
  *          внешних функций библиотеки
  * @date    18/02/2009
+ * @version 1.14
 **/
 #ifndef EXPORT_H_INCLUDED
 #define EXPORT_H_INCLUDED

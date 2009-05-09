@@ -35,6 +35,7 @@
  *          который является аналогом хромосомы
  *          в генетическом программировании
  * @date    20/02/2009
+ * @version 1.14
 **/
 #include "../include/CChromosome.h"
 #include <stdlib.h>

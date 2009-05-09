@@ -33,6 +33,7 @@
  * @file    CFullMutation.h
  * @brief   Файл содержит класс CFullMutation отбора родительских хромосом
  * @date    20/02/2009
+ * @version 1.14
 **/
 #ifndef C_FULL_MUTATION_H_INCLUDED
 #define C_FULL_MUTATION_H_INCLUDED

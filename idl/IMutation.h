@@ -33,6 +33,7 @@
  * @file    IMutation.h
  * @brief   Файл содержит интерфейс IMutation отбора родительских пар
  * @date    17/02/2009
+ * @version 1.14
 **/
 #ifndef INTERFACE_MUTATION_H_INCLUDED
 #define INTERFACE_MUTATION_H_INCLUDED

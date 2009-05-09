@@ -37,6 +37,7 @@
  *          оптимизации. Для того, чтобы учесть ограничения, можно
  *          использовать, например, метод штрафных (барьерных) функций.
  * @date    23/03/2009
+ * @version 1.14
 **/
 #ifndef C_GENETIC_CONTROLLER_H_INCLUDED
 #define C_GENETIC_CONTROLLER_H_INCLUDED

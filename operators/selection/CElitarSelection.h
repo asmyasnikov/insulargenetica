@@ -33,6 +33,7 @@
  * @file    CElitarSelection.h
  * @brief   Файл содержит класс CElitarSelection отбора родительских хромосом
  * @date    20/02/2009
+ * @version 1.14
 **/
 #ifndef C_ELITAR_SELECTION_H_INCLUDED
 #define C_ELITAR_SELECTION_H_INCLUDED

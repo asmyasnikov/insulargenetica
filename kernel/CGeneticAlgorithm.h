@@ -36,6 +36,7 @@
  *          генетического алгоритма, за динамическое определение частот
  *          использования генетических операторов
  * @date    05/03/2009
+ * @version 1.14
 **/
 #ifndef GENETIC_ALGORITHM_FACTORY_H_INCLUDED
 #define GENETIC_ALGORITHM_FACTORY_H_INCLUDED

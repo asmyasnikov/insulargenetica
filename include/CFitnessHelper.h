@@ -34,6 +34,7 @@
  * @brief   Файл содержит реализацию вспомогательных методов,
  *          необходимых при расчете целевой функции
  * @date    20/02/2009
+ * @version 1.14
 **/
 #ifndef C_FITNESS_HELPER_HEADER
 #define C_FITNESS_HELPER_HEADER

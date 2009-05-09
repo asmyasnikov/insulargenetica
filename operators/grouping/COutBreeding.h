@@ -33,6 +33,7 @@
  * @file    COutBreeding.h
  * @brief   Файл содержит класс COutBreeding отбора родительских хромосом
  * @date    20/02/2009
+ * @version 1.14
 **/
 #ifndef C_OUTBRIDING_H_INCLUDED
 #define C_OUTBRIDING_H_INCLUDED

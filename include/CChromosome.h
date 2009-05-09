@@ -35,6 +35,7 @@
  *          который является аналогом хромосомы
  *          в генетическом программировании
  * @date    20/02/2009
+ * @version 1.14
 **/
 #ifndef CCHROMOSOME_H_INCLUDED
 #define CCHROMOSOME_H_INCLUDED

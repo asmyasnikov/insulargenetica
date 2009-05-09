@@ -33,6 +33,7 @@
  * @file    COneDotCrossover.h
  * @brief   Файл содержит класс COneDotCrossover отбора родительских хромосом
  * @date    20/02/2009
+ * @version 1.14
 **/
 #ifndef C_ONE_DOT_CROSSOVER_H_INCLUDED
 #define C_ONE_DOT_CROSSOVER_H_INCLUDED

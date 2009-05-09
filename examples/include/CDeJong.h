@@ -34,6 +34,7 @@
  * @brief   Файл содержит класс CDeJong,
  *          который реализует тестовую целевую функцию DeJong'а
  * @date    22/02/2009
+ * @version 1.14
 **/
 
 #ifndef C_DE_JONG_MODULE_H_INCLUDED

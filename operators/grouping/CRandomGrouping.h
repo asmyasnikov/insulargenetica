@@ -33,6 +33,7 @@
  * @file    CRandomGrouping.h
  * @brief   Файл содержит класс CRandomGrouping отбора родительских хромосом
  * @date    20/02/2009
+ * @version 1.14
 **/
 #ifndef C_RANDOM_GROUPING_H_INCLUDED
 #define C_RANDOM_GROUPING_H_INCLUDED

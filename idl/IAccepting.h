@@ -33,6 +33,7 @@
  * @file    IAccepting.h
  * @brief   Файл содержит интерфейс IAccepting отбора родительских пар
  * @date    17/02/2009
+ * @version 1.14
 **/
 #ifndef INTERFACE_ACCEPTING_H_INCLUDED
 #define INTERFACE_ACCEPTING_H_INCLUDED

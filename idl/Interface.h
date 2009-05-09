@@ -33,6 +33,7 @@
  * @file    Iterface.h
  * @brief   Файл содержит базовый интерфейс Interface
  * @date    20/02/2009
+ * @version 1.14
 **/
 #ifndef INTERFACE_H_INCLUDED
 #define INTERFACE_H_INCLUDED

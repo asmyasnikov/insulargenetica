@@ -33,6 +33,7 @@
  * @file    ISelection.h
  * @brief   Файл содержит интерфейс ISelection отбора родительских хромосом
  * @date    17/02/2009
+ * @version 1.14
 **/
 #ifndef INTERFACE_SELECTION_H_INCLUDED
 #define INTERFACE_SELECTION_H_INCLUDED

@@ -34,6 +34,7 @@
  * @brief   Класс CFitnessSafeThreadFunction позволяет обернуть
  *          функцию здоровья для её потокобезопасноного использования
  * @date    23/03/2009
+ * @version 1.14
 **/
 #ifndef C_FITNESS_SAFE_THREAD_FUNCTION_H_INCLUDED
 #define C_FITNESS_SAFE_THREAD_FUNCTION_H_INCLUDED

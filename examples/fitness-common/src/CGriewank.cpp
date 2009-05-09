@@ -34,6 +34,7 @@
  * @brief   Файл содержит класс CGriewank,
  *          который реализует тестовую целевую функцию Griewank.
  * @date    10/02/2009
+ * @version 1.14
 **/
 
 #include "../../include/CGriewank.h"

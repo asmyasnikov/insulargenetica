@@ -33,6 +33,7 @@
  * @file    CRandomMutation.h
  * @brief   Файл содержит класс CRandomMutation отбора родительских хромосом
  * @date    20/02/2009
+ * @version 1.14
 **/
 #ifndef C_RANDOM_MUTATION_H_INCLUDED
 #define C_RANDOM_MUTATION_H_INCLUDED

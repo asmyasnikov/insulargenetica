@@ -33,6 +33,7 @@
  * @file    CTwoDotMutation.h
  * @brief   Файл содержит класс CTwoDotMutation отбора родительских хромосом
  * @date    20/02/2009
+ * @version 1.14
 **/
 #ifndef C_TWO_DOT_MUTATION_H_INCLUDED
 #define C_TWO_DOT_MUTATION_H_INCLUDED

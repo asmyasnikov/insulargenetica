@@ -33,6 +33,7 @@
  * @file    CElitarSelection.cpp
  * @brief   Файл содержит класс CElitarSelection отбора родительских хромосом
  * @date    20/02/2009
+ * @version 1.14
 **/
 #include "CElitarSelection.h"
 #include <qglobal.h>

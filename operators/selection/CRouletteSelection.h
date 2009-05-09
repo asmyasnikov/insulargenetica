@@ -33,6 +33,7 @@
  * @file    CRouletteSelection.h
  * @brief   Файл содержит класс CRouletteSelection отбора родительских хромосом
  * @date    20/02/2009
+ * @version 1.14
 **/
 #ifndef C_ROULETTE_SELECTION_H_INCLUDED
 #define C_ROULETTE_SELECTION_H_INCLUDED
