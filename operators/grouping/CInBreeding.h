@@ -1,34 +1,25 @@
-/****************************************************************************
-** Copyright (C) 2009 Мясников Алексей Сергеевич.
-** Contact: AlekseyMyasnikov@yandex.ru
-**          amyasnikov@npomis.ru
-**          AlekseyMyasnikov@mail.ru
-**          MyasnikovAleksey@mail.ru
-** Этот файл является частью реализации библиотеки островного генетического
-** алгоритма с динамическим распределением вероятностей выбора генетических
-** операторов в каждой группе операторов
-** Данная библиотека является свободным программным обеспечением. Вы вправе
-** распространять её и/или модифицировать в соответствии с условиями версии 3
-** либо по вашему выбору с условиями более поздней версии Стандартной
-** Общественной Лицензии Ограниченного Применения GNU, опубликованной
-** Free Software Foundation.
-** Я распространяю эту библиотеку в надежде на то, что она будет вам
-** полезной, однако НЕ ПРЕДОСТАВЛЯЮ НА НЕЕ НИКАКИХ ГАРАНТИЙ, в том числе
-** ГАРАНТИИ ТОВАРНОГО СОСТОЯНИЯ ПРИ ПРОДАЖЕ и ПРИГОДНОСТИ ДЛЯ ИСПОЛЬЗОВАНИЯ
-** В КОНКРЕТНЫХ ЦЕЛЯХ. Для получения более подробной информации ознакомьтесь
-** со Стандартной Общественной Лицензией Ограниченного Применений GNU в
-** файле LICENSE в корне исходных текстов проекта или по адресу:
-** http://www.gnu.org/copyleft/lgpl.html.
-** Обращаю Ваше внимание на то, что библиотека InsularGenetica
-** зарегистрирована Российским агенством по патентам и товарным знакам
-** (РОСПАТЕНТ), о чем выдано "Свидетельство об официальной регистрации
-** программы для ЭВМ" за № FIXME от FIXME FIXME FIXME года. Копия
-** свидетельства о регистрации представлена в файле CERTIFICATE
-** в корне проекта.
-** Это не накладывает на конечных разработчиков/пользователей никаких
-** дополнительных ограничений, кроме предусмотренных GNU Lesser GPL,
-** ПРИ СОХРАНЕНИИ ИНФОРМАЦИИ О РАЗРАБОТЧИКЕ ЭТОЙ БИБЛИОТЕКИ.
-****************************************************************************/
+/****************************************************************
+Copyright (C) 2009 Aleksey Myasnikov
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+in file LICENSE along with this program.  If not, see
+<http://www.gnu.org/licenses/>
+I draw your attention to the fact that the library InsularGenetica
+is registered Russian Agency for Patents and Trademarks (ROSPATENT),
+which issued the "Certificate of official registration of computer
+programs for № FIXME FIXME FIXME FIXME". A copy of the certificate
+of registration is presented in the file CERTIFICATE in the root
+of the project. It does not impose on the end developers / users,
+no additional restrictions other than those prescribed by GNU Lesser
+GPL, while maintaining information about developer this library.
+****************************************************************/
 /**
  * @file    CInBreeding.h
  * @brief   Файл содержит класс CInBreeding отбора родительских хромосом
