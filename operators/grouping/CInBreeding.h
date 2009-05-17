@@ -24,7 +24,7 @@ GPL, while maintaining information about developer this library.
  * @file    CInBreeding.h
  * @brief   Файл содержит класс CInBreeding отбора родительских хромосом
  * @date    20/02/2009
- * @version 1.15
+ * @version 1.18
 **/
 #ifndef C_INBRIDING_H_INCLUDED
 #define C_INBRIDING_H_INCLUDED

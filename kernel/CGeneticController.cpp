@@ -25,7 +25,7 @@ GPL, while maintaining information about developer this library.
  * @brief   Файл содержит реализацию класса CGeneticController, который
  *          отвечает за бизнес-логику островной модели ГА
  * @date    23/03/2009
- * @version 1.15
+ * @version 1.18
 **/
 #include <qglobal.h>
 #if QT_VERSION < 0x040000

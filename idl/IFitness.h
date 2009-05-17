@@ -26,7 +26,7 @@ GPL, while maintaining information about developer this library.
  *          который обеспечивает единообразие
  *          доступа к целевым функциям
  * @date    20/02/2009
- * @version 1.15
+ * @version 1.18
 **/
 #ifndef FITNESS_INTERFACE
 #define FITNESS_INTERFACE

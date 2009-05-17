@@ -24,7 +24,7 @@ GPL, while maintaining information about developer this library.
  * @file    Iterface.h
  * @brief   Файл содержит базовый интерфейс Interface
  * @date    20/02/2009
- * @version 1.15
+ * @version 1.18
 **/
 #ifndef INTERFACE_H_INCLUDED
 #define INTERFACE_H_INCLUDED

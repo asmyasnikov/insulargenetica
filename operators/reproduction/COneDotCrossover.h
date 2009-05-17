@@ -24,7 +24,7 @@ GPL, while maintaining information about developer this library.
  * @file    COneDotCrossover.h
  * @brief   Файл содержит класс COneDotCrossover отбора родительских хромосом
  * @date    20/02/2009
- * @version 1.15
+ * @version 1.18
 **/
 #ifndef C_ONE_DOT_CROSSOVER_H_INCLUDED
 #define C_ONE_DOT_CROSSOVER_H_INCLUDED

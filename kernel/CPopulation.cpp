@@ -26,7 +26,7 @@ GPL, while maintaining information about developer this library.
  *          который является аналогом популяции
  *          в генетическом программировании
  * @date    13/02/2009
- * @version 1.15
+ * @version 1.18
 **/
 #include <math.h>
 #include "../idl/IFitness.h"

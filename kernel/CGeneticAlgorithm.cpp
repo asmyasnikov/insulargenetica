@@ -27,7 +27,7 @@ GPL, while maintaining information about developer this library.
  *          модулей генетического алгоритма, за динамическое определение
  *          частот использования генетических операторов
  * @date    05/03/2009
- * @version 1.15
+ * @version 1.18
 **/
 #include "CGeneticAlgorithm.h"
 #include <math.h>

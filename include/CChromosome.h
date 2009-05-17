@@ -26,7 +26,7 @@ GPL, while maintaining information about developer this library.
  *          который является аналогом хромосомы
  *          в генетическом программировании
  * @date    20/02/2009
- * @version 1.15
+ * @version 1.18
 **/
 #ifndef CCHROMOSOME_H_INCLUDED
 #define CCHROMOSOME_H_INCLUDED

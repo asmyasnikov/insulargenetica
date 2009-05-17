@@ -25,7 +25,7 @@ GPL, while maintaining information about developer this library.
  * @brief   Файл содержит реализацию вспомогательных методов,
  *          необходимых при расчете целевой функции
  * @date    20/02/2009
- * @version 1.15
+ * @version 1.18
 **/
 #include "../include/CFitnessHelper.h"
 #include "../include/CChromosome.h"

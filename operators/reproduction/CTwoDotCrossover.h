@@ -24,7 +24,7 @@ GPL, while maintaining information about developer this library.
  * @file    CTwoDotCrossover.h
  * @brief   Файл содержит класс CTwoDotCrossover отбора родительских хромосом
  * @date    20/02/2009
- * @version 1.15
+ * @version 1.18
 **/
 #ifndef C_TWO_DOT_CROSSOVER_H_INCLUDED
 #define C_TWO_DOT_CROSSOVER_H_INCLUDED

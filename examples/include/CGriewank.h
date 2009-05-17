@@ -25,7 +25,7 @@ GPL, while maintaining information about developer this library.
  * @brief   Файл содержит класс CGriewank,
  *          который реализует тестовую целевую функцию CGriewank.
  * @date    04/03/2009
- * @version 1.15
+ * @version 1.18
 **/
 
 #ifndef C_GRIEWANK_MODULE_H_INCLUDED

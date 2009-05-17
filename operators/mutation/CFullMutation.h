@@ -24,7 +24,7 @@ GPL, while maintaining information about developer this library.
  * @file    CFullMutation.h
  * @brief   Файл содержит класс CFullMutation отбора родительских хромосом
  * @date    20/02/2009
- * @version 1.15
+ * @version 1.18
 **/
 #ifndef C_FULL_MUTATION_H_INCLUDED
 #define C_FULL_MUTATION_H_INCLUDED

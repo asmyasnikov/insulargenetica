@@ -25,7 +25,7 @@ GPL, while maintaining information about developer this library.
  * @brief   Файл содержит класс CRastrigin,
  *          который реализует тестовую целевую функцию Растригина.
  * @date    10/02/2009
- * @version 1.15
+ * @version 1.18
 **/
 
 #include "../../include/CRastrigin.h"

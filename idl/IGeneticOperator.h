@@ -24,7 +24,7 @@ GPL, while maintaining information about developer this library.
  * @file    IGeneticOperator.h
  * @brief   Файл содержит интерфейс IGeneticOperator
  * @date    20/02/2009
- * @version 1.15
+ * @version 1.18
 **/
 #ifndef INTERFACE_GENETIC_OPERATOR_H
 #define INTERFACE_GENETIC_OPERATOR_H

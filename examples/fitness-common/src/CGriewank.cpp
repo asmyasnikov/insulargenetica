@@ -25,7 +25,7 @@ GPL, while maintaining information about developer this library.
  * @brief   Файл содержит класс CGriewank,
  *          который реализует тестовую целевую функцию Griewank.
  * @date    10/02/2009
- * @version 1.15
+ * @version 1.18
 **/
 
 #include "../../include/CGriewank.h"

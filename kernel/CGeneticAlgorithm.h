@@ -27,7 +27,7 @@ GPL, while maintaining information about developer this library.
  *          генетического алгоритма, за динамическое определение частот
  *          использования генетических операторов
  * @date    05/03/2009
- * @version 1.15
+ * @version 1.18
 **/
 #ifndef GENETIC_ALGORITHM_FACTORY_H_INCLUDED
 #define GENETIC_ALGORITHM_FACTORY_H_INCLUDED

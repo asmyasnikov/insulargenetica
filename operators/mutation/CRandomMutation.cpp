@@ -24,7 +24,7 @@ GPL, while maintaining information about developer this library.
  * @file    CRandomMutation.cpp
  * @brief   Файл содержит класс CRandomMutation отбора родительских хромосом
  * @date    20/02/2009
- * @version 1.15
+ * @version 1.18
 **/
 #include "CRandomMutation.h"
 #include <math.h>

@@ -24,7 +24,7 @@ GPL, while maintaining information about developer this library.
  * @file    CBestWithAll.h
  * @brief   Файл содержит класс CBestWithAll отбора родительских хромосом
  * @date    20/02/2009
- * @version 1.15
+ * @version 1.18
 **/
 #ifndef C_BEST_WITH_ALL_H_INCLUDED
 #define C_BEST_WITH_ALL_H_INCLUDED

@@ -25,7 +25,7 @@ GPL, while maintaining information about developer this library.
  * @brief   Файл содержит класс CDeJong,
  *          который реализует тестовую целевую функцию DeJong'а.
  * @date    22/02/2009
- * @version 1.15
+ * @version 1.18
 **/
 
 #include "../../include/CDeJong.h"
