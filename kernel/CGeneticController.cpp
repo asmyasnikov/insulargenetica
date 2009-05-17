@@ -88,7 +88,16 @@ CGeneticController::
 CGeneticController(IFitness*     fitness,
                    unsigned int  population,
                    unsigned int  island,
-                   unsigned long minutes )
+                   unsigned long minutes,
+                   ICancelService* cancel_service) :
+    m_cancel_service(cancel_service),
+    m_mutex(
+#if QT_VERSION < 0x040000
+            true
+#else
+            QMutex::Recursive
+#endif
+           )
 {
     m_function = new CFitnessSafeThreadFunction(fitness);
     CChromosome::setFitnessFunction(m_function);
@@ -123,7 +132,7 @@ CGeneticController(IFitness*     fitness,
     m_operators.append(new CBetterAverageFitness);
     for(unsigned int i = 0; i < island; i++)
     {
-        CGeneticAlgorithm*alg = new CGeneticAlgorithm(m_operators,m_minutes);
+        CGeneticAlgorithm*alg = new CGeneticAlgorithm(this, m_operators,m_minutes);
         m_algorithms.append(alg);
     };
     CGeneticAlgorithm*prev = NULL;
@@ -262,11 +271,12 @@ InsularGenetica::
 CPopulation
 InsularGenetica::
 CGeneticController::
-calc(IFitness*    fitness,
-     unsigned int chromosom,
-     unsigned int population,
-     unsigned int minutes,
-     int          island)
+calc(IFitness*       fitness,
+     unsigned int    chromosom,
+     unsigned int    population,
+     unsigned int    minutes,
+     int             island,
+     ICancelService* cancel_service)
 {
     Q_ASSERT(population);
     Q_ASSERT(chromosom);
@@ -302,36 +312,10 @@ calc(IFitness*    fitness,
     };
     CGeneticAlgorithm::setPopulationSize(population);
     CChromosome::setSize(chromosom);
-    CGeneticController control(fitness, population, island, minutes);
+    CGeneticController control(fitness, population, island, minutes, cancel_service);
     control.start(QThread::LowPriority);
     control.wait();
     return control.m_best_solutions;
-};
-/**
- * @brief Отмена расчета алгоритма
-**/
-void
-InsularGenetica::
-CGeneticController::
-cancel()
-{
-    for(
-#if QT_VERSION < 0x040000
-        QValueList<CGeneticAlgorithm*>::iterator i = m_algorithms.begin();
-#else
-        QList<CGeneticAlgorithm*>::iterator i = m_algorithms.begin();
-#endif
-        i != m_algorithms.end(); i++)
-    {
-#if QT_VERSION < 0x040000
-        if(!(*i)->running())
-#else
-        if(!(*i)->isRunning())
-#endif
-        {
-            (*i)->cancel();
-        }
-    }
 };
 /**
  * @brief Статический метод конструирования потока "калькулятора"
@@ -351,11 +335,12 @@ InsularGenetica::
 CGeneticController*
 InsularGenetica::
 CGeneticController::
-getCalculator(IFitness*    fitness,
-              unsigned int chromosom,
-              unsigned int population,
-              unsigned int minutes,
-              int          island )
+getCalculator(IFitness*       fitness,
+              unsigned int    chromosom,
+              unsigned int    population,
+              unsigned int    minutes,
+              int             island,
+              ICancelService* cancel_service )
 {
     Q_ASSERT(population);
     Q_ASSERT(chromosom);
@@ -394,7 +379,8 @@ getCalculator(IFitness*    fitness,
     CGeneticController*control = new CGeneticController(fitness,
                                                         population,
                                                         island,
-                                                        minutes);
+                                                        minutes,
+                                                        cancel_service);
     return control;
 };
 /**
@@ -414,4 +400,18 @@ getBestSolutions(int size)
         result.addChromosome(m_best_solutions.getChromosome(i));
     }
     return result;
+};
+/**
+ * @brief   This method provides canceling evaluations.
+ *          The method may be not safe-thread.
+ * @return  cancel status
+**/
+bool
+InsularGenetica::
+CGeneticController::
+isCanceled()
+{
+    QMutexLocker locker(&m_mutex);
+    if(m_cancel_service) return m_cancel_service->isCanceled();
+    else                 return false;
 };

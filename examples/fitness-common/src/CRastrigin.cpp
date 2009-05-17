@@ -48,7 +48,11 @@ GPL, while maintaining information about developer this library.
 /**
  * @brief   Базовый конструктор
 **/
-CRastrigin::CRastrigin() : CFitnessHelper(10) {};
+CRastrigin::CRastrigin() : CFitnessHelper(10)
+{
+    min = -5.12;
+    max =  5.12;
+};
 /**
  * @brief   Конструктор
  * @param   count - количество переменных целевой функции
@@ -59,6 +63,8 @@ CRastrigin::CRastrigin(unsigned int count, bool invert, double filter) :
     m_invert(invert),
     m_filter(filter)
 {
+    min = -5.12;
+    max =  5.12;
 };
 /**
  * @brief   Деструктор
@@ -73,7 +79,7 @@ double CRastrigin::calc(const InsularGenetica::CChromosome& chr)
     double result = 0.;
     for(unsigned long i = 0; i < m_count; i++)
     {
-        double x = (decode(chr, i)-0.5)*10.24;
+        double x = (decode(chr, i)-0.5)*(max-min);
         result  += (10.*(cos(2.*M_PI*x)-1) - x*x);
     }
     if(m_filter > 0. && m_filter <= 1.)

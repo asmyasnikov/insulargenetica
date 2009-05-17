@@ -205,7 +205,7 @@ int main(int argc, char**argv)
 #else
     IFitness*f = m_fitness_modules.at(fid);
 #endif
-    CGeneticController*calculator = CGeneticController::getCalculator(f,chrsize,popsize,limit,island);
+    CGeneticController*calculator = CGeneticController::getCalculator(f,chrsize,popsize,limit,island,NULL);
     CPopulation best = calculator->getBestSolutions(3);
     delete calculator;
     std::cout << QObject::trUtf8("Average fitness of population = %1")

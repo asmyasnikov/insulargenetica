@@ -73,6 +73,10 @@ namespace InsularGenetica
         **/
         double decode(const CChromosome& chr,
                       unsigned int       index) const;
+
+    protected:
+        double min;
+        double max;
     };
 };
 #endif // C_FITNESS_

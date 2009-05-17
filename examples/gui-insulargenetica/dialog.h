@@ -5,38 +5,33 @@
 #include <QtCore/QTimer>
 #include <QtCore/QLibrary>
 #include <../../idl/IFitness.h>
+#include <../../idl/ICancelService.h>
 
 namespace Ui
 {
     class DialogClass;
 }
 
-namespace InsularGenetica
-{
-    class CGeneticController;
-}
-
-class Dialog : public QDialog
+class Dialog : public QDialog,
+               public InsularGenetica::ICancelService
 {
     Q_OBJECT
 
 public:
     Dialog(QWidget *parent = 0);
     ~Dialog();
+    bool isCanceled();
 
 public slots:
-    void calc();
-    void cancel();
+    void calc(bool);
     void setMaxResults();
     void updateTime();
 
 private:
     Ui::DialogClass *ui;
     QTimer timer;
-    bool calc_state;
     QList<InsularGenetica::IFitness*> m_fitness_modules;
     QList<QLibrary*> m_fitness_libraries;
-    InsularGenetica::CGeneticController*calculator;
 };
 
 #endif // DIALOG_H

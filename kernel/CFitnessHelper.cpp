@@ -117,7 +117,7 @@ genotype2phenotype(const CChromosome& chr)
     result;
     for(unsigned int i = 0; i < m_count; i++)
     {
-        result.append(decode(chr, i));
+        result.append(decode(chr, i)*(max-min)+min);
     }
     return result;
 }

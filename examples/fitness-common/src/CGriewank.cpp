@@ -42,7 +42,11 @@ GPL, while maintaining information about developer this library.
 /**
  * @brief   Базовый конструктор
 **/
-CGriewank::CGriewank() : CFitnessHelper(10) {};
+CGriewank::CGriewank() : CFitnessHelper(10)
+{
+    min = -20.;
+    max =  20.;
+};
 /**
  * @brief   Конструктор
  * @param   count - количество переменных целевой функции
@@ -51,6 +55,8 @@ CGriewank::CGriewank(unsigned int count, bool invert) :
     CFitnessHelper(count),
     m_invert(invert)
 {
+    min = -20.;
+    max =  20.;
 };
 /**
  * @brief   Деструктор
@@ -67,7 +73,7 @@ double CGriewank::calc(const InsularGenetica::CChromosome& chr)
     double summ         = 0.;
     for(unsigned long i = 0; i < m_count; i++)
     {
-        double x      = (decode(chr, i)-0.5)*40;
+        double x      = (decode(chr, i)-0.5)*(max-min);
         summ         += x*x/4000;
         multiplicate *= cos(x/sqrt(double(i+1)));
     }

@@ -88,7 +88,7 @@ setPopulationSize(unsigned int size)
 **/
 InsularGenetica::
 CGeneticAlgorithm::
-CGeneticAlgorithm(
+CGeneticAlgorithm(ICancelService*cancel_service,
 #if QT_VERSION < 0x040000
                   QValueList<IGeneticOperator*>operators,
 #else
@@ -106,6 +106,7 @@ CGeneticAlgorithm(
            )
 {
     QMutexLocker locker(&m_mutex);
+    m_cancel_service = cancel_service;
     m_result_code = NoCode;
     m_population = CPopulation(m_population_size);
     initLibraries(m_selections   , operators);
@@ -323,11 +324,11 @@ run()
     {
         if(timer.elapsed() > PROCESS_EVENTS_TIME_MSECONDS)
         {
-#if QT_VERSION < 0x040000
-            qApp->processEvents();
-#else
-            QCoreApplication::processEvents();
-#endif
+            if(m_cancel_service->isCanceled())
+            {
+                QMutexLocker locker(&m_mutex);
+                m_result_code = Cancel;
+            }
             timer.restart();
         }
         ISelection   *m_selection    = getGeneticOperator(m_selections   );

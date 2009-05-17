@@ -41,6 +41,7 @@ GPL, while maintaining information about developer this library.
     #include <QtCore/QSet>
 #endif
 #include "CPopulation.h"
+#include "../idl/ICancelService.h"
 namespace InsularGenetica
 {
     class CGeneticAlgorithm;
@@ -85,7 +86,8 @@ namespace InsularGenetica
      *        |
      *
     **/
-    struct Q_DECL_EXPORT CGeneticController : protected QThread
+    struct Q_DECL_EXPORT CGeneticController : protected QThread,
+                                              public ICancelService
     {
         enum OperatorType
         {
@@ -100,10 +102,6 @@ namespace InsularGenetica
         **/
         ~CGeneticController(void);
         /**
-         * @brief Отмена расчета алгоритма
-        **/
-        void cancel();
-        /**
          * @brief Получить результаты расчета
         **/
         CPopulation getBestSolutions(int size);
@@ -115,18 +113,19 @@ namespace InsularGenetica
          * @param minutes - максимальное количество минут для расчета,
          * @param island - количество островов алгоритма. При (island = -1)
          *                 количество островов определяется автоматически
-         *                 (в2 раза больше числа установленных процессоров).
+         *                 (в 2 раза больше числа установленных процессоров).
          *  `              По определению, надежность решения повышается при
          *                 увеличении числа островов. Однако время поиска
          *                 увеличивается за счет потребления ресурсов при
          *                 передаче управления "островам".
          * Допускается НЕпотокобезопасная реализация функции здоровья
         **/
-        static CPopulation calc(IFitness*    fitness,
-                                unsigned int chromosom,
-                                unsigned int population = 128,
-                                unsigned int minutes = 60,
-                                int          island = -1);
+        static CPopulation calc(IFitness*       fitness,
+                                unsigned int    chromosom,
+                                unsigned int    population = 128,
+                                unsigned int    minutes = 60,
+                                int             island = -1,
+                                ICancelService* cancel_service = NULL);
         /**
          * @brief Статический метод конструирования потока "калькулятора"
          * @param fitness - целевая функция (функция здоровья),
@@ -142,20 +141,28 @@ namespace InsularGenetica
          *                 передаче управления "островам".
          * Допускается НЕпотокобезопасная реализация функции здоровья
         **/
-        static CGeneticController*getCalculator(IFitness*    fitness,
-                                                unsigned int chromosom,
-                                                unsigned int population = 128,
-                                                unsigned int minutes = 60,
-                                                int          island = -1 );
+        static CGeneticController*getCalculator(IFitness*       fitness,
+                                                unsigned int    chromosom,
+                                                unsigned int    population = 128,
+                                                unsigned int    minutes = 60,
+                                                int             island = -1,
+                                                ICancelService* cancel_service = NULL);
+        /**
+         * @brief   This method provides canceling evaluations.
+         *          The method may be not safe-thread.
+         * @return  cancel status
+        **/
+        bool isCanceled();
     private:
         /**
          * @brief Конструктор
          * @param island - количество островов
         **/
-        CGeneticController(IFitness*     fitness,
-                           unsigned int  population,
-                           unsigned int  island,
-                           unsigned long minutes);
+        CGeneticController(IFitness*       fitness,
+                           unsigned int    population,
+                           unsigned int    island,
+                           unsigned long   minutes,
+                           ICancelService* cancel_service = NULL);
         /**
          * @brief Основной цикл потока
         **/
@@ -180,6 +187,10 @@ namespace InsularGenetica
         unsigned long                  m_minutes;
         ///<! Функция расчета здоровья хромосомы
         IFitness*                      m_function;
+        ///<! Cancel service pointer
+        ICancelService*                m_cancel_service;
+        ///<! Locker
+        QMutex                         m_mutex;
     };
 };
 #endif // C_GENETIC_CONTROLLER_H_INCLUDED

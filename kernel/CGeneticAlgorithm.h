@@ -44,6 +44,7 @@ GPL, while maintaining information about developer this library.
     #include <QtCore/QList>
 #endif
 #include "../idl/IGeneticOperator.h"
+#include "../idl/ICancelService.h"
 #include "../include/CPopulation.h"
 class QString;
 namespace InsularGenetica
@@ -78,7 +79,7 @@ namespace InsularGenetica
          * @param operators - Генетические операторы
          * @param minutes   - Ограничение по времени
         **/
-        CGeneticAlgorithm(
+        CGeneticAlgorithm(ICancelService*cancel_service,
 #if QT_VERSION < 0x040000
                           QValueList<IGeneticOperator*> operators,
 #else
@@ -178,6 +179,8 @@ namespace InsularGenetica
         CGeneticAlgorithm*                         m_neighbour;
         ///<! Блокатор совместных данных
         mutable QMutex                             m_mutex;
+        ///<! Cancel service pointer
+        ICancelService*                m_cancel_service;
     };
 };
 #endif // GENETIC_ALGORITHM_FACTORY_H_INCLUDED

@@ -232,7 +232,7 @@
     <value type="QString" >CONFIG+=release</value>
    </valuelist>
    <value key="abstractProcess.command" type="QString" >C:/Qt/2009.01/qt/bin/qmake.exe</value>
-   <value key="abstractProcess.enabled" type="bool" >true</value>
+   <value key="abstractProcess.enabled" type="bool" >false</value>
    <value key="abstractProcess.workingDirectory" type="QString" >E:/source/insulargenetica/examples/gui-insulargenetica</value>
    <value key="buildConfiguration" type="int" >8</value>
   </valuemap>

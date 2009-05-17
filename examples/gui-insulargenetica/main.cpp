@@ -1,4 +1,5 @@
 #include <QtGui/QApplication>
+#include <QtCore/QThread>
 #include "dialog.h"
 
 int main(int argc, char *argv[])

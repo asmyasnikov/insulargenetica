@@ -42,7 +42,11 @@ GPL, while maintaining information about developer this library.
 /**
  * @brief   Базовый конструктор
 **/
-CDeJong::CDeJong() : CFitnessHelper(10) {};
+CDeJong::CDeJong() : CFitnessHelper(2)
+{
+    min = -65.036;
+    max =  65.036;
+};
 /**
  * @brief   Конструктор
  * @param   count - количество переменных целевой функции
@@ -52,6 +56,14 @@ CDeJong::CDeJong(unsigned int count, bool invert) :
     m_invert(invert)
 {
     Q_ASSERT((m_count == 2) || (m_count == 5));
+    if(m_count == 2)
+    {
+        min = -65.036;
+        max =  65.036;
+    }else{
+        min = -5.12;
+        max =  5.12;
+    }
 };
 /**
  * @brief   Деструктор
@@ -66,8 +78,8 @@ double CDeJong::calc(const InsularGenetica::CChromosome& chr)
     double result = (m_count == 2 ? 0.002 : 0.);
     if(m_count == 2)
     {
-        double x1 = (decode(chr, 0)-0.5)*131.072;
-        double x2 = (decode(chr, 1)-0.5)*131.072;
+        double x1 = (decode(chr, 0)-0.5)*(max-min);
+        double x2 = (decode(chr, 1)-0.5)*(max-min);
         for(int j = 1; j < 26; j++)
         {
             result += 1./(double(j)+pow(x1-16.*(double(j/5)-2.),6.)+
@@ -76,7 +88,7 @@ double CDeJong::calc(const InsularGenetica::CChromosome& chr)
     }else if(m_count == 5){
         for(unsigned long i = 0; i < m_count; i++)
         {
-            double x = (decode(chr, i)-0.5)*10.24;
+            double x = (decode(chr, i)-0.5)*(max-min);
             result += floor(x);
         }
     }

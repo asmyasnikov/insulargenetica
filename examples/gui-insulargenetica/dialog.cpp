@@ -6,19 +6,17 @@
 #include "../../include/CChromosome.h"
 #include "../../include/CGeneticController.h"
 #include <QtCore/QDir>
+#include <QtCore/QDebug>
 
 Dialog::Dialog(QWidget *parent)
     : QDialog(parent),
       ui(new Ui::DialogClass),
-      timer(this),
-      calculator(NULL)
+      timer(this)
 {
     ui->setupUi(this);
     ui->dte_max_datetime->setDateTime(QDateTime::currentDateTime().addSecs(60));
     connect(&timer, SIGNAL(timeout()), SLOT(updateTime()));
     timer.start(1000);
-    calc_state = false;
-    ui->btn_cancel->hide();
     QDir dir("fitness");
     dir.setFilter(QDir::Files);
     QStringList filters;
@@ -64,81 +62,68 @@ Dialog::~Dialog()
 {
     delete ui;
 }
-void Dialog::calc()
+void Dialog::calc(bool state)
 {
-    calc_state = true;
-    ui->btn_cancel->show();
-    ui->btn_calc->hide();
-    ui->tbl_results->setRowCount(0);
-    ui->tbl_results->setColumnCount(0);
-    ui->progress->setValue(0);
-    if(ui->cmb_fitness_functions->count())
+    if(state)
     {
-        InsularGenetica::IFitness*f = m_fitness_modules.at(ui->cmb_fitness_functions->currentIndex());
-        InsularGenetica::CGeneticController*calculator =
-                InsularGenetica::CGeneticController::getCalculator(f,
-                                                                   ui->cpin_box_chromosome_size->value(),
-                                                                   ui->cpin_box_population_size->value(),
-                                                                   qMax(1,QDateTime::currentDateTime().secsTo(ui->dte_max_datetime->dateTime())/60),
-                                                                   ui->cpin_box_islands_size->value());
-        InsularGenetica::CPopulation best = 
-                calculator->getBestSolutions(ui->spin_box_results_count->value());
-        delete calculator;
-        calculator = NULL;
-        InsularGenetica::CFitnessHelper *helper = dynamic_cast<InsularGenetica::CFitnessHelper*>(f);
-        for(int i = 0; i < best.size(); i++)
+        ui->btn_calc->setText(trUtf8("Cancel"));
+        ui->tbl_results->setRowCount(0);
+        ui->tbl_results->setColumnCount(0);
+        ui->progress->setValue(0);
+        if(ui->cmb_fitness_functions->count())
         {
-            ui->tbl_results->setRowCount(ui->tbl_results->rowCount()+1);
-            InsularGenetica::CChromosome chr = best.getChromosome(i);
-            if(helper)
+            InsularGenetica::IFitness*f = m_fitness_modules.at(ui->cmb_fitness_functions->currentIndex());
+            InsularGenetica::CPopulation best =
+                InsularGenetica::CGeneticController::calc(f,
+                                                          ui->cpin_box_chromosome_size->value(),
+                                                          ui->cpin_box_population_size->value(),
+                                                          qMax(1,QDateTime::currentDateTime().secsTo(ui->dte_max_datetime->dateTime())/60),
+                                                          ui->cpin_box_islands_size->value(),
+                                                          this);
+            InsularGenetica::CFitnessHelper *helper = dynamic_cast<InsularGenetica::CFitnessHelper*>(f);
+            for(int i = 0; i < qMin(best.size(),ui->spin_box_results_count->value()); i++)
             {
-                QList<double>phenotype = helper->genotype2phenotype(chr);
-                ui->tbl_results->setColumnCount(qMax(ui->tbl_results->columnCount(),phenotype.size()));
-                for(int j = 0; j < phenotype.size(); j++)
+                ui->tbl_results->setRowCount(ui->tbl_results->rowCount()+1);
+                InsularGenetica::CChromosome chr = best.getChromosome(i);
+                if(helper)
                 {
-                    ui->tbl_results->setItem(ui->tbl_results->rowCount()-1, j,
-                                             new QTableWidgetItem(QString::number(phenotype.at(j))));
+                    QList<double>phenotype = helper->genotype2phenotype(chr);
+                    ui->tbl_results->setColumnCount(qMax(ui->tbl_results->columnCount(),phenotype.size()));
+                    for(int j = 0; j < phenotype.size(); j++)
+                    {
+                        ui->tbl_results->setItem(ui->tbl_results->rowCount()-1, j,
+                                                 new QTableWidgetItem(QString::number(phenotype.at(j))));
+                    }
+                }else{
+                    ui->tbl_results->setColumnCount(qMax(ui->tbl_results->columnCount(),1));
+                    char* code = new char[InsularGenetica::CChromosome::size()+1];
+                    for(unsigned int i = 0; i < InsularGenetica::CChromosome::size(); ++i)
+                    {
+                        code[i] = chr.getGene(i) ? '1' : '0';
+                    }
+                    code[InsularGenetica::CChromosome::size()] = '\0';
+                    ui->tbl_results->setItem(ui->tbl_results->rowCount()-1, 0,
+                                             new QTableWidgetItem(QString(code)));
+                    delete[] code;
                 }
-            }else{
-                ui->tbl_results->setColumnCount(qMax(ui->tbl_results->columnCount(),1));
-                char* code = new char[InsularGenetica::CChromosome::size()+1];
-                for(unsigned int i = 0; i < InsularGenetica::CChromosome::size(); ++i)
+                if(!i)
                 {
-                    code[i] = chr.getGene(i) ? '1' : '0';
+                    ui->tbl_results->setColumnCount(ui->tbl_results->columnCount()+1);
                 }
-                code[InsularGenetica::CChromosome::size()] = '\0';
-                ui->tbl_results->setItem(ui->tbl_results->rowCount()-1, 0,
-                                         new QTableWidgetItem(QString(code)));
-                delete[] code;
+                ui->tbl_results->setItem(ui->tbl_results->rowCount()-1, ui->tbl_results->columnCount()-1,
+                                         new QTableWidgetItem(QString::number(chr.fitness())));
             }
-            if(!i)
+            QStringList headers;
+            for(int i = 0; i < ui->tbl_results->columnCount()-1; i++)
             {
-                ui->tbl_results->setColumnCount(ui->tbl_results->columnCount()+1);
+                headers.append(trUtf8("X%1").arg(i));
             }
-            ui->tbl_results->setItem(ui->tbl_results->rowCount()-1, ui->tbl_results->columnCount()-1,
-                                     new QTableWidgetItem(QString::number(chr.fitness())));
+            headers.append(trUtf8("Fitness"));
+            ui->tbl_results->setHorizontalHeaderLabels(headers);
         }
-        QStringList headers;
-        for(int i = 0; i < ui->tbl_results->columnCount()-1; i++)
-        {
-            headers.append(trUtf8("X%1").arg(i));
-        }
-        headers.append(trUtf8("Fitness"));
-        ui->tbl_results->setHorizontalHeaderLabels(headers);
-    }
-    ui->progress->setValue(0);
-    calc_state = false;
-    ui->btn_cancel->hide();
-    ui->btn_calc->show();
-}
-void Dialog::cancel()
-{
-    calc_state = false;
-    ui->btn_cancel->hide();
-    ui->btn_calc->show();
-    if(calculator)
-    {
-        calculator->cancel();
+        ui->progress->setValue(0);
+        ui->btn_calc->setText(trUtf8("Evaluate"));
+        ui->btn_calc->setChecked(false);
     }
 }
 void Dialog::setMaxResults()
@@ -150,7 +135,7 @@ void Dialog::setMaxResults()
 void Dialog::updateTime()
 {
     static QDateTime startdt;
-    if(!calc_state)
+    if(!ui->btn_calc->isChecked())
     {
         if(QDateTime::currentDateTime().secsTo(ui->dte_max_datetime->dateTime()) < 60)
         {
@@ -158,8 +143,14 @@ void Dialog::updateTime()
         }
         startdt = QDateTime::currentDateTime();
     }else{
-        ui->progress->setValue(int(double(QDateTime::currentDateTime().secsTo(ui->dte_max_datetime->dateTime()))/
-                                   double(startdt.secsTo(ui->dte_max_datetime->dateTime()))*
-                                   100.));
+        ui->progress->setValue(100-int(double(QDateTime::currentDateTime().secsTo(ui->dte_max_datetime->dateTime()))/
+                                       double(startdt.secsTo(ui->dte_max_datetime->dateTime()))*
+                                       100.));
     }
+}
+bool Dialog::isCanceled()
+{
+    updateTime();
+    QApplication::processEvents(QEventLoop::AllEvents);
+    return !ui->btn_calc->isChecked();
 }
