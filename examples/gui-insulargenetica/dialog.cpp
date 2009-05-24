@@ -11,6 +11,7 @@
 Dialog::Dialog(QWidget *parent)
     : QDialog(parent),
       ui(new Ui::DialogClass),
+      calc_thread(NULL),
       timer(this)
 {
     ui->setupUi(this);
@@ -60,70 +61,22 @@ Dialog::Dialog(QWidget *parent)
 
 Dialog::~Dialog()
 {
+    if(calc_thread) delete calc_thread;
     delete ui;
 }
 void Dialog::calc(bool state)
 {
     if(state)
     {
+        QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+        ui->btn_exit->setEnabled(false);
         ui->btn_calc->setText(trUtf8("Cancel"));
         ui->tbl_results->setRowCount(0);
         ui->tbl_results->setColumnCount(0);
         ui->progress->setValue(0);
-        if(ui->cmb_fitness_functions->count())
-        {
-            InsularGenetica::IFitness*f = m_fitness_modules.at(ui->cmb_fitness_functions->currentIndex());
-            InsularGenetica::CPopulation best =
-                InsularGenetica::CGeneticController::calc(f,
-                                                          ui->cpin_box_chromosome_size->value(),
-                                                          ui->cpin_box_population_size->value(),
-                                                          qMax(1,QDateTime::currentDateTime().secsTo(ui->dte_max_datetime->dateTime())/60),
-                                                          ui->cpin_box_islands_size->value(),
-                                                          this);
-            InsularGenetica::CFitnessHelper *helper = dynamic_cast<InsularGenetica::CFitnessHelper*>(f);
-            for(int i = 0; i < qMin(best.size(),ui->spin_box_results_count->value()); i++)
-            {
-                ui->tbl_results->setRowCount(ui->tbl_results->rowCount()+1);
-                InsularGenetica::CChromosome chr = best.getChromosome(i);
-                if(helper)
-                {
-                    QList<double>phenotype = helper->genotype2phenotype(chr);
-                    ui->tbl_results->setColumnCount(qMax(ui->tbl_results->columnCount(),phenotype.size()));
-                    for(int j = 0; j < phenotype.size(); j++)
-                    {
-                        ui->tbl_results->setItem(ui->tbl_results->rowCount()-1, j,
-                                                 new QTableWidgetItem(QString::number(phenotype.at(j))));
-                    }
-                }else{
-                    ui->tbl_results->setColumnCount(qMax(ui->tbl_results->columnCount(),1));
-                    char* code = new char[InsularGenetica::CChromosome::size()+1];
-                    for(unsigned int i = 0; i < InsularGenetica::CChromosome::size(); ++i)
-                    {
-                        code[i] = chr.getGene(i) ? '1' : '0';
-                    }
-                    code[InsularGenetica::CChromosome::size()] = '\0';
-                    ui->tbl_results->setItem(ui->tbl_results->rowCount()-1, 0,
-                                             new QTableWidgetItem(QString(code)));
-                    delete[] code;
-                }
-                if(!i)
-                {
-                    ui->tbl_results->setColumnCount(ui->tbl_results->columnCount()+1);
-                }
-                ui->tbl_results->setItem(ui->tbl_results->rowCount()-1, ui->tbl_results->columnCount()-1,
-                                         new QTableWidgetItem(QString::number(chr.fitness())));
-            }
-            QStringList headers;
-            for(int i = 0; i < ui->tbl_results->columnCount()-1; i++)
-            {
-                headers.append(trUtf8("X%1").arg(i));
-            }
-            headers.append(trUtf8("Fitness"));
-            ui->tbl_results->setHorizontalHeaderLabels(headers);
-        }
-        ui->progress->setValue(0);
-        ui->btn_calc->setText(trUtf8("Evaluate"));
-        ui->btn_calc->setChecked(false);
+        if(calc_thread) delete calc_thread;
+        calc_thread = new CalcThread(this);
+        calc_thread->start();
     }
 }
 void Dialog::setMaxResults()
@@ -150,7 +103,81 @@ void Dialog::updateTime()
 }
 bool Dialog::isCanceled()
 {
-    updateTime();
-    QApplication::processEvents(QEventLoop::AllEvents);
     return !ui->btn_calc->isChecked();
+}
+void Dialog::updateResults()
+{
+    calc_thread->updateResults();
+    QApplication::restoreOverrideCursor();
+}
+
+CalcThread::CalcThread(Dialog*_d) : d(_d), f(NULL), best(NULL)
+{
+    connect(this, SIGNAL(finished()), d, SLOT(updateResults()));
+}
+CalcThread::~CalcThread()
+{
+    if(best) delete best;
+}
+void CalcThread::run()
+{
+    if(d->ui->cmb_fitness_functions->count())
+    {
+        f = d->m_fitness_modules.at(d->ui->cmb_fitness_functions->currentIndex());
+        best = new InsularGenetica::CPopulation(
+                   InsularGenetica::CGeneticController::calc(f,
+                                                             d->ui->cpin_box_chromosome_size->value(),
+                                                             d->ui->cpin_box_population_size->value(),
+                                                             qMax(1,QDateTime::currentDateTime().secsTo(d->ui->dte_max_datetime->dateTime())/60),
+                                                             d->ui->cpin_box_islands_size->value(),
+                                                             d));
+    }
+}
+void CalcThread::updateResults()
+{
+    InsularGenetica::CFitnessHelper *helper = dynamic_cast<InsularGenetica::CFitnessHelper*>(f);
+    for(int i = 0; i < qMin(best->size(),d->ui->spin_box_results_count->value()); i++)
+    {
+        d->ui->tbl_results->setRowCount(d->ui->tbl_results->rowCount()+1);
+        InsularGenetica::CChromosome chr = best->getChromosome(i);
+        if(helper)
+        {
+            QList<double>phenotype = helper->genotype2phenotype(chr);
+            d->ui->tbl_results->setColumnCount(qMax(d->ui->tbl_results->columnCount(),phenotype.size()));
+            for(int j = 0; j < phenotype.size(); j++)
+            {
+                d->ui->tbl_results->setItem(d->ui->tbl_results->rowCount()-1, j,
+                                            new QTableWidgetItem(QString::number(phenotype.at(j))));
+            }
+        }else{
+            d->ui->tbl_results->setColumnCount(qMax(d->ui->tbl_results->columnCount(),1));
+            char* code = new char[InsularGenetica::CChromosome::size()+1];
+            for(unsigned int i = 0; i < InsularGenetica::CChromosome::size(); ++i)
+            {
+                code[i] = chr.getGene(i) ? '1' : '0';
+            }
+            code[InsularGenetica::CChromosome::size()] = '\0';
+            d->ui->tbl_results->setItem(d->ui->tbl_results->rowCount()-1, 0,
+                                        new QTableWidgetItem(QString(code)));
+            delete[] code;
+        }
+        if(!i)
+        {
+            d->ui->tbl_results->setColumnCount(d->ui->tbl_results->columnCount()+1);
+        }
+        d->ui->tbl_results->setItem(d->ui->tbl_results->rowCount()-1,
+                                    d->ui->tbl_results->columnCount()-1,
+                                    new QTableWidgetItem(QString::number(chr.fitness())));
+    }
+    QStringList headers;
+    for(int i = 0; i < d->ui->tbl_results->columnCount()-1; i++)
+    {
+        headers.append(trUtf8("X%1").arg(i));
+    }
+    headers.append(trUtf8("Fitness"));
+    d->ui->tbl_results->setHorizontalHeaderLabels(headers);
+    d->ui->progress->setValue(0);
+    d->ui->btn_calc->setText(trUtf8("Evaluate"));
+    d->ui->btn_calc->setChecked(false);
+    d->ui->btn_exit->setEnabled(true);
 }
