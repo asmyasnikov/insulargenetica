@@ -91,6 +91,7 @@ CGeneticController(IFitness*     fitness,
                    unsigned long minutes,
                    ICancelService* cancel_service) :
     m_cancel_service(cancel_service),
+    m_is_calculate(false),
     m_mutex(
 #if QT_VERSION < 0x040000
             true
@@ -186,18 +187,6 @@ CGeneticController::
         delete (*i);
     }
     m_operators.clear();
-#if QT_VERSION < 0x040000
-    if(running())
-#else
-    if(isRunning())
-#endif
-    {
-#if QT_VERSION >= 0x040000
-        setTerminationEnabled();
-        terminate();
-#endif
-        wait();
-    }
     delete m_function;
 };
 /**
@@ -206,51 +195,53 @@ CGeneticController::
 void
 InsularGenetica::
 CGeneticController::
-run()
+calculate()
 {
-    QTime timer;
-    timer.start();
+    if(!m_is_calculate)
+    {
 #if QT_VERSION < 0x040000
-    for(QValueList<CGeneticAlgorithm*>::iterator i = m_algorithms.begin();
-        i != m_algorithms.end(); i++)
-    {
-        CGeneticAlgorithm*alg = *i;
-        if(!alg->running())
+        for(QValueList<CGeneticAlgorithm*>::iterator i = m_algorithms.begin();
+            i != m_algorithms.end(); i++)
+        {
+            CGeneticAlgorithm*alg = *i;
+            if(!alg->running())
 #else
-    foreach(CGeneticAlgorithm*alg, m_algorithms)
-    {
-        if(!alg->isRunning())
+        foreach(CGeneticAlgorithm*alg, m_algorithms)
+        {
+            if(!alg->isRunning())
 #endif
-        {
-            alg->start(QThread::LowestPriority);
-        }
-    }
-#if QT_VERSION < 0x040000
-    for(QValueList<CGeneticAlgorithm*>::iterator i = m_algorithms.begin();
-        i != m_algorithms.end(); i++)
-    {
-        CGeneticAlgorithm*alg = *i;
-        if(alg->running())
-#else
-    foreach(CGeneticAlgorithm*alg, m_algorithms)
-    {
-        if(alg->isRunning())
-#endif
-        {
-            alg->wait();
-        }
-        CPopulation pop = alg->
-                          getBestChromosomes(qMax(int(m_best_solutions_size)/
-                                                  m_algorithms.size(),1));
-        for(int j = 0; j < pop.size(); j++)
-        {
-            if(m_best_solutions.size() < int(m_best_solutions_size))
             {
-                m_best_solutions.addChromosome(pop.getChromosome(j));
-            }else{
-                m_best_solutions.replaceChromosome(pop.getChromosome(j));
+                alg->start();
             }
         }
+#if QT_VERSION < 0x040000
+        for(QValueList<CGeneticAlgorithm*>::iterator i = m_algorithms.begin();
+            i != m_algorithms.end(); i++)
+        {
+            CGeneticAlgorithm*alg = *i;
+            if(alg->running())
+#else
+        foreach(CGeneticAlgorithm*alg, m_algorithms)
+        {
+            if(alg->isRunning())
+#endif
+            {
+                alg->wait();
+            }
+            CPopulation pop = alg->
+                              getBestChromosomes(qMax(int(m_best_solutions_size)/
+                                                      m_algorithms.size(),1));
+            for(int j = 0; j < pop.size(); j++)
+            {
+                if(m_best_solutions.size() < int(m_best_solutions_size))
+                {
+                    m_best_solutions.addChromosome(pop.getChromosome(j));
+                }else{
+                    m_best_solutions.replaceChromosome(pop.getChromosome(j));
+                }
+            }
+        }
+        m_is_calculate = true;
     }
 };
 /**
@@ -313,8 +304,7 @@ calc(IFitness*       fitness,
     CGeneticAlgorithm::setPopulationSize(population);
     CChromosome::setSize(chromosom);
     CGeneticController control(fitness, population, island, minutes, cancel_service);
-    control.start(QThread::LowPriority);
-    control.wait();
+    control.calculate();
     return control.m_best_solutions;
 };
 /**
@@ -392,8 +382,7 @@ InsularGenetica::
 CGeneticController::
 getBestSolutions(int size)
 {
-    start(QThread::LowPriority);
-    wait();
+    if(!m_is_calculate) calculate();
     CPopulation result;
     for(int i = 0; i < m_best_solutions.size() && i < size; i++)
     {

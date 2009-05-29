@@ -86,17 +86,8 @@ namespace InsularGenetica
      *        |
      *
     **/
-    struct Q_DECL_EXPORT CGeneticController : protected QThread,
-                                              public ICancelService
+    struct Q_DECL_EXPORT CGeneticController : public ICancelService
     {
-        enum OperatorType
-        {
-            Accepting,
-            Grouping,
-            Reproduction,
-            Selection,
-            Mutation
-        };
         /**
          * @brief Деструктор
         **/
@@ -127,7 +118,7 @@ namespace InsularGenetica
                                 int             island = -1,
                                 ICancelService* cancel_service = NULL);
         /**
-         * @brief Статический метод конструирования потока "калькулятора"
+         * @brief Статический метод конструирования "калькулятора"
          * @param fitness - целевая функция (функция здоровья),
          * @param chromosom - размер хромосомы,
          * @param population - размер популяции,
@@ -148,8 +139,7 @@ namespace InsularGenetica
                                                 int             island = -1,
                                                 ICancelService* cancel_service = NULL);
         /**
-         * @brief   This method provides canceling evaluations.
-         *          The method may be not safe-thread.
+         * @brief   This method provides canceling of evaluations.
          * @return  cancel status
         **/
         bool isCanceled();
@@ -164,10 +154,18 @@ namespace InsularGenetica
                            unsigned long   minutes,
                            ICancelService* cancel_service = NULL);
         /**
-         * @brief Основной цикл потока
+         * @brief Calculate method
         **/
-        void run();
+        void calculate();
     private:
+        enum OperatorType
+        {
+            Accepting,
+            Grouping,
+            Reproduction,
+            Selection,
+            Mutation
+        };
 #if QT_VERSION < 0x040000
         ///<! Острова - потоки генетических алгоритмов
         QValueList <CGeneticAlgorithm*>m_algorithms;
@@ -189,6 +187,8 @@ namespace InsularGenetica
         IFitness*                      m_function;
         ///<! Cancel service pointer
         ICancelService*                m_cancel_service;
+        ///<! Calculate status
+        bool                           m_is_calculate;
         ///<! Locker
         QMutex                         m_mutex;
     };

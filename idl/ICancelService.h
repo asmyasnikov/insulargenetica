@@ -28,9 +28,12 @@ GPL, while maintaining information about developer this library.
 **/
 #ifndef CANCEL_SERVICE_INTERFACE
 #define CANCEL_SERVICE_INTERFACE
+
+#include "Interface.h"
+
 namespace InsularGenetica
 {
-    struct ICancelService
+    struct ICancelService : public Interface
     {
         /**
          * @brief   This method provides canceling evaluations.
