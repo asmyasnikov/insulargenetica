@@ -22,8 +22,8 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    CGriewank.cpp
- * @brief   Файл содержит класс CGriewank,
- *          который реализует тестовую целевую функцию Griewank.
+ * @class   CGriewank
+ * @brief   Implmentation of CGriewank
  * @date    10/02/2009
  * @version 1.18
 **/
@@ -40,7 +40,7 @@ GPL, while maintaining information about developer this library.
 #endif
 
 /**
- * @brief   Базовый конструктор
+ * @brief   Base constructor
 **/
 CGriewank::CGriewank() : CFitnessHelper(10)
 {
@@ -48,8 +48,8 @@ CGriewank::CGriewank() : CFitnessHelper(10)
     max =  20.;
 };
 /**
- * @brief   Конструктор
- * @param   count - количество переменных целевой функции
+ * @brief   Constructor
+ * @param   count - variables count of De Jong function
 **/
 CGriewank::CGriewank(unsigned int count, bool invert) :
     CFitnessHelper(count),
@@ -59,12 +59,12 @@ CGriewank::CGriewank(unsigned int count, bool invert) :
     max =  20.;
 };
 /**
- * @brief   Деструктор
+ * @brief   Destructor
 **/
 CGriewank::~CGriewank(){};
 /**
- * @brief   Метод вычисления значения целевой функции
- * @return  значение функции
+ * @brief   Evaluate method
+ * @return  output value of De Jong function
 **/
 double CGriewank::calc(const InsularGenetica::CChromosome& chr)
 {
@@ -83,8 +83,8 @@ double CGriewank::calc(const InsularGenetica::CChromosome& chr)
 };
 
 /**
- * @brief   Метод получения наименования функции
- * @return  наименование функции
+ * @brief   Getting name of function
+ * @return  name of function
 **/
 const QString CGriewank::name()
 {

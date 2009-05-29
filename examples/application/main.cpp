@@ -22,7 +22,6 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    main.cpp
- * @brief   Основной файл запуска алгоритма, когда алгоритм собран как исполняемый файл
  * @date    04/03/2009
  * @version 1.18
 **/

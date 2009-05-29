@@ -22,8 +22,8 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    CDeJong.cpp
- * @brief   Файл содержит класс CDeJong,
- *          который реализует тестовую целевую функцию DeJong'а.
+ * @class   CDeJong
+ * @brief   Implementation of CDeJong
  * @date    22/02/2009
  * @version 1.18
 **/
@@ -40,7 +40,7 @@ GPL, while maintaining information about developer this library.
 #endif
 
 /**
- * @brief   Базовый конструктор
+ * @brief   Base constructor
 **/
 CDeJong::CDeJong() : CFitnessHelper(2)
 {
@@ -48,8 +48,8 @@ CDeJong::CDeJong() : CFitnessHelper(2)
     max =  65.036;
 };
 /**
- * @brief   Конструктор
- * @param   count - количество переменных целевой функции
+ * @brief   Constructor
+ * @param   count - variables count of De Jong function
 **/
 CDeJong::CDeJong(unsigned int count, bool invert) :
     CFitnessHelper(count),
@@ -66,12 +66,12 @@ CDeJong::CDeJong(unsigned int count, bool invert) :
     }
 };
 /**
- * @brief   Деструктор
+ * @brief   Destructor
 **/
 CDeJong::~CDeJong(){};
 /**
- * @brief   Метод вычисления значения целевой функции
- * @return  значение функции
+ * @brief   Evaluate method
+ * @return  output value of De Jong function
 **/
 double CDeJong::calc(const InsularGenetica::CChromosome& chr)
 {
@@ -97,8 +97,8 @@ double CDeJong::calc(const InsularGenetica::CChromosome& chr)
 };
 
 /**
- * @brief   Метод получения наименования функции
- * @return  наименование функции
+ * @brief   Getting name of function
+ * @return  name of function
 **/
 const QString CDeJong::name()
 {

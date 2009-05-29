@@ -22,8 +22,8 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    CRastrigin.h
- * @brief   Файл содержит класс CRastrigin,
- *          который реализует тестовую целевую функцию Растригина.
+ * @class   CRastrigin
+ * @brief   Declaration of CRastrigin
  * @date    10/02/2009
  * @version 1.18
 **/
@@ -38,33 +38,31 @@ GPL, while maintaining information about developer this library.
 
 class QString;
 
-
-
 struct Q_DECL_EXPORT CRastrigin : virtual public InsularGenetica::IFitness,
                                   virtual public InsularGenetica::CFitnessHelper
 {
     /**
-     * @brief   Базовый конструктор
+     * @brief   Base constructor
     **/
     CRastrigin();
     /**
-     * @brief   Конструктор
-     * @param   count  - количество переменных целевой функции
-     * @param   filter - Фильтрация хромосом по доле единичных битов [0..1]
+     * @brief   Constructor
+     * @param   count - variables count of Griewank function
+     * @param   filter - percentage of true bits in chromosome [0..1]
     **/
     CRastrigin(unsigned int count, bool invert = false, double filter = -1.);
     /**
-     * @brief   Деструктор
+     * @brief   Destructor
     **/
     ~CRastrigin();
     /**
-     * @brief   Метод вычисления значения целевой функции
-     * @return  значение функции
+     * @brief   Evaluate method
+     * @return  output value of De Jong function
     **/
     double calc(const InsularGenetica::CChromosome& chr);
     /**
-     * @brief   Метод получения наименования функции
-     * @return  наименование функции
+     * @brief   Getting name of function
+     * @return  name of function
     **/
     const QString name();
 private:

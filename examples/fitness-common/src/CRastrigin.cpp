@@ -22,8 +22,8 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    CRastrigin.cpp
- * @brief   Файл содержит класс CRastrigin,
- *          который реализует тестовую целевую функцию Растригина.
+ * @class   CRastrigin
+ * @brief   Implmentation of CRastrigin
  * @date    10/02/2009
  * @version 1.18
 **/
@@ -46,7 +46,7 @@ GPL, while maintaining information about developer this library.
 #endif
 
 /**
- * @brief   Базовый конструктор
+ * @brief   Base constructor
 **/
 CRastrigin::CRastrigin() : CFitnessHelper(10)
 {
@@ -54,9 +54,9 @@ CRastrigin::CRastrigin() : CFitnessHelper(10)
     max =  5.12;
 };
 /**
- * @brief   Конструктор
- * @param   count - количество переменных целевой функции
- * @param   filter - Фильтрация хромосом по доле единичных битов [0..1]
+ * @brief   Constructor
+ * @param   count - variables count of Griewank function
+ * @param   filter - percentage of true bits in chromosome [0..1]
 **/
 CRastrigin::CRastrigin(unsigned int count, bool invert, double filter) :
     CFitnessHelper(count),
@@ -67,12 +67,12 @@ CRastrigin::CRastrigin(unsigned int count, bool invert, double filter) :
     max =  5.12;
 };
 /**
- * @brief   Деструктор
+ * @brief   Destructor
 **/
 CRastrigin::~CRastrigin(){};
 /**
- * @brief   Метод вычисления значения целевой функции
- * @return  значение функции
+ * @brief   Evaluate method
+ * @return  output value of De Jong function
 **/
 double CRastrigin::calc(const InsularGenetica::CChromosome& chr)
 {
@@ -96,8 +96,8 @@ double CRastrigin::calc(const InsularGenetica::CChromosome& chr)
 };
 
 /**
- * @brief   Метод получения наименования функции
- * @return  наименование функции
+ * @brief   Getting name of function
+ * @return  name of function
 **/
 const QString CRastrigin::name()
 {

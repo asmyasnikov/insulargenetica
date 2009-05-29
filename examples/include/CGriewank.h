@@ -22,8 +22,8 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    CGriewank.h
- * @brief   Файл содержит класс CGriewank,
- *          который реализует тестовую целевую функцию CGriewank.
+ * @class   CGriewank
+ * @brief   Declaration of CGriewank
  * @date    04/03/2009
  * @version 1.18
 **/
@@ -42,26 +42,26 @@ struct Q_DECL_EXPORT CGriewank : virtual public InsularGenetica::IFitness,
                                  virtual public InsularGenetica::CFitnessHelper
 {
     /**
-     * @brief   Базовый конструктор
+     * @brief   Base constructor
     **/
     CGriewank();
     /**
-     * @brief   Конструктор
-     * @param   count - количество переменных целевой функции
+     * @brief   Constructor
+     * @param   count - variables count of Griewank function
     **/
     CGriewank(unsigned int count, bool invert = false);
     /**
-     * @brief   Деструктор
+     * @brief   Destructor
     **/
     ~CGriewank();
     /**
-     * @brief   Метод вычисления значения целевой функции
-     * @return  значение функции
+     * @brief   Evaluate method
+     * @return  output value of De Jong function
     **/
     double calc(const InsularGenetica::CChromosome& chr);
     /**
-     * @brief   Метод получения наименования функции
-     * @return  наименование функции
+     * @brief   Getting name of function
+     * @return  name of function
     **/
     const QString name();
 private:

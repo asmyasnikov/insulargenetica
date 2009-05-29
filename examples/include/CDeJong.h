@@ -22,8 +22,8 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    CDeJong.h
- * @brief   Файл содержит класс CDeJong,
- *          который реализует тестовую целевую функцию DeJong'а
+ * @class   CDeJong
+ * @brief   Declaration of CDeJong
  * @date    22/02/2009
  * @version 1.18
 **/
@@ -42,30 +42,30 @@ struct Q_DECL_EXPORT CDeJong : virtual public InsularGenetica::IFitness,
                                virtual public InsularGenetica::CFitnessHelper
 {
     /**
-     * @brief   Базовый конструктор
+     * @brief   Base constructor
     **/
     CDeJong();
     /**
-     * @brief   Конструктор
-     * @param   count - количество переменных целевой функции
+     * @brief   Constructor
+     * @param   count - variables count of De Jong function
     **/
     CDeJong(unsigned int count, bool invert = false);
     /**
-     * @brief   Деструктор
+     * @brief   Destructor
     **/
     ~CDeJong();
     /**
-     * @brief   Метод вычисления значения целевой функции
-     * @return  значение функции
+     * @brief   Evaluate method
+     * @return  output value of De Jong function
     **/
     double calc(const InsularGenetica::CChromosome& chr);
     /**
-     * @brief   Метод получения наименования функции
-     * @return  наименование функции
+     * @brief   Getting name of function
+     * @return  name of function
     **/
     const QString name();
 private:
-    bool            m_invert;
+    bool m_invert;
 };
 
-#endif // CTESTFITNESSMODULE_H_INCLUDED
+#endif // C_DE_JONG_MODULE_H_INCLUDED
