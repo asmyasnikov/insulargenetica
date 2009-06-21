@@ -22,7 +22,8 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    CBestWithAll.h
- * @brief   Файл содержит класс CBestWithAll отбора родительских хромосом
+ * @class   CBestWithAll
+ * @brief   Best chromosome from parents pool group with all chromosomes
  * @date    20/02/2009
  * @version 1.18
 **/
@@ -50,17 +51,17 @@ namespace InsularGenetica
     struct CBestWithAll : virtual public IGrouping
     {
         /**
-         * @brief   Базовый конструктор
+         * @brief   Base constructor
         **/
         CBestWithAll(){};
         /**
-         * @brief   Деструктор
+         * @brief   Destructor
         **/
         ~CBestWithAll(){};
         /**
-         * @brief  Метод отбора пар родительских хромосом для скрещивания
-         * @param  sel - популяция родителей для скрещивания
-         * @return par - набор пар родителей
+         * @brief  Method of grouping chromosomes from pool of parents to pairs
+         * @param  sel - pool of parents
+         * @return par - pairs of parents
         **/
         void group(const CPopulation&sel, CParents&par)
         {
@@ -72,15 +73,14 @@ namespace InsularGenetica
             }
         };
         /**
-         * @brief   Метод получения наименования генетического оператора
-         * @return  наименование генетического оператора
+         * @brief   Getting name of genetic operator
+         * @return  Name of genetic operator
         **/
         const QString name()
         {
-            return QObject::trUtf8("Группировка лучшей хромосомы "
-                                   "со всеми остальными");
+            return QObject::trUtf8("Best chromosome group with all chromosomes");
         };
     };
 };
 
-#endif // C_BE
+#endif // C_BEST_WITH_ALL_H_INCLUDED

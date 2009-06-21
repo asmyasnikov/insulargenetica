@@ -22,7 +22,6 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    main.cpp
- * @brief   Файл содержит внешнюю функцию для конструирования целевой функции
  * @date    09/05/2009
  * @version 1.18
 **/

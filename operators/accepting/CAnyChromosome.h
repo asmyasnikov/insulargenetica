@@ -22,7 +22,8 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    CAnyChromosome.h
- * @brief   Файл содержит класс CAnyChromosome отбора родительских хромосом
+ * @class   CAnyChromosome
+ * @brief   Accepting all chromosomes
  * @date    20/02/2009
  * @version 1.18
 **/
@@ -44,35 +45,33 @@ namespace InsularGenetica
     struct CAnyChromosome : virtual public IAccepting
     {
         /**
-         * @brief   Базовый конструктор
+         * @brief   Base constructor
         **/
         CAnyChromosome(){};
         /**
-         * @brief   Деструктор
+         * @brief   Destructor
         **/
         ~CAnyChromosome(){};
         /**
-         * @brief  Метод оценки пригодности хромосомы
-         * @param  pop - популяция родителей, относительно которых
-         *         производится оценка пригодности
-         * @param  cur - хромосома, которая оценивается на пригодности
-         *               популяции
-         * @return true , если хромосома пригодна для популяции
-         * @return false, если хромосома не пригодна для популяции
+         * @brief  Method of acceptiing chromosome
+         * @param  pop - population of parents
+         * @param  cur - current chromosome
+         * @return true , if chromosome cur was accepted
+         * @return false, if chromosome cur was not accepted
         **/
         bool accept(const CPopulation*, const CChromosome&)
         {
             return true;
         };
         /**
-         * @brief   Метод получения наименования генетического оператора
-         * @return  наименование генетического оператора
+         * @brief   Getting name of genetic operator
+         * @return  Name of genetic operator
         **/
         const QString name()
         {
-            return QObject::trUtf8("Любая хромосома");
+            return QObject::trUtf8("Any chromosome");
         };
     };
 };
 
-#endif // C_A
+#endif // C_ANY_CHROMOSOME_H_INCLUDED

@@ -22,7 +22,8 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    CBetterAverageFitness.h
- * @brief   Файл содержит класс CBetterAverageFitness отбора родителей
+ * @brief   Accepting if fitness of chomosome better the average
+ *          fitness in population
  * @date    20/02/2009
  * @version 1.18
 **/
@@ -44,19 +45,19 @@ namespace InsularGenetica
     struct CBetterAverageFitness : virtual public IAccepting
     {
         /**
-         * @brief   Базовый конструктор
+         * @brief   Base constructor
         **/
         CBetterAverageFitness(){};
         /**
-         * @brief   Деструктор
+         * @brief   Destructor
         **/
         ~CBetterAverageFitness(){};
         /**
-         * @brief  Метод оценки пригодности хромосомы
-         * @param  pop - популяция родителей
-         * @param  cur - хромосома, которая оценивается на пригодность
-         * @return true , если хромосома пригодна для популяции
-         * @return false, если хромосома не пригодна для популяции
+         * @brief  Method of acceptiing chromosome
+         * @param  pop - population of parents
+         * @param  cur - current chromosome
+         * @return true , if chromosome cur was accepted
+         * @return false, if chromosome cur was not accepted
         **/
         bool accept(const CPopulation*pop, const CChromosome&cur)
         {
@@ -64,8 +65,8 @@ namespace InsularGenetica
             return (pop->getAverageFitness() < cur.fitness());
         };
         /**
-         * @brief   Метод получения наименования генетического оператора
-         * @return  наименование генетического оператора
+         * @brief   Getting name of genetic operator
+         * @return  Name of genetic operator
         **/
         const QString name()
         {

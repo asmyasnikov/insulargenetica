@@ -22,7 +22,9 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    CBestFitness.h
- * @brief   Файл содержит класс CBestFitness отбора родительских хромосом
+ * @class   CBestFitness
+ * @brief   Accepting if fitness of chomosome better the best
+ *          fitness in population
  * @date    20/02/2009
  * @version 1.18
 **/
@@ -44,21 +46,19 @@ namespace InsularGenetica
     struct CBestFitness : virtual public IAccepting
     {
         /**
-         * @brief   Базовый конструктор
+         * @brief   Base constructor
         **/
         CBestFitness(){};
         /**
-         * @brief   Деструктор
+         * @brief   Destructor
         **/
         ~CBestFitness(){};
         /**
-         * @brief   Метод оценки пригодности хромосомы
-         * @warning Здоровье хромосомы должно быть заранеее рассчитано
-         * @param   pop - популяция родителей, относительно которых
-         *                производится оценка пригодности
-         * @param   cur - хромосома, которая оценивается на пригодность
-         * @return  true , если хромосома пригодна для популяции
-         * @return  false, если хромосома не пригодна для популяции
+         * @brief  Method of acceptiing chromosome
+         * @param  pop - population of parents
+         * @param  cur - current chromosome
+         * @return true , if chromosome cur was accepted
+         * @return false, if chromosome cur was not accepted
         **/
         bool accept(const CPopulation*pop, const CChromosome&cur)
         {
@@ -66,15 +66,15 @@ namespace InsularGenetica
             return (pop->getMaximumFitness() < cur.fitness());
         };
         /**
-         * @brief   Метод получения наименования генетического оператора
-         * @return  наименование генетического оператора
+         * @brief   Getting name of genetic operator
+         * @return  Name of genetic operator
         **/
         const QString name()
         {
-            return QObject::trUtf8("Здоровье хромосомы лучше, "
-                                   "чем лучшее в популяции");
+            return QObject::trUtf8("Fitness of chromosome is "
+                                   "better the best fitness in population");
         };
     };
 };
 
-#endif // C_BE
+#endif // C_BEST_FITNESS_H_INCLUDED

@@ -22,7 +22,8 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    CAllWithAll.h
- * @brief   Файл содержит класс CAllWithAll отбора родительских хромосом
+ * @class   CAllWithAll
+ * @brief   All chromosomes from parents pool group with all chromosomes
  * @date    20/02/2009
  * @version 1.18
 **/
@@ -50,22 +51,22 @@ namespace InsularGenetica
     struct CAllWithAll : virtual public IGrouping
     {
         /**
-         * @brief   Базовый конструктор
+         * @brief   Base constructor
         **/
         CAllWithAll(){};
         /**
-         * @brief   Деструктор
+         * @brief   Destructor
         **/
         ~CAllWithAll(){};
         /**
-         * @brief  Метод отбора пар родительских хромосом для скрещивания
-         * @param  sel - популяция родителей для скрещивания
-         * @return par - набор пар родителей
+         * @brief  Method of grouping chromosomes from pool of parents to pairs
+         * @param  sel - pool of parents
+         * @return par - pairs of parents
         **/
         void group(const CPopulation&sel, CParents&par)
         {
-        if(sel.size()>1)
-        {
+            if(sel.size()>1)
+            {
                 unsigned int size_new = rand()%sel.size();
                 for(unsigned int i = 0; i < size_new; i++)
                 {
@@ -82,14 +83,14 @@ namespace InsularGenetica
             }
         };
         /**
-         * @brief   Метод получения наименования генетического оператора
-         * @return  наименование генетического оператора
+         * @brief   Getting name of genetic operator
+         * @return  Name of genetic operator
         **/
         const QString name()
         {
-            return QObject::trUtf8("Группировка всех хромосом со всеми");
+            return QObject::trUtf8("Grouping all with all");
         };
     };
 };
 
-#endif // C_ALL_WITH_ALL
+#endif // C_ALL_WITH_ALL_H_INCLUDED
