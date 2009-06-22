@@ -22,9 +22,9 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    CChromosome.h
- * @brief   Файл содержит класс CChromosome,
- *          который является аналогом хромосомы
- *          в генетическом программировании
+ * @class   CChromosome
+ * @brief   This is the class CChromosome. It implement chromosome
+ *          in genetic programming
  * @date    20/02/2009
  * @version 1.18
 **/
@@ -38,98 +38,90 @@ namespace InsularGenetica
     struct Q_DECL_EXPORT CChromosome : virtual public Interface
     {
         /**
-         * @brief   Установить размер хромосомы
-         *          Допускается только один раз за сеанс
-         *          устанавливать размер хромосомы
-         * @param   size - размер хромосомы
+         * @brief   Setting size of chromosome
+         * @param   size - size of chromosome
         **/
         static void setSize(unsigned int size);
         /**
-         * @brief   Получить размер хромосомы
-         * @return  Размер хромосомы
+         * @brief   Getting size of chromosome
+         * @param   size - size of chromosome
         **/
         static unsigned int size();
         /**
-         * @brief   Установить указатель на целевую фунцию для расчета
-         *          здоровья хромосомы.
-         * @param   function - указатель на целевую функцию
+         * @brief   Setting static pointer of fitness function
+         * @param   function - pointer of fitness function
         **/
         static void setFitnessFunction(IFitness* function);
         /**
-         * @brief   Конструктор по умолчанию
-         *          Хромосома инициализируется случайными значениями
+         * @brief   Default constructor
+         *          Chromosome init the random values
         **/
         CChromosome(void);
         /**
-         * @brief   Конструктор
-         *          Хромосома инициализируется значениями def
-         * @param   def - значение для инициализации хромосомы
+         * @brief   Constructor
+         * @param   def - value of chromosome genes
         **/
         CChromosome(bool def);
         /**
-         * @brief   Конструктор копирования
-         *          Производится глубокое копирование данных
-         * @param   chr - хромосома, из которой происходит
-         *          конструирование текущей хромосомы
+         * @brief   Copy constructor
+         * @param   chr - source chromosome
         **/
         CChromosome(const CChromosome& chr);
         /**
-         * @brief   Оператор копирования
-         *          Производится глубокое копирование данных
-         * @param   chr - хромосома, из которой происходит
-         *          конструирование текущей хромосомы
+         * @brief   Copy constructor
+         * @param   chr - source chromosome
         **/
         CChromosome&operator=(const CChromosome& chr);
         /**
-         * @brief   Деструктор
+         * @brief   Destructor
         **/
         ~CChromosome();
         /**
-         * @brief   Метод открытия транзакции
-         *          При открытых транзакциях расчет здоровья не производится
+         * @brief   Opening transactions
+         *          If transactions is open then fitness not calc
         **/
         void begin();
         /**
-         * @brief   Метод закрытия транзакции
-         *          При открытых транзакциях расчет здоровья не производится
+         * @brief   Closing transactions
+         *          If transactions is open then fitness not calc
         **/
         void commit();
         /**
-         * @brief   Оператор сравнения двух хромосом
-         * @param   chr - хромосома, с которой нужно сравнить
-         * @return  true - если хромосомы равны
+         * @brief   The comparison of two chromosomes
+         * @param   chr - chromosome by the comparison
+         * @return  true - if chromosme chr is equal to this chromosome
         **/
         bool operator ==(const CChromosome& chr) const;
         /**
-         * @brief   Метод получения значения гена
-         * @param   locus - позиция гена
-         * @return  значение гена
+         * @brief   Getting value of gene
+         * @param   locus - position of gene
+         * @return  value of gene
         **/
         bool getGene(unsigned int locus) const;
         /**
-         * @brief   Метод установления значения гена
-         * @param   locus - позиция гена
-         * @param   value - значение гена
+         * @brief   Setting value of gene
+         * @param   locus - position of gene
+         * @return  value of gene
         **/
         void setGene(unsigned int   locus,
                      bool           value);
         /**
-         * @brief   Метод инвертирования значения гена
-         * @param   locus - позиция гена
+         * @brief   Inverting value of gene
+         * @param   locus - position of gene
         **/
         void invertGene(unsigned int locus);
         /**
-         * @brief   Метод получения значения здоровья хромосомы
-         * @return  Здоровье хромосомы
+         * @brief   Getting fitness value of this cromosome
+         * @return  fitness value
         **/
         double fitness() const;
     private:
-        static unsigned int m_bit_size;      ///<! Длина хромосомы
-        static unsigned int m_byte_size;     ///<! Количество байт памяти
-        static IFitness*    m_function;      ///<! Функция расчета здоровья
-        unsigned char*      m_data;          ///<! Хранилище данных
-        double              m_fitness;       ///<! Значение функции здоровья
-        int                 m_transactions;  ///<! Кол-во открытых транзакций
+        static unsigned int m_bit_size;      ///<! Length of chromosome
+        static unsigned int m_byte_size;     ///<! Number of memory byte
+        static IFitness*    m_function;      ///<! Fitness function poiner
+        unsigned char*      m_data;          ///<! Values of chromosome genes
+        double              m_fitness;       ///<! Fitness value
+        int                 m_transactions;  ///<! Number of opened transactions
     };
 };
 #endif // CCHROMOSOME

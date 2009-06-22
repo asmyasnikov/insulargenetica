@@ -22,9 +22,9 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    CChromosome.cpp
- * @brief   Файл содержит класс CChromosome,
- *          который является аналогом хромосомы
- *          в генетическом программировании
+ * @class   CChromosome
+ * @brief   This is the class CChromosome. It implement chromosome
+ *          in genetic programming
  * @date    20/02/2009
  * @version 1.18
 **/
@@ -34,9 +34,8 @@ unsigned int                InsularGenetica::CChromosome::m_bit_size  = 0;
 unsigned int                InsularGenetica::CChromosome::m_byte_size = 0;
 InsularGenetica::IFitness*  InsularGenetica::CChromosome::m_function  = 0;
 /**
- * @brief   Установить указатель на целевую фунцию для расчета
- *          здоровья хромосомы.
- * @param   function - указатель на целевую функцию
+ * @brief   Setting static pointer of fitness function
+ * @param   function - pointer of fitness function
 **/
 void
 InsularGenetica::
@@ -46,10 +45,8 @@ setFitnessFunction(IFitness* function)
     m_function = function;
 };
 /**
- * @brief   Установить размер хромосомы
- *          Допускается только один раз за сеанс
- *          устанавливать размер хромосомы
- * @param   size - размер хромосомы
+ * @brief   Setting size of chromosome
+ * @param   size - size of chromosome
 **/
 void
 InsularGenetica::
@@ -61,8 +58,8 @@ setSize(unsigned int size)
                    ((m_bit_size-((m_bit_size/8)*8))>0?1:0));
 };
 /**
- * @brief   Получить размер хромосомы
- * @return  Размер хромосомы
+ * @brief   Getting size of chromosome
+ * @return  size of chromosome
 **/
 unsigned int
 InsularGenetica::
@@ -72,7 +69,7 @@ size()
     return m_bit_size;
 };
 /**
- * @brief   Конструктор
+ * @brief   Constructor
 **/
 InsularGenetica::
 CChromosome::
@@ -89,9 +86,8 @@ CChromosome(void) :
     commit();
 };
 /**
- * @brief   Конструктор
- *          Хромосома инициализируется значениями def
- * @param   def - значение для инициализации хромосомы
+ * @brief   Constructor with initialization by def-values
+ * @param   def - value of chromosome genes
 **/
 InsularGenetica::
 CChromosome::
@@ -108,10 +104,8 @@ CChromosome(bool def) :
     commit();
 };
 /**
- * @brief   Конструктор копирования
- *          Производится глубокое копирование данных
- * @param   chr - хромосома, из которой происходит
- *          конструирование текущей хромосомы
+ * @brief   Copy constructor
+ * @param   chr - source chromosome
 **/
 InsularGenetica::
 CChromosome::
@@ -125,15 +119,11 @@ CChromosome(const CChromosome& chr) :
         setGene(i, chr.getGene(i));
     }
     m_fitness = chr.fitness();
-    // Так как здоровье уже рассчитано у копируемой хромосомы,
-    // то вместо commit() просто уменьшим счетчик транзакций;
     m_transactions--;
 };
 /**
- * @brief   Оператор копирования
- *          Производится глубокое копирование данных
- * @param   chr - хромосома, из которой происходит
- *          конструирование текущей хромосомы
+ * @brief   Copy constructor
+ * @param   chr - source chromosome
 **/
 InsularGenetica::
 CChromosome&
@@ -149,13 +139,11 @@ operator=(const CChromosome& chr)
         setGene(i, chr.getGene(i));
     }
     m_fitness = chr.fitness();
-    // Так как здоровье уже рассчитано у копируемой хромосомы,
-    // то вместо commit() просто уменьшим счетчик транзакций;
     m_transactions--;
     return *this;
 };
 /**
- * @brief   Деструктор
+ * @brief   Destructor
 **/
 InsularGenetica::
 CChromosome::
@@ -164,8 +152,8 @@ CChromosome::
     delete[] m_data;
 };
 /**
- * @brief   Метод открытия транзакции
- *          При открытых транзакциях расчет здоровья не производится
+ * @brief   Opening transactions
+ *          If transactions is open then fitness not calc
 **/
 void
 InsularGenetica::
@@ -175,8 +163,8 @@ begin()
     m_transactions++;
 };
 /**
- * @brief   Метод закрытия транзакции
- *          При открытых транзакциях расчет здоровья не производится
+ * @brief   Closing transactions
+ *          If transactions is open then fitness not calc
 **/
 void
 InsularGenetica::
@@ -190,9 +178,9 @@ commit()
     }
 };
 /**
- * @brief   Оператор сравнения двух хромосом
- * @param   chr - хромосома, с которой нужно сравнить
- * @return  true - если хромосомы равны
+ * @brief   The comparison of two chromosomes
+ * @param   chr - chromosome by the comparison
+ * @return  true - if chromosme chr is equal to this chromosome
 **/
 bool
 InsularGenetica::
@@ -206,9 +194,9 @@ operator ==(const CChromosome& chr) const
     return true;
 };
 /**
- * @brief   Метод получения значения гена
- * @param   locus - позиция гена
- * @return  значение гена
+ * @brief   Getting value of gene
+ * @param   locus - position of gene
+ * @return  value of gene
 **/
 bool
 InsularGenetica::
@@ -220,9 +208,9 @@ getGene(unsigned int locus) const
     return (m_data[byte]>>(7-locus+byte*8))&1;
 };
 /**
- * @brief   Метод установления значения гена
- * @param   locus - позиция гена
- * @param   value - значение гена
+ * @brief   Setting value of gene
+ * @param   locus - position of gene
+ * @param   value - new value of gene
 **/
 void
 InsularGenetica::
@@ -239,8 +227,8 @@ setGene(unsigned int locus,
     commit();
 };
 /**
- * @brief   Метод инвертирования значения гена
- * @param   locus - позиция гена
+ * @brief   Inverting value of gene
+ * @param   locus - position of gene
 **/
 void
 InsularGenetica::
@@ -254,8 +242,8 @@ invertGene(unsigned int locus)
     commit();
 };
 /**
- * @brief   Метод получения значения здоровья хромосомы
- * @return  Здоровье хромосомы
+ * @brief   Getting fitness of this chromosome
+ * @return  fitness
 **/
 double
 InsularGenetica::
