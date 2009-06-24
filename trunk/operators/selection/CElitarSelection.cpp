@@ -22,8 +22,11 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    CElitarSelection.cpp
- * @brief   Файл содержит класс CElitarSelection отбора родительских хромосом
+ * @class   CElitarSelection
+ * @brief   Elitar selection of chromosomes from population to
+ *          parents pool
  * @date    20/02/2009
+ * @version 1.18
 **/
 #include "CElitarSelection.h"
 #include <qglobal.h>
@@ -35,7 +38,7 @@ GPL, while maintaining information about developer this library.
     #include <QtCore/QObject>
 #endif
 /**
- * @brief   Базовый конструктор
+ * @brief   Constructor
 **/
 InsularGenetica::
 CElitarSelection::
@@ -43,17 +46,16 @@ CElitarSelection(double percentage) :
     m_percentage(percentage)
 {};
 /**
- * @brief   Деструктор
+ * @brief   Destructor
 **/
 InsularGenetica::
 CElitarSelection::
 ~CElitarSelection()
 {};
 /**
- * @brief  Метод отбора из популяции хромосом для дальнейшего скрещивания
- *         и мутации
- * @param  pop - популяция родителей, из которых производится отбор
- * @return sel - популяция родителей для скрещивания и мутаций
+ * @brief  Method of selection chromosomes from population
+ * @param  pop - parents population
+ * @return sel - parents pool
 **/
 void
 InsularGenetica::
@@ -79,8 +81,8 @@ select( const CPopulation&pop,
     Q_ASSERT(sel.size() > 1);
 };
 /**
- * @brief   Метод получения наименования генетического оператора
- * @return  наименование генетического оператора
+ * @brief   Getting name of genetic operator
+ * @return  name of genetic operator
 **/
 const
 QString

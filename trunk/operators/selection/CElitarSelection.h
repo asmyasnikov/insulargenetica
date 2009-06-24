@@ -22,7 +22,9 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    CElitarSelection.h
- * @brief   Файл содержит класс CElitarSelection отбора родительских хромосом
+ * @class   CElitarSelection
+ * @brief   Elitar selection of chromosomes from population to
+ *          parents pool
  * @date    20/02/2009
  * @version 1.18
 **/
@@ -36,28 +38,27 @@ namespace InsularGenetica
     Q_DECL_EXPORT struct CElitarSelection : virtual public ISelection
     {
         /**
-         * @brief   Базовый конструктор
+         * @brief   Constructor
         **/
         CElitarSelection(double percentage = 0.5);
         /**
-         * @brief   Деструктор
+         * @brief   Destructor
         **/
         ~CElitarSelection();
         /**
-         * @brief  Метод отбора из популяции хромосом для дальнейшего
-         *         скрещивания и мутации
-         * @param  pop - популяция родителей, из которых производится отбор
-         * @return sel - популяция родителей для скрещивания и мутаций
+         * @brief  Method of selection chromosomes from population
+         * @param  pop - parents population
+         * @return sel - parents pool
         **/
         void select(const CPopulation&  pop,
                     CPopulation&        sel);
         /**
-         * @brief   Метод получения наименования генетического оператора
-         * @return  наименование генетического оператора
+         * @brief   Getting name of genetic operator
+         * @return  name of genetic operator
         **/
         const QString name();
     private:
-        double m_percentage; ///<! Доля хромосом родительской популяции
+        double m_percentage; ///<! Percentage of population chromosomes
     };
 };
-#endif // C_ELITAR_SEL
+#endif // C_ELITAR_SELECTION_H_INCLUDED
