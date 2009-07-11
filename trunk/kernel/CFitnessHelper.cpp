@@ -22,8 +22,9 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    CFitnessHelper.cpp
- * @brief   Файл содержит реализацию вспомогательных методов,
- *          необходимых при расчете целевой функции
+ * @class   CFitnessHelper
+ * @brief   Class contains extra methods for genotype to phenotype
+ *          and bitstring to double conversions
  * @date    20/02/2009
  * @version 1.18
 **/
@@ -36,7 +37,7 @@ GPL, while maintaining information about developer this library.
     #include <QtCore/QObject>
 #endif
 /**
- * @brief   Базовый конструктор
+ * @brief   Construtor
 **/
 InsularGenetica::
 CFitnessHelper::
@@ -46,19 +47,20 @@ CFitnessHelper(unsigned int count) :
     m_counter = 0;
 };
 /**
- * @brief   Деструктор
+ * @brief   Destructor
 **/
 InsularGenetica::
 CFitnessHelper::
 ~CFitnessHelper()
 {
 };
-/** @brief  Метод для преобразования части хромосомы к типу double
-            Перед использованием этого метода переменная m_count обязательно
-            должна быть инициализирована ненулевым положительным значеним.
-    @param  chr     - хромосома,
-    @param  index   - номер переменной,
-    @return значение в диапазоне от 0 до 1, соответствующее участку хромосомы
+/**
+ * @brief  Method of bitstring (part of chromosome) to double
+ *         value conversion. Part of chromosome is define one
+ *         variable of many arguments.
+ * @param  chr     - chromosome,
+ * @param  index   - number of variable,
+ * @return value of variable
 **/
 double
 InsularGenetica::
@@ -86,8 +88,8 @@ decode( const CChromosome&  chr,
     return (result/maximum);
 };
 /**
- * @brief   Метод получения количества рассчитанных целевых функций
- * @return  Количество рассчитанных целевых функций
+ * @brief   Getting count of fitness calculations
+ * @return  count of fitness calculations
 **/
 unsigned int
 InsularGenetica::
@@ -97,8 +99,8 @@ count()
     return m_counter;
 };
 /**
- * @brief   Метод перекодирования генотипа в фенотип
- * @return  Фенотип
+ * @brief   Method of genotype to phenotype conversion
+ * @return  phenotype
  **/
 #if QT_VERSION < 0x040000
 QValueList<double>

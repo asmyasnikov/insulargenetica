@@ -22,8 +22,9 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    CFitnessHelper.h
- * @brief   Файл содержит реализацию вспомогательных методов,
- *          необходимых при расчете целевой функции
+ * @class   CFitnessHelper
+ * @brief   Class contains extra methods for genotype to phenotype
+ *          and bitstring to double conversions
  * @date    20/02/2009
  * @version 1.18
 **/
@@ -37,21 +38,21 @@ namespace InsularGenetica
     struct Q_DECL_EXPORT CFitnessHelper : virtual public IFitness
     {
         /**
-         * @brief   Базовый конструктор
+         * @brief   Construtor
         **/
         CFitnessHelper(unsigned int count);
         /**
-         * @brief   Деструктор
+         * @brief   Destructor
         **/
         ~CFitnessHelper();
         /**
-         * @brief   Метод получения количества рассчитанных целевых функций
-         * @return  Количество рассчитанных целевых функций
+         * @brief   Getting count of fitness calculations
+         * @return  count of fitness calculations
         **/
         unsigned int count();
         /**
-         * @brief   Метод перекодирования генотипа в фенотип
-         * @return  Фенотип
+         * @brief   Method of genotype to phenotype conversion
+         * @return  phenotype
          **/
 #if QT_VERSION < 0x040000
         QValueList<double>
@@ -62,14 +63,13 @@ namespace InsularGenetica
     protected:
         unsigned int    m_count;  ///<! Количество аргументов функции
         unsigned int    m_counter;///<! Счетчик обращений к функции
-        /** @brief  Метод для преобразования хромосомы (части хромосомы)
-                    к типу double. Перед использованием этого метода
-                    переменная m_count обязательно должна быть
-                    инициализирована ненулевым положительным значеним.
-            @param  chr     - хромосома,
-            @param  index   - номер переменной,
-            @return значение в диапазоне от 0 до 1, соответствующее
-                    участку хромосомы
+        /**
+         * @brief  Method of bitstring (part of chromosome) to double
+         *         value conversion. Part of chromosome is define one
+         *         variable of many arguments.
+         * @param  chr     - chromosome,
+         * @param  index   - number of variable,
+         * @return value of variable
         **/
         double decode(const CChromosome& chr,
                       unsigned int       index) const;
@@ -79,4 +79,4 @@ namespace InsularGenetica
         double max;
     };
 };
-#endif // C_FITNESS_
+#endif // C_FITNESS_HELPER_HEADER

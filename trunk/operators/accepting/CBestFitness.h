@@ -72,7 +72,8 @@ namespace InsularGenetica
         const QString name()
         {
             return QObject::trUtf8("Fitness of chromosome is "
-                                   "better the best fitness in population");
+                                   "better the best fitness "
+                                   "in population");
         };
     };
 };

@@ -78,7 +78,8 @@ namespace InsularGenetica
         **/
         const QString name()
         {
-            return QObject::trUtf8("Best chromosome group with all chromosomes");
+            return QObject::trUtf8("Best chromosome group "
+                                   "with all chromosomes");
         };
     };
 };

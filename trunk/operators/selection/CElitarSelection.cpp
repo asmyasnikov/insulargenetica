@@ -90,6 +90,6 @@ InsularGenetica::
 CElitarSelection::
 name()
 {
-    return QObject::trUtf8("%1-процентный элитарный отбор")
+    return QObject::trUtf8("%1-percentage elitar selection")
            .arg(m_percentage * 100.);
 };

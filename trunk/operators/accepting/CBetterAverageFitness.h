@@ -70,8 +70,8 @@ namespace InsularGenetica
         **/
         const QString name()
         {
-            return QObject::trUtf8("Здоровье хромосомы больше "
-                                   "среднего здоровья");
+            return QObject::trUtf8("Fitness of chromosome is better "
+                                   "average fitness in population");
         };
     };
 };
