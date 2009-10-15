@@ -180,7 +180,7 @@ namespace InsularGenetica
         ///<! Блокатор совместных данных
         mutable QMutex                             m_mutex;
         ///<! Cancel service pointer
-        ICancelService*                m_cancel_service;
+        ICancelService*                            m_cancel_service;
     };
 };
 #endif // GENETIC_ALGORITHM_FACTORY_H_INCLUDED

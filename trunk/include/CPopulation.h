@@ -84,21 +84,6 @@ namespace InsularGenetica
         **/
         void addChromosome(const CChromosome& chr);
         /**
-         * @brief  Рассчитать среднее здоровье популяции
-         * @return Среднее здоровье популяции
-        **/
-        double getAverageFitness() const;
-        /**
-         * @brief  Рассчитать максимальное здоровье в популяции
-         * @return Максимальное здоровье популяции
-        **/
-        double getMaximumFitness() const;
-        /**
-         * @brief  Рассчитать минимальное здоровье в популяции
-         * @return Минимальное здоровье популяции
-        **/
-        double getMinimumFitness() const;
-        /**
          * @brief  Рассчитать стенень однородности популяции
          * @param  pseudo - параметр позволяет рассчитать при (pseudo==true)
          *         псвдооднородность популяции. Псвдооднородность популяции
@@ -120,12 +105,12 @@ namespace InsularGenetica
         bool isPresent(const CChromosome&chr) const;
     private:
 #if QT_VERSION < 0x040000
-        QValueVector<CChromosome*> m_data; ///<! Хромосомы в популяции
+        QValueList<CChromosome> m_data; ///<! Хромосомы в популяции
 #else
-        QVector<CChromosome*> m_data;      ///<! Хромосомы в популяции
+        QList     <CChromosome> m_data; ///<! Хромосомы в популяции
 #endif
         ///<! Блокатор доступа, обеспечивающий атомарность методов
-        mutable QMutex        m_mutex;
+        mutable QMutex          m_mutex;
     };
 };
 #endif // CPOPULATION_H_INCLUDED

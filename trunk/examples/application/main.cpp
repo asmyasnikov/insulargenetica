@@ -207,14 +207,6 @@ int main(int argc, char**argv)
     CGeneticController*calculator = CGeneticController::getCalculator(f,chrsize,popsize,limit,island,NULL);
     CPopulation best = calculator->getBestSolutions(3);
     delete calculator;
-    std::cout << QObject::trUtf8("Average fitness of population = %1")
-                 .arg(best.getAverageFitness())
-#if QT_VERSION < 0x040000
-                 .local8Bit()
-#else
-                 .toLocal8Bit()
-#endif
-                 .data() << std::endl;
     std::cout << QObject::trUtf8("Population homogeneity = %1")
                  .arg(best.getHomogeneity())
 #if QT_VERSION < 0x040000
@@ -232,7 +224,7 @@ int main(int argc, char**argv)
 #endif
                  .data() << std::endl;
     InsularGenetica::CFitnessHelper *helper = dynamic_cast<InsularGenetica::CFitnessHelper*>(f);
-    for(int j = 0; j < popsize && j < 3; j++)
+    for(int j = 0; j < best.size() && j < 3; j++)
     {
         CChromosome chr = best.getChromosome(j);
         if(helper)
@@ -252,9 +244,14 @@ int main(int argc, char**argv)
                 if(!arguments.isEmpty()) arguments.append(";");
                 arguments.append(QString::number(value));
             }
-            qDebug( "f(%s)=%f",
-                    arguments.toLocal8Bit().data(),
-                    chr.fitness());
+            qDebug( "(%s)",
+                    arguments
+#if QT_VERSION < 0x040000
+                    .local8Bit()
+#else
+                    .toLocal8Bit()
+#endif
+                    .data());
         }else{
             char* code = new char[CChromosome::size()+1];
             for(unsigned int i = 0; i < CChromosome::size(); ++i)
@@ -262,9 +259,8 @@ int main(int argc, char**argv)
                 code[i] = chr.getGene(i) ? '1' : '0';
             }
             code[CChromosome::size()] = '\0';
-            qDebug( "f(%s)=%f",
-                    code,
-                    chr.fitness());
+            qDebug( "%s",
+                    code);
             delete[] code;
         }
     }

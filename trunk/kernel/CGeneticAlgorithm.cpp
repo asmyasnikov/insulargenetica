@@ -312,7 +312,7 @@ run()
     }
     QTime timer;
     timer.start();
-    double best_fitness = m_population.getMaximumFitness();
+    CChromosome best_chr = m_population.getChromosome(0);
     QTime unimprovability;
     unimprovability.start();
     unsigned int counter = 0;
@@ -348,9 +348,9 @@ run()
         m_selection->select(m_population, selection);
         m_mutex.unlock();
         double selection_time = double(time.elapsed());
-        if(best_fitness < m_population.getMaximumFitness())
+        if(best_chr < m_population.getChromosome(0))
         {
-            best_fitness = m_population.getMaximumFitness();
+            best_chr = m_population.getChromosome(0);
             unimprovability.restart();
         }
         bool timeIsUp = (unimprovability.elapsed()>
@@ -393,8 +393,8 @@ run()
         for(int i = 0; i < reproduct.size(); i++)
         {
             QMutexLocker locker(&m_mutex);
-            if(reproduct.getChromosome(i).fitness() <
-               m_population.getMaximumFitness()) break;
+            if(reproduct.getChromosome(i) <
+               m_population.getChromosome(0)) break;
             good_reproduct++;
         }
         // Если среди потомков, рожденных скрещиванием, есть лучшие,
@@ -418,8 +418,8 @@ run()
         for(int i = 0; i < mutation.size(); i++)
         {
             QMutexLocker locker(&m_mutex);
-            if(mutation.getChromosome(i).fitness() <
-               m_population.getMaximumFitness()) break;
+            if(mutation.getChromosome(i) <
+               m_population.getChromosome(0)) break;
             good_mutation++;
         }
         // Если среди потомков, рожденных скрещиванием, есть лучшие,

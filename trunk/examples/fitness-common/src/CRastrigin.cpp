@@ -74,7 +74,7 @@ CRastrigin::~CRastrigin(){};
  * @brief   Evaluate method
  * @return  output value of De Jong function
 **/
-double CRastrigin::calc(const InsularGenetica::CChromosome& chr)
+double CRastrigin::calc(const InsularGenetica::CChromosome& chr)const
 {
     double result = 0.;
     for(unsigned long i = 0; i < m_count; i++)
@@ -99,7 +99,7 @@ double CRastrigin::calc(const InsularGenetica::CChromosome& chr)
  * @brief   Getting name of function
  * @return  name of function
 **/
-const QString CRastrigin::name()
+const QString CRastrigin::name()const
 {
     return QObject::trUtf8("Rastrigin [%1%2vars%3]")
            .arg(m_invert ? QObject::trUtf8("invert,") : QString::null)

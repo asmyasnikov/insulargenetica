@@ -77,16 +77,6 @@ namespace InsularGenetica
         **/
         ~CChromosome();
         /**
-         * @brief   Opening transactions
-         *          If transactions is open then fitness not calc
-        **/
-        void begin();
-        /**
-         * @brief   Closing transactions
-         *          If transactions is open then fitness not calc
-        **/
-        void commit();
-        /**
          * @brief   The comparison of two chromosomes
          * @param   chr - chromosome by the comparison
          * @return  true - if chromosme chr is equal to this chromosome
@@ -111,17 +101,21 @@ namespace InsularGenetica
         **/
         void invertGene(unsigned int locus);
         /**
-         * @brief   Getting fitness value of this cromosome
-         * @return  fitness value
+         * @brief   Comparing current chromosome with chromosome chr
+         * @param   true, if chromosome chr is better current cromosome
         **/
-        double fitness() const;
+        bool operator<(const CChromosome& chr)const;
+        /**
+         * @brief   Comparing current chromosome with chromosome chr
+         * @param   true, if current cromosome is better chromosome chr
+        **/
+        bool operator>(const CChromosome& chr)const;
     private:
         static unsigned int m_bit_size;      ///<! Length of chromosome
         static unsigned int m_byte_size;     ///<! Number of memory byte
         static IFitness*    m_function;      ///<! Fitness function poiner
         unsigned char*      m_data;          ///<! Values of chromosome genes
-        double              m_fitness;       ///<! Fitness value
-        int                 m_transactions;  ///<! Number of opened transactions
+        friend class CGeneticAlgorithm;
     };
 };
 #endif // CCHROMOSOME

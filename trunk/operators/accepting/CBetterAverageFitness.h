@@ -62,7 +62,7 @@ namespace InsularGenetica
         bool accept(const CPopulation*pop, const CChromosome&cur)
         {
             Q_ASSERT(CChromosome::size());
-            return (pop->getAverageFitness() < cur.fitness());
+            return (pop->getChromosome(pop->size()/2) < cur);
         };
         /**
          * @brief   Getting name of genetic operator

@@ -49,7 +49,7 @@ namespace InsularGenetica
          * @brief   Getting count of fitness calculations
          * @return  count of fitness calculations
         **/
-        unsigned int count();
+        unsigned int count()const;
         /**
          * @brief   Method of genotype to phenotype conversion
          * @return  phenotype
@@ -61,8 +61,8 @@ namespace InsularGenetica
 #endif
         genotype2phenotype(const CChromosome& chr);
     protected:
-        unsigned int    m_count;  ///<! Количество аргументов функции
-        unsigned int    m_counter;///<! Счетчик обращений к функции
+        unsigned int         m_count;  ///<! Number of fitnes function arguments
+        mutable unsigned int m_counter;///<! Counter of fitness function calling
         /**
          * @brief  Method of bitstring (part of chromosome) to double
          *         value conversion. Part of chromosome is define one

@@ -87,16 +87,12 @@ namespace InsularGenetica
                 locus1            = locus2;
                 locus2            = temp;
             }
-            child1.begin();
-            child2.begin();
             for(unsigned int i = locus1; i < locus2; i++)
             {
                 child1.setGene(i, pair.second->getGene(i));
                 child2.setGene(i, pair.first->getGene(i));
             }
-            child1.commit();
             cids.addChromosome(child1);
-            child2.commit();
             cids.addChromosome(child2);
         };
         /**

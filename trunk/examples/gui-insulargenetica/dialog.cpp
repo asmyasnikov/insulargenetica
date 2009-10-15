@@ -190,20 +190,12 @@ void CalcThread::updateResults()
                                         new QTableWidgetItem(QString(code)));
             delete[] code;
         }
-        if(!i)
-        {
-            d->ui->tbl_results->setColumnCount(d->ui->tbl_results->columnCount()+1);
-        }
-        d->ui->tbl_results->setItem(d->ui->tbl_results->rowCount()-1,
-                                    d->ui->tbl_results->columnCount()-1,
-                                    new QTableWidgetItem(QString::number(chr.fitness())));
     }
     QStringList headers;
-    for(int i = 0; i < d->ui->tbl_results->columnCount()-1; i++)
+    for(int i = 0; i < d->ui->tbl_results->columnCount(); i++)
     {
         headers.append(trUtf8("X%1").arg(i));
     }
-    headers.append(trUtf8("Fitness"));
     d->ui->tbl_results->setHorizontalHeaderLabels(headers);
     d->ui->progress->setValue(0);
     d->ui->btn_calc->setText(trUtf8("Evaluate"));

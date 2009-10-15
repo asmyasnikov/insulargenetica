@@ -22,11 +22,10 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    IFitness.h
- * @brief   Файл содержит интерфейс IFitnes,
- *          который обеспечивает единообразие
- *          доступа к целевым функциям
+ * @brief   Interface IFitnes provide performance calculating
+ *          of fitness function
  * @date    20/02/2009
- * @version 1.18
+ * @version 1.14
 **/
 #ifndef FITNESS_INTERFACE
 #define FITNESS_INTERFACE
@@ -38,20 +37,34 @@ namespace InsularGenetica
     struct IFitness : virtual public Interface
     {
         /**
-         * @brief   Метод вычисления значения целевой функции
-         * @return  значение функции
+         * @brief   Getting name of fitness function
+         * @return  Name of fitness function
         **/
-        virtual double calc(const CChromosome& chr) = 0;
+        virtual const QString name() const = 0;
         /**
-         * @brief   Метод получения наименования функции
-         * @return  наименование функции
+         * @brief   Getting number of fitness function calling
+         * @return  Number of fitness function calling
         **/
-        virtual const QString name() = 0;
+        virtual unsigned int count() const = 0;
         /**
-         * @brief   Метод получения количества рассчитанных целевых функций
-         * @return  Количество рассчитанных целевых функций
+         * @brief   Method of comparing two chromosomes
+         * @param   chr1 - first chromosome
+         * @param   chr2 - second chromosome
+         * @return  true, if first chromosome is better
+         *          of second chromosome
         **/
-        virtual unsigned int count() = 0;
+        virtual bool compare(const CChromosome& chr1,
+                             const CChromosome& chr2) const
+        {
+            return (calc(chr1) > calc(chr2));
+        };
+
+    protected:
+        /**
+         * @brief   Method of function value calculating
+         * @return  value of fitness function
+        **/
+        virtual double calc(const CChromosome& chr) const = 0;
     };
 };
-#endif // FITNESS_INTERF
+#endif // FITNESS_INTERFACE

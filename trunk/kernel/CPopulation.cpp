@@ -53,6 +53,13 @@ GPL, while maintaining information about developer this library.
 InsularGenetica::
 CPopulation::
 CPopulation(int size) :
+    m_data(
+#if QT_VERSION < 0x040000
+            QValueList<CChromosome>()
+#else
+            QList<CChromosome>()
+#endif
+            ),
     m_mutex(
 #if QT_VERSION < 0x040000
              true
@@ -64,7 +71,6 @@ CPopulation(int size) :
     QMutexLocker locker(&m_mutex);
     if(size)
     {
-        m_data.reserve(size);
         while(m_data.size() < size)
         {
             CChromosome chr;
@@ -81,6 +87,13 @@ CPopulation(int size) :
 InsularGenetica::
 CPopulation::
 CPopulation(const CPopulation& pop) :
+    m_data(
+#if QT_VERSION < 0x040000
+            QValueList<CChromosome>()
+#else
+            QList<CChromosome>()
+#endif
+            ),
     m_mutex(
 #if QT_VERSION < 0x040000
              true
@@ -92,10 +105,9 @@ CPopulation(const CPopulation& pop) :
     QMutexLocker locker(&m_mutex);
     if(pop.size())
     {
-        m_data.reserve(pop.size());
         for(int i = 0; i < pop.size(); i++)
         {
-            m_data.push_back(new CChromosome(pop.getChromosome(i)));
+            m_data.append(pop.getChromosome(i));
         }
     }
 };
@@ -106,11 +118,6 @@ InsularGenetica::
 CPopulation::
 ~CPopulation()
 {
-    QMutexLocker locker(&m_mutex);
-    for(int j = 0; j < m_data.size(); j++)
-    {
-        delete m_data[j];
-    }
 };
 /**
  * @brief  Размер хромосомы
@@ -137,7 +144,7 @@ getChromosome(int index) const
 {
     QMutexLocker locker(&m_mutex);
     Q_ASSERT(index < m_data.size());
-    return *m_data.at(index);
+    return m_data.at(index);
 };
 /**
  * @brief  Добавить хромосому в популяцию
@@ -151,64 +158,20 @@ addChromosome(const CChromosome& chr)
     if(!isPresent(chr))
     {
         QMutexLocker locker(&m_mutex);
-        CChromosome*cur = new CChromosome(chr);
-        double fnew = cur->fitness();
-        m_data.push_back(cur);
-        if(m_data.size() > 1)
+        int begin = -1;
+        int end   = m_data.size();
+        while((end-begin)>1)
         {
-            for(int i = m_data.size()-1; i > 0; i--)
+            int index = (end-begin)/2 + begin;
+            if(m_data.at(index) < chr)
             {
-                if(fnew > m_data[i-1]->fitness())
-                {
-                    CChromosome*temp = m_data[i-1];
-                    m_data[i-1]      = m_data[i];
-                    m_data[i]        = temp;
-                }
+                end   = index;
+            }else{
+                begin = index;
             }
         }
+        m_data.insert(end,chr);
     }
-};
-/**
- * @brief  Рассчитать среднее здоровье популяции
- * @return Среднее здоровье популяции
-**/
-double
-InsularGenetica::
-CPopulation::
-getAverageFitness() const
-{
-    QMutexLocker locker(&m_mutex);
-    double average = 0.;
-    for(int i = 0; i < m_data.size(); i++)
-    {
-        average += m_data[i]->fitness();
-    }
-    average /= double(m_data.size());
-    return average;
-};
-/**
- * @brief  Рассчитать максимальное здоровье в популяции
- * @return Максимальное здоровье популяции
-**/
-double
-InsularGenetica::
-CPopulation::
-getMaximumFitness() const
-{
-    QMutexLocker locker(&m_mutex);
-    return m_data.size() ? m_data[0]->fitness() : -HUGE_VAL;
-};
-/**
- * @brief  Рассчитать минимальное здоровье в популяции
- * @return Минимальное здоровье популяции
-**/
-double
-InsularGenetica::
-CPopulation::
-getMinimumFitness() const
-{
-    QMutexLocker locker(&m_mutex);
-    return m_data.size() ? m_data[m_data.size()-1]->fitness() : HUGE_VAL;
 };
 /**
  * @brief  Рассчитать стенень однородности популяции
@@ -231,7 +194,7 @@ getHomogeneity(bool pseudo) const
         int tgene = 0;
         for(int j = 0; j < m_data.size(); j++)
         {
-            if(m_data[j]->getGene(i)) tgene++;
+            if(m_data.at(j).getGene(i)) tgene++;
         }
         if(pseudo)
         {
@@ -255,28 +218,11 @@ InsularGenetica::
 CPopulation::
 replaceChromosome(const CChromosome&chr)
 {
-    if(chr.fitness() > m_data[m_data.size()-1]->fitness())
+    if((m_data.last() < chr)&&(!isPresent(chr)))
     {
-        if(!isPresent(chr))
-        {
-            QMutexLocker locker(&m_mutex);
-            delete m_data[m_data.size()-1];
-            CChromosome*cur = new CChromosome(chr);
-            double fnew = cur->fitness();
-            m_data[m_data.size()-1] = cur;
-            if(m_data.size() > 1)
-            {
-                for(int i = m_data.size()-1; i > 0; i--)
-                {
-                    if(fnew > m_data[i-1]->fitness())
-                    {
-                        CChromosome*temp = m_data[i-1];
-                        m_data[i-1]      = m_data[i];
-                        m_data[i]        = temp;
-                    }
-                }
-            }
-        }
+        QMutexLocker locker(&m_mutex);
+        m_data.removeLast();
+        addChromosome(chr);
     }
 };
 /**
@@ -291,7 +237,7 @@ isPresent(const CChromosome&chr) const
     QMutexLocker locker(&m_mutex);
     for(int i = 0; i < m_data.size(); i++)
     {
-        if(*m_data[i] == chr) return true;
+        if(m_data.at(i) == chr) return true;
     }
     return false;
 };
@@ -308,12 +254,17 @@ CPopulation::
 operator=(const CPopulation& pop)
 {
     QMutexLocker locker(&m_mutex);
+    m_data =
+#if QT_VERSION < 0x040000
+             QValueList<CChromosome>();
+#else
+             QList<CChromosome>();
+#endif
     if(pop.size())
     {
-        m_data.reserve(pop.size());
         for(int i = 0; i < pop.size(); i++)
         {
-            m_data.push_back(new CChromosome(pop.getChromosome(i)));
+            m_data.append(pop.getChromosome(i));
         }
     }
     return *this;

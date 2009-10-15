@@ -73,16 +73,12 @@ namespace InsularGenetica
             unsigned int locus = qMax(1,
                                       qMin(int(CChromosome::size())-2,
                                            rand()%int(CChromosome::size())));
-            child1.begin();
-            child2.begin();
             for(unsigned int i = locus; i < CChromosome::size(); i++)
             {
                 child1.setGene(i, pair.second->getGene(i));
                 child2.setGene(i, pair.first->getGene(i));
             }
-            child1.commit();
             cids.addChromosome(child1);
-            child2.commit();
             cids.addChromosome(child2);
         };
         /**

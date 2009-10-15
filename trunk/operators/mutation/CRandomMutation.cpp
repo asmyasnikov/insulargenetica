@@ -55,12 +55,10 @@ mutate( const CChromosome&chr,
 {
     Q_ASSERT(CChromosome::size());
     CChromosome child(chr);
-    child.begin();
     for(unsigned int i = 0; i < CChromosome::size(); i++)
     {
         if(rand() < m_percentage) child.invertGene(i);
     }
-    child.commit();
     cids.addChromosome(child);
 };
 /**

@@ -66,7 +66,7 @@ CGriewank::~CGriewank(){};
  * @brief   Evaluate method
  * @return  output value of De Jong function
 **/
-double CGriewank::calc(const InsularGenetica::CChromosome& chr)
+double CGriewank::calc(const InsularGenetica::CChromosome& chr)const
 {
     double result = 0.;
     double multiplicate = 1.;
@@ -86,7 +86,7 @@ double CGriewank::calc(const InsularGenetica::CChromosome& chr)
  * @brief   Getting name of function
  * @return  name of function
 **/
-const QString CGriewank::name()
+const QString CGriewank::name()const
 {
     return QObject::trUtf8("Griewank [%1%2vars]")
            .arg(m_invert ? QObject::trUtf8("invert,") : QString::null)

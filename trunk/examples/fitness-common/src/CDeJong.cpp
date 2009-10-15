@@ -73,7 +73,7 @@ CDeJong::~CDeJong(){};
  * @brief   Evaluate method
  * @return  output value of De Jong function
 **/
-double CDeJong::calc(const InsularGenetica::CChromosome& chr)
+double CDeJong::calc(const InsularGenetica::CChromosome& chr)const
 {
     double result = (m_count == 2 ? 0.002 : 0.);
     if(m_count == 2)
@@ -100,7 +100,7 @@ double CDeJong::calc(const InsularGenetica::CChromosome& chr)
  * @brief   Getting name of function
  * @return  name of function
 **/
-const QString CDeJong::name()
+const QString CDeJong::name()const
 {
     return QObject::trUtf8("DeJong [%1%2vars]")
            .arg(m_invert ? QObject::trUtf8("invert,") : QString::null)

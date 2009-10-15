@@ -64,19 +64,10 @@ select( const CPopulation&pop,
         CPopulation&      sel)
 {
     Q_ASSERT(pop.size());
-    double miminum = pop.getMinimumFitness();
-    double summary = 0.;
-    for(int j = 0; j < pop.size(); j++)
+    int number = int(double(pop.size())*m_percentage);
+    for(int i = 0; i < number; i++)
     {
-        summary += (pop.getChromosome(j).fitness() - miminum);
-    }
-    double number     = m_percentage * summary;
-    double accumulate = 0.;
-    for(int i = 0; i < pop.size(); i++)
-    {
-        accumulate += (pop.getChromosome(i).fitness() - miminum);
         sel.addChromosome(pop.getChromosome(i));
-        if((accumulate > number) && (sel.size() > 1)) break;
     }
     Q_ASSERT(sel.size() > 1);
 };

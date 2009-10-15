@@ -22,7 +22,8 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    IAccepting.h
- * @brief   Файл содержит интерфейс IAccepting отбора родительских пар
+ * @brief   Inteface IAccepting provide chromosome selection
+ *          from childs population
  * @date    17/02/2009
  * @version 1.18
 **/
@@ -36,12 +37,11 @@ namespace InsularGenetica
     struct IAccepting : virtual public IGeneticOperator
     {
         /**
-         * @brief  Метод оценки пригодности хромосомы
-         * @param  pop - популяция родителей, относительно которых производится
-         *               оценка пригодности
-         * @param  cur - хромосома, которая оценивается на пригодности популяции
-         * @return true , если хромосома пригодна для популяции
-         * @return false, если хромосома не пригодна для популяции
+         * @brief  Method of checking chromosome accepting status
+         * @param  pop - parents pool
+         * @param  cur - checking chromosome
+         * @return true , if chromosome is o'k
+         * @return false, if chromosome is not o'k
         **/
         virtual bool accept(const CPopulation*pop,
                             const CChromosome&cur) = 0;

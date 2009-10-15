@@ -22,8 +22,8 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    CFitnessSafeThreadFunction.h
- * @brief   Класс CFitnessSafeThreadFunction позволяет обернуть
- *          функцию здоровья для её потокобезопасноного использования
+ * @brief   Class CFitnessSafeThreadFunction implement safe-thread
+ *          fitness function with user-value non safe-thread implementation
  * @date    23/03/2009
  * @version 1.18
 **/
@@ -39,14 +39,14 @@ GPL, while maintaining information about developer this library.
 namespace InsularGenetica
 {
     /**
-     * @brief Класс CFitnessSafeThreadFunction позволяет обернуть
-     *        функцию здоровья для потокобезопасноного использования
+     * @brief   Class CFitnessSafeThreadFunction implement safe-thread
+     *          fitness function with user-value non safe-thread implementation
     **/
     struct CFitnessSafeThreadFunction : public IFitness
     {
         /**
-         * @brief Конструктор
-         * @param fitness - основная функция здоровья
+         * @brief Constructor
+         * @param fitness - main fitness function
         **/
         CFitnessSafeThreadFunction(IFitness*fitness)
         {
@@ -57,36 +57,49 @@ namespace InsularGenetica
             m_fitness = NULL;
         };
         /**
-         * @brief   Метод вычисления значения целевой функции
-         * @return  значение функции
+         * @brief   Getting name of fitness function
+         * @return  Name of fitness function
         **/
-        double calc(const CChromosome& chr)
-        {
-            Q_ASSERT(m_fitness);
-            QMutexLocker locker(&m_mutex);
-            return m_fitness->calc(chr);
-        };
-        /**
-         * @brief   Метод получения наименования функции
-         * @return  наименование функции
-        **/
-        const QString name()
+        const QString name() const
         {
             QMutexLocker locker(&m_mutex);
             return m_fitness->name();
         };
         /**
-         * @brief   Метод получения количества рассчитанных целевых функций
-         * @return  Количество рассчитанных целевых функций
+         * @brief   Getting number of fitness function calling
+         * @return  Number of fitness function calling
         **/
-        unsigned int count()
+        unsigned int count() const
         {
             QMutexLocker locker(&m_mutex);
             return m_fitness->count();
         };
+        /**
+         * @brief   Method of comparing two chromosomes
+         * @param   chr1 - first chromosome
+         * @param   chr2 - second chromosome
+         * @return  true, if first chromosome is better
+         *          of second chromosome
+        **/
+        virtual bool compare(const CChromosome& chr1,
+                             const CChromosome& chr2) const
+        {
+            Q_ASSERT(m_fitness);
+            QMutexLocker locker(&m_mutex);
+            return m_fitness->compare(chr1,chr2);
+        };
+    protected:
+        /**
+         * @brief   Method of function value calculating
+         * @return  value of fitness function
+        **/
+        virtual double calc(const CChromosome& chr) const
+        {
+            return 0.;
+        };
     private:
         IFitness*m_fitness;
-        QMutex   m_mutex;
+        mutable QMutex   m_mutex;
     };
 };
 #endif // C_FITNESS_SAFE_THREAD_FUNCTION_H_INCLUDED

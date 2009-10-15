@@ -61,12 +61,10 @@ namespace InsularGenetica
         {
             Q_ASSERT(CChromosome::size());
             CChromosome child(chr);
-            child.begin();
             for(unsigned int i = 0; i < CChromosome::size(); i++)
             {
                 child.invertGene(i);
             }
-            child.commit();
             cids.addChromosome(child);
         };
         /**

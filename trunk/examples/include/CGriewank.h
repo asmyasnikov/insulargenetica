@@ -55,15 +55,16 @@ struct Q_DECL_EXPORT CGriewank : virtual public InsularGenetica::IFitness,
     **/
     ~CGriewank();
     /**
-     * @brief   Evaluate method
-     * @return  output value of De Jong function
-    **/
-    double calc(const InsularGenetica::CChromosome& chr);
-    /**
      * @brief   Getting name of function
      * @return  name of function
     **/
-    const QString name();
+    const QString name()const;
+private:
+    /**
+     * @brief   Evaluate method
+     * @return  output value of De Jong function
+    **/
+    double calc(const InsularGenetica::CChromosome& chr)const;
 private:
     bool            m_invert;
 };

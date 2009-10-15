@@ -73,8 +73,7 @@ size()
 **/
 InsularGenetica::
 CChromosome::
-CChromosome(void) :
-    m_transactions(1)
+CChromosome(void)
 {
     Q_ASSERT(m_byte_size);
     Q_ASSERT(m_function);
@@ -83,7 +82,6 @@ CChromosome(void) :
     {
         setGene(i, rand()%2);
     }
-    commit();
 };
 /**
  * @brief   Constructor with initialization by def-values
@@ -91,8 +89,7 @@ CChromosome(void) :
 **/
 InsularGenetica::
 CChromosome::
-CChromosome(bool def) :
-    m_transactions(1)
+CChromosome(bool def)
 {
     Q_ASSERT(m_byte_size);
     Q_ASSERT(m_function);
@@ -101,7 +98,6 @@ CChromosome(bool def) :
     {
         setGene(i, def);
     }
-    commit();
 };
 /**
  * @brief   Copy constructor
@@ -109,8 +105,7 @@ CChromosome(bool def) :
 **/
 InsularGenetica::
 CChromosome::
-CChromosome(const CChromosome& chr) :
-    m_transactions(chr.m_transactions+1)
+CChromosome(const CChromosome& chr)
 {
     Q_ASSERT(m_byte_size);
     m_data = new unsigned char[m_byte_size];
@@ -118,8 +113,6 @@ CChromosome(const CChromosome& chr) :
     {
         setGene(i, chr.getGene(i));
     }
-    m_fitness = chr.fitness();
-    m_transactions--;
 };
 /**
  * @brief   Copy constructor
@@ -132,14 +125,11 @@ CChromosome::
 operator=(const CChromosome& chr)
 {
     Q_ASSERT(m_byte_size);
-    m_transactions = chr.m_transactions+1;
     m_data = new unsigned char[m_byte_size];
     for(unsigned int i = 0; i < m_bit_size; ++i)
     {
         setGene(i, chr.getGene(i));
     }
-    m_fitness = chr.fitness();
-    m_transactions--;
     return *this;
 };
 /**
@@ -150,32 +140,6 @@ CChromosome::
 ~CChromosome()
 {
     delete[] m_data;
-};
-/**
- * @brief   Opening transactions
- *          If transactions is open then fitness not calc
-**/
-void
-InsularGenetica::
-CChromosome::
-begin()
-{
-    m_transactions++;
-};
-/**
- * @brief   Closing transactions
- *          If transactions is open then fitness not calc
-**/
-void
-InsularGenetica::
-CChromosome::
-commit()
-{
-    m_transactions--;
-    if(!m_transactions)
-    {
-        m_fitness = m_function->calc(*this);
-    }
 };
 /**
  * @brief   The comparison of two chromosomes
@@ -218,13 +182,11 @@ CChromosome::
 setGene(unsigned int locus,
         bool value)
 {
-    begin();
     Q_ASSERT(locus < m_bit_size);
     unsigned int byte=locus/8;
     unsigned int disposal=locus-byte*8;
     m_data[byte]=((m_data[byte]|(1<<(7-disposal)))^(1<<(7-disposal)))|
                  (((unsigned char)value)<<(7-disposal));
-    commit();
 };
 /**
  * @brief   Inverting value of gene
@@ -235,21 +197,29 @@ InsularGenetica::
 CChromosome::
 invertGene(unsigned int locus)
 {
-    begin();
     Q_ASSERT(locus < m_bit_size);
     unsigned int byte=locus/8;
     m_data[byte]^=(1<<(7-locus+byte*8));
-    commit();
 };
 /**
- * @brief   Getting fitness of this chromosome
- * @return  fitness
+ * @brief   Comparing current chromosome with chromosome chr
+ * @param   true, if chromosome chr is better current cromosome
 **/
-double
+bool
 InsularGenetica::
 CChromosome::
-fitness() const
+operator<(const CChromosome& chr)const
 {
-    Q_ASSERT(!m_transactions);
-    return m_fitness;
+    return m_function->compare(chr,*this);
+};
+/**
+ * @brief   Comparing current chromosome with chromosome chr
+ * @param   true, if chromosome chr is better current cromosome
+**/
+bool
+InsularGenetica::
+CChromosome::
+operator>(const CChromosome& chr)const
+{
+    return m_function->compare(*this,chr);
 };

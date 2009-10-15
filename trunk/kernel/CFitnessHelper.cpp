@@ -94,7 +94,7 @@ decode( const CChromosome&  chr,
 unsigned int
 InsularGenetica::
 CFitnessHelper::
-count()
+count()const
 {
     return m_counter;
 };

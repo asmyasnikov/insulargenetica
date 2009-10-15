@@ -64,8 +64,6 @@ namespace InsularGenetica
             Q_ASSERT(CChromosome::size() > 1);
             CChromosome child1(*pair.first);
             CChromosome child2(*pair.second);
-            child1.begin();
-            child2.begin();
             for(unsigned int i = 0; i < CChromosome::size(); i++)
             {
                 if(rand() % 2)
@@ -74,8 +72,6 @@ namespace InsularGenetica
                     child2.setGene(i, pair.first->getGene(i));
                 }
             }
-            child1.commit();
-            child2.commit();
             cids.addChromosome(child1);
             cids.addChromosome(child2);
         };

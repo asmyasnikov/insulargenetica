@@ -60,25 +60,16 @@ namespace InsularGenetica
         void select(const CPopulation&pop, CPopulation&sel)
         {
             Q_ASSERT(pop.size() > 1);
-            double miminum = pop.getMinimumFitness();
-            double summary = 0.;
-            for(int j = 0; j < pop.size(); j++)
-            {
-                summary += (pop.getChromosome(j).fitness() - miminum);
-            }
+            double weight  = (double(pop.size()+1)*double(pop.size()+1)-
+                              double(pop.size())-1)/2./double(pop.size());
             for(int i = 0; i < pop.size(); i++)
             {
                 double number     = double(rand()) /
-                                    double(RAND_MAX) * summary;
-                double accumulate = 0.;
-                for(int j = 0; j < pop.size(); j++)
+                                    double(RAND_MAX);
+                double accumulate = double(pop.size()-i)*weight;
+                if(accumulate > number)
                 {
-                    accumulate += (pop.getChromosome(j).fitness() - miminum);
-                    if(accumulate > number)
-                    {
-                        sel.addChromosome(pop.getChromosome(j));
-                        break;
-                    }
+                    sel.addChromosome(pop.getChromosome(i));
                 }
             }
             int i = 0;

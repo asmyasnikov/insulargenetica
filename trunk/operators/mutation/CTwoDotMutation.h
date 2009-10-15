@@ -76,10 +76,8 @@ namespace InsularGenetica
                 locus2 = qMin(int(CChromosome::size()) - 1,
                               rand() % int(CChromosome::size()));
             }
-            child.begin();
             child.invertGene(locus1);
             child.invertGene(locus2);
-            child.commit();
             cids.addChromosome(child);
         };
         /**
