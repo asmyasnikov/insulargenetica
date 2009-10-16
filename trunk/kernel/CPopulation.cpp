@@ -144,7 +144,11 @@ getChromosome(int index) const
 {
     QMutexLocker locker(&m_mutex);
     Q_ASSERT(index < m_data.size());
+#if QT_VERSION < 0x040000
+    return m_data[index];
+#else
     return m_data.at(index);
+#endif
 };
 /**
  * @brief  Добавить хромосому в популяцию
@@ -163,14 +167,22 @@ addChromosome(const CChromosome& chr)
         while((end-begin)>1)
         {
             int index = (end-begin)/2 + begin;
+#if QT_VERSION < 0x040000
+            if(m_data[index] < chr)
+#else
             if(m_data.at(index) < chr)
+#endif
             {
                 end   = index;
             }else{
                 begin = index;
             }
         }
+#if QT_VERSION < 0x040000
+        m_data.insert(m_data.at(end),chr);
+#else
         m_data.insert(end,chr);
+#endif
     }
 };
 /**
@@ -194,7 +206,11 @@ getHomogeneity(bool pseudo) const
         int tgene = 0;
         for(int j = 0; j < m_data.size(); j++)
         {
+#if QT_VERSION < 0x040000
+            if(m_data[j].getGene(i)) tgene++;
+#else
             if(m_data.at(j).getGene(i)) tgene++;
+#endif
         }
         if(pseudo)
         {
@@ -221,7 +237,11 @@ replaceChromosome(const CChromosome&chr)
     if((m_data.last() < chr)&&(!isPresent(chr)))
     {
         QMutexLocker locker(&m_mutex);
+#if QT_VERSION < 0x040000
+        m_data.pop_back();
+#else
         m_data.removeLast();
+#endif
         addChromosome(chr);
     }
 };
@@ -237,7 +257,11 @@ isPresent(const CChromosome&chr) const
     QMutexLocker locker(&m_mutex);
     for(int i = 0; i < m_data.size(); i++)
     {
+#if QT_VERSION < 0x040000
+        if(m_data[i] == chr) return true;
+#else
         if(m_data.at(i) == chr) return true;
+#endif
     }
     return false;
 };

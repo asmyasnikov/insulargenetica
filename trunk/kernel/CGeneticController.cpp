@@ -302,6 +302,7 @@ calc(IFitness*       fitness,
         island *= 2;
     };
     CGeneticAlgorithm::setPopulationSize(population);
+    CChromosome::setFitnessFunction(fitness);
     CChromosome::setSize(chromosom);
     CGeneticController control(fitness, population, island, minutes, cancel_service);
     control.calculate();
@@ -365,6 +366,7 @@ getCalculator(IFitness*       fitness,
         island *= 2;
     };
     CGeneticAlgorithm::setPopulationSize(population);
+    CChromosome::setFitnessFunction(fitness);
     CChromosome::setSize(chromosom);
     CGeneticController*control = new CGeneticController(fitness,
                                                         population,
