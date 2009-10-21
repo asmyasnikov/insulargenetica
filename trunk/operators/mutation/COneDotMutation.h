@@ -84,4 +84,4 @@ namespace InsularGenetica
     };
 };
 
-#endif // C_O
+#endif // C_ONE_DOT_MUTATION_H_INCLUDED

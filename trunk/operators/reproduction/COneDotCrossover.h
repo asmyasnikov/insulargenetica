@@ -58,10 +58,9 @@ namespace InsularGenetica
         **/
         ~COneDotCrossover(){};
         /**
-         * @brief  Метод получения из двух родителей одного или нескольких
-         *         потомков путем скрещивания
-         * @param  pair - пара родителей, из которых "рождаются" потомки
-         * @return cids - популяция потомков
+         * @brief  Method of getting childs from two parents by reproduction
+         * @param  pair - two parents
+         * @return cids - childs population
         **/
         void reproduct(const QPair<const CChromosome*,
                                    const CChromosome*>pair,
@@ -92,4 +91,4 @@ namespace InsularGenetica
     };
 };
 
-#endif //
+#endif // C_ONE_DOT_CROSSOVER_H_INCLUDED

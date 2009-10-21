@@ -22,7 +22,7 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    IMutation.h
- * @brief   Файл содержит интерфейс IMutation отбора родительских пар
+ * @brief   Interface IMutation
  * @date    17/02/2009
  * @version 1.18
 **/
@@ -36,13 +36,12 @@ namespace InsularGenetica
     struct IMutation : virtual public IGeneticOperator
     {
         /**
-         * @brief  Метод "рождения" мутированных потомков
-         * @param  chr  - родительская хромосома, из которой "рождается"
-         *                мутированный потомок
-         * @return cids - популяция потомков
+         * @brief  Method of getting childs by mutation
+         * @param  chr  - parent
+         * @return cids - childs population
         **/
         virtual void mutate(const CChromosome&  chr,
                             CPopulation&        cids) = 0;
     };
 };
-#endif // INTERFACE_MUTATIO
+#endif // INTERFACE_MUTATION_H_INCLUDED

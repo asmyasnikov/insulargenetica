@@ -47,4 +47,4 @@ namespace InsularGenetica
                             const CChromosome&cur) = 0;
     };
 };
-#endif // INTERFACE_ACCEPTI
+#endif // INTERFACE_ACCEPTING_H_INCLUDED

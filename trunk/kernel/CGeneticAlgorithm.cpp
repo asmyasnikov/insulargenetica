@@ -22,10 +22,8 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    CGeneticAlgorithm.cpp
- * @brief   Файл содержит реализацию класс CGeneticAlgorithm, который
- *          отвечает за бизнес-логику генетического алгоритма, за загрузку
- *          модулей генетического алгоритма, за динамическое определение
- *          частот использования генетических операторов
+ * @brief   Class CGeneticAlgorithm implement business logic of
+ *          genetic algorithm, provide control of genetic operators
  * @date    05/03/2009
  * @version 1.18
 **/
@@ -53,11 +51,11 @@ GPL, while maintaining information about developer this library.
 #include "../idl/IReproduction.h"
 #include "../idl/IMutation.h"
 #include "../idl/IAccepting.h"
-// Коэффициент "забывания" частот
+// Period of forget
 #define FORGET_PERIOD 5
-// Время для контроля бесконечных циклов - 30 секунд
+// Time for control infinite loop - 30 seconds
 #define INFINITE_LOOPING_TIME_SECONDS   30
-// Время опроса событий пользователя - 0.5 секунды
+// Time of process events - 0.5 second
 #define PROCESS_EVENTS_TIME_MSECONDS    500
 namespace InsularGenetica
 {
@@ -70,9 +68,8 @@ namespace InsularGenetica
 };
 unsigned int InsularGenetica::CGeneticAlgorithm::m_population_size = 128;
 /**
- * @brief Статический метод для установления размера популяции,
- *        одинакового на всех островах
- * @param size - размер популяции
+ * @brief Static method of setting population size
+ * @param size - size of population
 **/
 void
 InsularGenetica::
@@ -82,9 +79,9 @@ setPopulationSize(unsigned int size)
     m_population_size = size;
 };
 /**
- * @brief Конструктор
- * @param limit_time  - Ограничение по времени
- * @param limit_steps - Ограничение по количеству поколений
+ * @brief Constructor
+ * @param operators - genetic operators
+ * @param minutes   - maximum minutes of evalutions
 **/
 InsularGenetica::
 CGeneticAlgorithm::
@@ -121,7 +118,7 @@ CGeneticAlgorithm(ICancelService*cancel_service,
     Q_ASSERT(m_acceptings.size());
 };
 /**
- * @brief Деструктор
+ * @brief Destructor
 **/
 InsularGenetica::
 CGeneticAlgorithm::
@@ -135,11 +132,10 @@ CGeneticAlgorithm::
     m_acceptings.clear();
 };
 /**
- * @brief Шаблон инициализирует статистические частоты для генетических
- *        операторов
- * @param map       - словарь, в который следует поместить модули
- *                    генетических операторов
- * @param operators - модули генетических операторов
+ * @brief Initialization of genetic operator frequencies
+ *        and parse operators by types
+ * @param map       - operators by types
+ * @param operators - genetic operators
 **/
 template<typename T>
 void
@@ -186,11 +182,10 @@ initLibraries(QMap<T*, COperatorStatistics>&map,
     }
 };
 /**
- * @brief   Шаблон позволяет получить генетический оператор по его
- *          текущей частоте
- * @param   map - словарь, в котором содержатся модули генетических
- *          операторов
- * @return  Генетический оператор или NULL при ошибке
+ * @brief   Getting genetic operator by current frequency of
+ *          genetic operator
+ * @param   map - genetic operators for choise
+ * @return  operator pointer or NULL (if get error)
 **/
 template<typename T>
 inline T*
@@ -199,8 +194,6 @@ CGeneticAlgorithm::
 getGeneticOperator( QMap<T*,COperatorStatistics>&map) const
 {
     QMutexLocker locker(&m_mutex);
-    // Сначала выдаются генетические операторы, которые ранее не
-    // использовались
 #if QT_VERSION < 0x040000
     for(QMap<T*, COperatorStatistics>::iterator i = map.begin();
         i != map.end(); i++)
@@ -212,8 +205,6 @@ getGeneticOperator( QMap<T*,COperatorStatistics>&map) const
 #endif
         if(map[op].m_used_time < 1.e-7) return op;
     }
-    // Если все операторы уже использовались, то выдаем оператор
-    // по его частоте
     double random = double(rand())/double(RAND_MAX);
     double summ   = 0.;
 #if QT_VERSION < 0x040000
@@ -231,13 +222,11 @@ getGeneticOperator( QMap<T*,COperatorStatistics>&map) const
     return (T*)(map.begin().key());
 };
 /**
- * @brief Шаблон позволяет выгружать модули генетических операторов
- * @param map       - словарь, в котором содержатся модули генетических
- *                    операторов
- * @param op        - генетический оператор, для которого производится
- *                    пересчет частоты
- * @param used_time - затраченнное время на работу оператора
- * @param best      - количество хороших хромосом при использовании оператора
+ * @brief Update of genetic operators frequencies
+ * @param map       - group of genetic operators
+ * @param op        - current genetic operator
+ * @param used_time - time of algorithm work with operator op
+ * @param best      - number of good chromosomes returned operator op
 **/
 template<typename T>
 inline void
@@ -289,7 +278,7 @@ recalcStatisticalFrequency( QMap<T*, COperatorStatistics>&map,
     }
 };
 /**
- * @brief Основной цикл потока
+ * @brief Main loop of algorithm
 **/
 void
 InsularGenetica::
@@ -301,7 +290,6 @@ run()
     m_mutex.lock();
     m_result_code = Process;
     m_mutex.unlock();
-    // Проверяем разнородность популяции. Из зацикливания выходим по времени
     QDateTime dtime = QDateTime::currentDateTime()
                       .addSecs(INFINITE_LOOPING_TIME_SECONDS);
     while(m_population.getHomogeneity(true) > 0.55 &&
@@ -319,7 +307,6 @@ run()
     IAccepting*prev_accepting = NULL;
     double     prev_accepting_time = 0.;
     double     childs = 0.;
-    // Входим в цикл поиска решения
     while( result() == Process )
     {
         if(timer.elapsed() > PROCESS_EVENTS_TIME_MSECONDS)
@@ -357,7 +344,6 @@ run()
                          qMax(int(m_minutes)*600,6000));
         if(timeIsUp)
         {
-            // Миграция
             if(m_neighbour)
             {
                 CPopulation best_of_neighbour =
@@ -371,19 +357,14 @@ run()
                 }
             }
         }
-        // Популяция хромосом, рожденных скрещиванием
         CPopulation reproduct;
-        // Популяция мутированных хромосом
         CPopulation mutation;
-        // Скрещивание дало хорошее потомство
         unsigned int good_reproduct = 0;
-        // Мутация дала хорошее потомство
         unsigned int good_mutation  = 0;
         CParents parents;
         time.restart();
         m_grouping->group(selection, parents);
         double grouping_time = double(time.elapsed());
-        // "Родим" потомков
         time.restart();
         for(CParents::iterator i = parents.begin(); i != parents.end(); i++)
         {
@@ -397,18 +378,12 @@ run()
                m_population.getChromosome(0)) break;
             good_reproduct++;
         }
-        // Если среди потомков, рожденных скрещиванием, есть лучшие,
-        // то пересчиатем частоты операторов группировки и репродукции
-        // Если после оценки пригодности лучшая хромосома будет отвергнута,
-        // то в результате изменения частот вероятность "рождения" такой же
-        // хромосомы повышается
         recalcStatisticalFrequency(m_groupings    , m_grouping    ,
                                    grouping_time+reproduct_time,
                                    good_reproduct);
         recalcStatisticalFrequency(m_reproductions, m_reproduction,
                                    grouping_time+reproduct_time,
                                    good_reproduct);
-        // "Мутируем" потомков
         time.restart();
         for(int i = 0; i < selection.size(); i++)
         {
@@ -422,17 +397,8 @@ run()
                m_population.getChromosome(0)) break;
             good_mutation++;
         }
-        // Если среди потомков, рожденных скрещиванием, есть лучшие,
-        // то пересчиатем частоты операторов мутации
-        // Даже если после оценки пригодности лучшая хромосома будет
-        // отвергнута, то в результате изменения частот вероятность
-        // "мутации" к такой же хромосоме повышается
         recalcStatisticalFrequency(m_mutations, m_mutation,
                                    mutation_time, good_mutation);
-        // Если среди потомков есть лучшие и родительсий пул не включал
-        // случайных хромосом, то пересчиатем частоты операторов отбора,
-        // Так как отобранные хромосомы мутировали, скрещивались и дали
-        // хорошее потомство, то, очевидно, что такой отбор хороший
         if(!timeIsUp)
         {
             recalcStatisticalFrequency( m_selections,
@@ -460,8 +426,6 @@ run()
             }
         }
         double accepting_time = double(time.elapsed());
-        // Если популяция стала разнороднее, то пересчитаем частоту
-        // операторов оценки пригодности хромосом.
         if(prev_accepting)
         {
             recalcStatisticalFrequency( m_acceptings,
@@ -505,9 +469,9 @@ setNeighbourAlgorithm(CGeneticAlgorithm*neighbour)
     m_neighbour     = neighbour;
 };
 /**
- * @brief   Метод получения size-текущих оптимальных решений
- * @param   size - размер популяции на выходе
- * @return  Популяция size или меньших наилучших решений
+ * @brief   Getting best chromosomes
+ * @param   size - population size
+ * @return  size or less then size chromsomes in population
 **/
 InsularGenetica::
 CPopulation
@@ -524,7 +488,7 @@ getBestChromosomes(int size) const
     return result;
 };
 /**
- * @brief Прерывание работы основного цикла потока
+ * @brief Cancelling evalutions
 **/
 void
 InsularGenetica::

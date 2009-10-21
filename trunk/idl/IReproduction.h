@@ -22,13 +22,13 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    IReproduction.h
- * @brief   Файл содержит интерфейс IReproduction создания потомков из
- *          родительской пары
+ * @brief   Interface IReproduction
  * @date    17/02/2009
  * @version 1.18
 **/
 #ifndef INTERFACE_REPRODUCTION_H_INCLUDED
 #define INTERFACE_REPRODUCTION_H_INCLUDED
+
 #include <qglobal.h>
 #if QT_VERSION < 0x040000
     #include <qpair.h>
@@ -38,19 +38,19 @@ GPL, while maintaining information about developer this library.
 #include "IGeneticOperator.h"
 #include "../include/CChromosome.h"
 #include "../include/CPopulation.h"
+
 namespace InsularGenetica
 {
     struct IReproduction : virtual public IGeneticOperator
     {
         /**
-         * @brief  Метод получения из двух родителей одного или нескольких
-         *         потомков путем скрещивания
-         * @param  pair - пара родителей, из которых "рождаются" потомки
-         * @return cids - популяция потомков
+         * @brief  Method of getting childs from two parents by reproduction
+         * @param  pair - two parents
+         * @return cids - childs population
         **/
         virtual void reproduct( const QPair<const CChromosome*,
                                             const CChromosome*>  pair,
                                 CPopulation&                     cids) = 0;
     };
 };
-#endif // INTERFACE_REPROD
+#endif // INTERFACE_REPRODUCTION_H_INCLUDED

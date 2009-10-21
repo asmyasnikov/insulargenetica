@@ -22,8 +22,7 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    export.h
- * @brief   Файл содержит объявление макроса экпортирования
- *          внешних функций библиотеки
+ * @brief   Macros definitions
  * @date    18/02/2009
  * @version 1.18
 **/

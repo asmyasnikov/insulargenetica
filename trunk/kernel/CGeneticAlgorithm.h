@@ -22,10 +22,8 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    CGeneticAlgorithm.h
- * @brief   Файл содержит класс CGeneticAlgorithm, который отвечает за
- *          бизнес-логику генетического алгоритма, за загрузку модулей
- *          генетического алгоритма, за динамическое определение частот
- *          использования генетических операторов
+ * @brief   Class CGeneticAlgorithm implement business logic of
+ *          genetic algorithm, provide control of genetic operators
  * @date    05/03/2009
  * @version 1.18
 **/
@@ -61,23 +59,22 @@ namespace InsularGenetica
     {
         enum ResultCode
         {
-            NoCode              = -1, // Алгоритм еще работает
-            Process             =  0, // Задача находится в процессе расчета
-            MaxTimes            =  1, // Максимальное время эволюции
-            DeadLock            =  2, // Длительное неулучшение решения
-            GoodHomogeneity     =  3, // Достижение 95-% однородности
-            Cancel              =  4  // Отмена
+            NoCode              = -1, // Algorithm not start of evalutions
+            Process             =  0, // Evalutions
+            MaxTimes            =  1, // Was got maximum time of evolution
+            DeadLock            =  2, // Was got dead lock
+            GoodHomogeneity     =  3, // Was got 95-% homogeineity
+            Cancel              =  4  // Cancel evalutions
         };
         /**
-         * @brief Статический метод для установления размера популяции,
-         *        одинакового на всех островах
-         * @param size - размер популяции
+         * @brief Static method of setting population size
+         * @param size - size of population
         **/
         static void setPopulationSize(unsigned int size);
         /**
-         * @brief Конструктор
-         * @param operators - Генетические операторы
-         * @param minutes   - Ограничение по времени
+         * @brief Constructor
+         * @param operators - genetic operators
+         * @param minutes   - maximum minutes of evalutions
         **/
         CGeneticAlgorithm(ICancelService*cancel_service,
 #if QT_VERSION < 0x040000
@@ -87,41 +84,40 @@ namespace InsularGenetica
 #endif
                           unsigned long                 minutes = 168);
         /**
-         * @brief Деструктор
+         * @brief Destructor
         **/
         ~CGeneticAlgorithm();
         /**
-         * @brief   Метод позволяет получить код завершения алгоритма
-         * @return  Код завершения алгоритма
+         * @brief   Getting current code of algorithm
+         * @return  current code of algorithm
         **/
         ResultCode result() const;
         /**
-         * @brief   Метод назначения ближайшего острова в островной модели
-         *          с топологией "кольцо"
-         * @param   neighbour - генетический алгоритм соседнего острова
+         * @brief   Setting neighbour island (genetic algorithm)
+         *          This need for "ring" topology
+         * @param   neighbour - genetic algorithm
         **/
         void setNeighbourAlgorithm(CGeneticAlgorithm*neighbour);
         /**
-         * @brief   Метод получения size-текущих оптимальных решений
-         * @param   size - размер популяции на выходе
-         * @return  Популяция size или меньших наилучших решений
+         * @brief   Getting best chromosomes
+         * @param   size - population size
+         * @return  size or less then size chromsomes in population
         **/
         CPopulation getBestChromosomes(int size) const;
         /**
-         * @brief Основной цикл потока
+         * @brief Main loop of algorithm
         **/
         void run();
         /**
-         * @brief Прерывание работы основного цикла потока
+         * @brief Cancelling evalutions
         **/
         void cancel();
     private:
         /**
-         * @brief Шаблон инициализирует статистические частоты для
-         *        генетических операторов
-         * @param map       - словарь, в который следует поместить модули
-         *                    генетических операторов
-         * @param operators - модули генетических операторов
+         * @brief Initialization of genetic operator frequencies
+         *        and parse operators by types
+         * @param map       - operators by types
+         * @param operators - genetic operators
         **/
         template<typename T>
         void initLibraries(QMap<T*, COperatorStatistics>&   map,
@@ -132,23 +128,19 @@ namespace InsularGenetica
 #endif
                           );
         /**
-         * @brief   Шаблон позволяет получить генетический оператор по
-         *          его текущей частоте
-         * @param   map - словарь, в котором содержатся модули
-         *          генетических операторов
-         * @return  Генетический оператор или NULL при ошибке
+         * @brief   Getting genetic operator by current frequency of
+         *          genetic operator
+         * @param   map - genetic operators for choise
+         * @return  operator pointer or NULL (if get error)
         **/
         template<typename T>
         inline T* getGeneticOperator(QMap<T*, COperatorStatistics>&map) const;
         /**
-         * @brief Шаблон позволяет выгружать модули генетических операторов
-         * @param map       - словарь, в котором содержатся модули
-         *                    генетических операторов
-         * @param op        - генетический оператор, для которого
-         *                    производится пересчет частоты
-         * @param used_time - затраченнное время на работу оператора
-         * @param best      - количество хороших хромосом при использовании
-         *                    оператора
+         * @brief Update of genetic operators frequencies
+         * @param map       - group of genetic operators
+         * @param op        - current genetic operator
+         * @param used_time - time of algorithm work with operator op
+         * @param best      - number of good chromosomes returned operator op
         **/
         template<typename T>
         inline void
@@ -157,27 +149,27 @@ namespace InsularGenetica
                                     double                         used_time,
                                     unsigned int                   best);
     private:
-        ///<! Словарь операторов отбора
+        ///<! Group of selection genetic operators
         QMap <ISelection*   , COperatorStatistics> m_selections;
-        ///<! Словарь операторов соединения пар
+        ///<! Group of grouping genetic operators
         QMap <IGrouping*    , COperatorStatistics> m_groupings;
-        ///<! Словарь операторов скрещивания
+        ///<! Group of reproduction genetic operators
         QMap <IReproduction*, COperatorStatistics> m_reproductions;
-        ///<! Словарь операторов мутации
+        ///<! Group of mutation genetic operators
         QMap <IMutation*    , COperatorStatistics> m_mutations;
-        ///<! Словарь операторов оценки пригодности потомков
+        ///<! Group of accepting genetic operators
         QMap <IAccepting*   , COperatorStatistics> m_acceptings;
-        ///<! Ограничение по времени
+        ///<! maximum time
         unsigned long                              m_minutes;
-        ///<! Код завершения алгоритма
+        ///<! Code of algorithm
         ResultCode                                 m_result_code;
-        ///<! Размер популяции
+        ///<! Size of population
         static unsigned int                        m_population_size;
-        ///<! Популяция острова
+        ///<! Main population
         CPopulation                                m_population;
-        ///<! Алгоритм соседнего острова
+        ///<! Neighbour genetic algorithm
         CGeneticAlgorithm*                         m_neighbour;
-        ///<! Блокатор совместных данных
+        ///<! Mutex
         mutable QMutex                             m_mutex;
         ///<! Cancel service pointer
         ICancelService*                            m_cancel_service;

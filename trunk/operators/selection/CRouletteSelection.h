@@ -91,4 +91,4 @@ namespace InsularGenetica
     };
 };
 
-#endif // C_ROUL
+#endif // C_ROULETTE_SELECTION_H_INCLUDED

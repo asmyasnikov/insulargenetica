@@ -52,10 +52,9 @@ namespace InsularGenetica
         **/
         ~CFullMutation(){};
         /**
-         * @brief  Метод "рождения" мутированных потомков
-         * @param  chr  - родительская хромосома, из которой "рождается"
-         *                мутированный потомок
-         * @return cids - популяция потомков
+         * @brief  Method of getting childs by mutation
+         * @param  chr  - parent
+         * @return cids - childs population
         **/
         void mutate(const CChromosome&chr, CPopulation&cids)
         {
@@ -78,4 +77,4 @@ namespace InsularGenetica
     };
 };
 
-#endif //
+#endif // C_FULL_MUTATION_H_INCLUDED

@@ -22,7 +22,7 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    IGeneticOperator.h
- * @brief   Файл содержит интерфейс IGeneticOperator
+ * @brief   Interface IGeneticOperator
  * @date    20/02/2009
  * @version 1.18
 **/
@@ -35,10 +35,10 @@ namespace InsularGenetica
     struct IGeneticOperator : virtual public Interface
     {
         /**
-         * @brief   Метод получения наименования генетического оператора
-         * @return  наименование генетического оператора
+         * @brief   Getting name of genetic operator
+         * @return  Name of genetic operator
         **/
         virtual const QString name() = 0;
     };
 };
-#endif // INTERFACE_GENETIC
+#endif // INTERFACE_GENETIC_OPERATOR_H

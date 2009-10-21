@@ -22,26 +22,27 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    ISelection.h
- * @brief   Файл содержит интерфейс ISelection отбора родительских хромосом
+ * @brief   Interface ISelection
  * @date    17/02/2009
  * @version 1.18
 **/
 #ifndef INTERFACE_SELECTION_H_INCLUDED
 #define INTERFACE_SELECTION_H_INCLUDED
+
 #include "IGeneticOperator.h"
 #include "../include/CPopulation.h"
+
 namespace InsularGenetica
 {
     struct ISelection : virtual public IGeneticOperator
     {
         /**
-         * @brief  Метод отбора из популяции хромосом для дальнейшего
-         *         скрещивания и мутации
-         * @param  pop - популяция родителей, из которых производится отбор
-         * @return sel - популяция родителей для скрещивания и мутаций
+         * @brief  Method of selection chromosomes from population
+         * @param  pop - parents population
+         * @return sel - parents pool
         **/
         virtual void select(const CPopulation&  pop,
                             CPopulation&        sel) = 0;
     };
 };
-#endif // INTERFACE_SELE
+#endif // INTERFACE_SELECTION_H_INCLUDED

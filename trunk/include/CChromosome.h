@@ -105,17 +105,11 @@ namespace InsularGenetica
          * @param   true, if chromosome chr is better current cromosome
         **/
         bool operator<(const CChromosome& chr)const;
-        /**
-         * @brief   Comparing current chromosome with chromosome chr
-         * @param   true, if current cromosome is better chromosome chr
-        **/
-        bool operator>(const CChromosome& chr)const;
     private:
         static unsigned int m_bit_size;      ///<! Length of chromosome
         static unsigned int m_byte_size;     ///<! Number of memory byte
         static IFitness*    m_function;      ///<! Fitness function poiner
         unsigned char*      m_data;          ///<! Values of chromosome genes
-        friend class CGeneticAlgorithm;
     };
 };
-#endif // CCHROMOSOME
+#endif // CCHROMOSOME_H_INCLUDED

@@ -77,4 +77,4 @@ namespace InsularGenetica
     };
 };
 
-#endif // C_RANDO
+#endif // C_RANDOM_SELECTION_H_INCLUDED

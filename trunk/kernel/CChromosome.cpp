@@ -212,14 +212,3 @@ operator<(const CChromosome& chr)const
 {
     return m_function->compare(chr,*this);
 };
-/**
- * @brief   Comparing current chromosome with chromosome chr
- * @param   true, if chromosome chr is better current cromosome
-**/
-bool
-InsularGenetica::
-CChromosome::
-operator>(const CChromosome& chr)const
-{
-    return m_function->compare(*this,chr);
-};

@@ -22,7 +22,7 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    Iterface.h
- * @brief   Файл содержит базовый интерфейс Interface
+ * @brief   Base interface Interface
  * @date    20/02/2009
  * @version 1.18
 **/
@@ -33,9 +33,9 @@ namespace InsularGenetica
     struct Interface
     {
         /**
-         * @brief Вирутальный деструктор
+         * @brief Virtual destructor
         **/
         virtual ~Interface(void) {};
     };
 };
-#endif // INTERFACE_H_INC
+#endif // INTERFACE_H_INCLUDED

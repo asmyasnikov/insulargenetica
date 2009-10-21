@@ -22,7 +22,7 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    IGrouping.h
- * @brief   Файл содержит интерфейс IGrouping отбора родительских пар
+ * @brief   Interface IGrouping
  * @date    17/02/2009
  * @version 1.18
 **/
@@ -48,13 +48,12 @@ namespace InsularGenetica
     struct IGrouping : virtual public IGeneticOperator
     {
         /**
-         * @brief  Метод отбора пар родительских хромосом для дальнейшего
-         *         скрещивания
-         * @param  sel - популяция родителей для скрещивания
-         * @return par - набор пар родителей
+         * @brief  Method of grouping chromosomes from pool of parents to pairs
+         * @param  sel - pool of parents
+         * @return par - pairs of parents
         **/
         virtual void group( const CPopulation&  sel,
                             CParents&           par) = 0;
     };
 };
-#endif // INTERFACE_GROUPIN
+#endif // INTERFACE_GROUPING_H_INCLUDED
