@@ -22,9 +22,9 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    COneDotMutation.h
- * @brief   Файл содержит класс COneDotMutation отбора родительских хромосом
+ * @brief   Class COneDotMutation
  * @date    20/02/2009
- * @version 1.18
+ * @version 3.3
 **/
 #ifndef C_ONE_DOT_MUTATION_H_INCLUDED
 #define C_ONE_DOT_MUTATION_H_INCLUDED
@@ -50,18 +50,17 @@ namespace InsularGenetica
     struct COneDotMutation : virtual public IMutation
     {
         /**
-         * @brief   Базовый конструктор
+         * @brief   Constructor
         **/
         COneDotMutation(){};
         /**
-         * @brief   Деструктор
+         * @brief   Destructor
         **/
         ~COneDotMutation(){};
         /**
-         * @brief  Метод "рождения" мутированных потомков
-         * @param  chr  - родительская хромосома, из которой "рождается"
-         *                мутированный потомок
-         * @return cids - популяция потомков
+         * @brief  Method of getting childs by mutation
+         * @param  chr  - parent
+         * @return cids - childs population
         **/
         void mutate(const CChromosome&chr, CPopulation&cids)
         {
@@ -74,12 +73,12 @@ namespace InsularGenetica
             cids.addChromosome(child);
         };
         /**
-         * @brief   Метод получения наименования генетического оператора
-         * @return  наименование генетического оператора
+         * @brief   Getting name of genetic operator
+         * @return  name of genetic operator
         **/
         const QString name()
         {
-            return QObject::trUtf8("Одноточечная мутация");
+            return QObject::trUtf8("One-dot mutation");
         };
     };
 };

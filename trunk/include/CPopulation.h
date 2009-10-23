@@ -22,11 +22,9 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    CPopulation.h
- * @brief   Файл содержит класс CPopulation,
- *          который является аналогом популяции
- *          в генетическом программировании
+ * @brief   Class CPopulation - population analog
  * @date    13/02/2009
- * @version 1.18
+ * @version 3.3
 **/
 #ifndef CPOPULATION_H_INCLUDED
 #define CPOPULATION_H_INCLUDED
@@ -46,70 +44,63 @@ namespace InsularGenetica
     struct Q_DECL_EXPORT CPopulation : virtual public Interface
     {
         /**
-         * @brief   Конструктор
-         * @param   size - размер популяции
+         * @brief   Constructor
+         * @param   size - population size
         **/
         CPopulation(int size = 0);
         /**
-         * @brief   Конструктор копирования
-         *          Производится глубокое копирование данных
-         * @param   pop - популяция, из которой происходит
-         *          конструирование текущей популяции
+         * @brief   Copy constructor
+         * @param   pop - source population
         **/
         CPopulation(const CPopulation& pop);
         /**
-         * @brief   Оператор копирования
-         *          Производится глубокое копирование данных
-         * @param   pop - популяция, из которой происходит
-         *          конструирование текущей популяции
+         * @brief   Copy operator
+         * @param   pop - source population
         **/
         CPopulation& operator=(const CPopulation& pop);
         /**
-         * @brief   Деструктор
+         * @brief   Destructor
         **/
         ~CPopulation();
         /**
-         * @brief  Размер хромосомы
-         * @return Размер хромосомы
+         * @brief  Size of population
+         * @return Size of population
         **/
         int size() const;
         /**
-         * @brief  Получить хромосому
-         * @return Хромосома
+         * @brief  Getting chromosome
+         * @return Chromosome
         **/
         const CChromosome& getChromosome(int index) const;
         /**
-         * @brief  Добавить хромосому в популяцию
-         * @param  chr - хромосома
+         * @brief  Adding chromosome into population
+         * @param  chr - chromosome
         **/
         void addChromosome(const CChromosome& chr);
         /**
-         * @brief  Рассчитать стенень однородности популяции
-         * @param  pseudo - параметр позволяет рассчитать при (pseudo==true)
-         *         псвдооднородность популяции. Псвдооднородность популяции
-         *         рассчитывается с учетом незначительности отдельных
-         *         несовпадений в генах приподавляющем большинстве совпадений
-         * @return Стенень однородности популяции от 0 до 1
-         * @return Стенень псевдооднородности популяции от 0.5 до 1
+         * @brief  Getting population homogeineity
+         * @param  pseudo - getting population pseudo homogeineity
+         * @return Population homogeineity [0;1]
+         * @return Population pseudo-homogeineity [0.5;1]
         **/
         double getHomogeneity(bool pseudo = false) const;
         /**
-         * @brief  Заменить в популяции худшую хромосому
-         * @param  chr - хромосома для замены
+         * @brief  Method of replace chromosome
+         * @param  chr - chromosome
         **/
         void replaceChromosome(const CChromosome&chr);
         /**
-         * @brief  Проверить, есть ли в популяции такая же хромосома
-         * @param  chr - хромосома для проверки
+         * @brief  Checking chromosome exists
+         * @param  chr - chromosome
         **/
         bool isPresent(const CChromosome&chr) const;
     private:
 #if QT_VERSION < 0x040000
-        QValueList<CChromosome> m_data; ///<! Хромосомы в популяции
+        QValueList<CChromosome> m_data; ///<! Chromosome in population
 #else
-        QList     <CChromosome> m_data; ///<! Хромосомы в популяции
+        QList     <CChromosome> m_data; ///<! Chromosome in population
 #endif
-        ///<! Блокатор доступа, обеспечивающий атомарность методов
+        ///<! Mutex
         mutable QMutex          m_mutex;
     };
 };

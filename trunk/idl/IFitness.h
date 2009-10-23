@@ -25,7 +25,7 @@ GPL, while maintaining information about developer this library.
  * @brief   Interface IFitnes provide performance calculating
  *          of fitness function
  * @date    20/02/2009
- * @version 1.14
+ * @version 3.3
 **/
 #ifndef FITNESS_INTERFACE
 #define FITNESS_INTERFACE

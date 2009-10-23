@@ -25,7 +25,7 @@ GPL, while maintaining information about developer this library.
  * @class   CBestWithAll
  * @brief   Best chromosome from parents pool group with all chromosomes
  * @date    20/02/2009
- * @version 1.18
+ * @version 3.3
 **/
 #ifndef C_BEST_WITH_ALL_H_INCLUDED
 #define C_BEST_WITH_ALL_H_INCLUDED

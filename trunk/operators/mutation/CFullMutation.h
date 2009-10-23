@@ -22,9 +22,9 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    CFullMutation.h
- * @brief   Файл содержит класс CFullMutation отбора родительских хромосом
+ * @brief   Class CFullMutation
  * @date    20/02/2009
- * @version 1.18
+ * @version 3.3
 **/
 #ifndef C_FULL_MUTATION_H_INCLUDED
 #define C_FULL_MUTATION_H_INCLUDED
@@ -44,11 +44,11 @@ namespace InsularGenetica
     struct CFullMutation : virtual public IMutation
     {
         /**
-         * @brief   Базовый конструктор
+         * @brief   Constructor
         **/
         CFullMutation(){};
         /**
-         * @brief   Деструктор
+         * @brief   Destructor
         **/
         ~CFullMutation(){};
         /**
@@ -67,12 +67,12 @@ namespace InsularGenetica
             cids.addChromosome(child);
         };
         /**
-         * @brief   Метод получения наименования генетического оператора
-         * @return  наименование генетического оператора
+         * @brief   Getting name of genetic operator
+         * @return  name of genetic operator
         **/
         const QString name()
         {
-            return QObject::trUtf8("Полная мутация");
+            return QObject::trUtf8("Full mutation");
         };
     };
 };

@@ -22,9 +22,9 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    COneDotCrossover.h
- * @brief   Файл содержит класс COneDotCrossover отбора родительских хромосом
+ * @brief   Class COneDotCrossover
  * @date    20/02/2009
- * @version 1.18
+ * @version 3.3
 **/
 #ifndef C_ONE_DOT_CROSSOVER_H_INCLUDED
 #define C_ONE_DOT_CROSSOVER_H_INCLUDED
@@ -50,11 +50,11 @@ namespace InsularGenetica
     struct COneDotCrossover : virtual public IReproduction
     {
         /**
-         * @brief   Базовый конструктор
+         * @brief   Constructor
         **/
         COneDotCrossover(){};
         /**
-         * @brief   Деструктор
+         * @brief   Destructor
         **/
         ~COneDotCrossover(){};
         /**
@@ -81,12 +81,12 @@ namespace InsularGenetica
             cids.addChromosome(child2);
         };
         /**
-         * @brief   Метод получения наименования генетического оператора
-         * @return  наименование генетического оператора
+         * @brief   Getting name of genetic operator
+         * @return  name of genetic operator
         **/
         const QString name()
         {
-            return QObject::trUtf8("Одноточечный кроссинговер");
+            return QObject::trUtf8("One-dot crossover");
         };
     };
 };

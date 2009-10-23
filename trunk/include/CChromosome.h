@@ -26,7 +26,7 @@ GPL, while maintaining information about developer this library.
  * @brief   This is the class CChromosome. It implement chromosome
  *          in genetic programming
  * @date    20/02/2009
- * @version 1.18
+ * @version 3.3
 **/
 #ifndef CCHROMOSOME_H_INCLUDED
 #define CCHROMOSOME_H_INCLUDED

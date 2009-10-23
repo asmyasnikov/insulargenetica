@@ -22,9 +22,9 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    CRouletteSelection.h
- * @brief   Файл содержит класс CRouletteSelection отбора родительских хромосом
+ * @brief   Class CRouletteSelection
  * @date    20/02/2009
- * @version 1.18
+ * @version 3.3
 **/
 #ifndef C_ROULETTE_SELECTION_H_INCLUDED
 #define C_ROULETTE_SELECTION_H_INCLUDED
@@ -44,18 +44,17 @@ namespace InsularGenetica
     struct CRouletteSelection : virtual public ISelection
     {
         /**
-         * @brief   Базовый конструктор
+         * @brief   Constructor
         **/
         CRouletteSelection(){};
         /**
-         * @brief   Деструктор
+         * @brief   Destructor
         **/
         ~CRouletteSelection(){};
         /**
-         * @brief  Метод отбора из популяции хромосом для дальнейшего
-         *         скрещивания и мутации
-         * @param  pop - популяция родителей, из которых производится отбор
-         * @return sel - популяция родителей для скрещивания и мутаций
+         * @brief  Method of selection chromosomes from population
+         * @param  pop - parents population
+         * @return sel - parents pool
         **/
         void select(const CPopulation&pop, CPopulation&sel)
         {
@@ -81,12 +80,12 @@ namespace InsularGenetica
             Q_ASSERT(sel.size() > 1);
         };
         /**
-         * @brief   Метод получения наименования генетического оператора
-         * @return  наименование генетического оператора
+         * @brief   Getting name of genetic operator
+         * @return  name of genetic operator
         **/
         const QString name()
         {
-            return QObject::trUtf8("Рулеточный отбор");
+            return QObject::trUtf8("Roulette selection");
         };
     };
 };

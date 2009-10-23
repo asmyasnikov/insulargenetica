@@ -22,11 +22,9 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    CPopulation.cpp
- * @brief   Файл содержит класс CPopulation,
- *          который является аналогом популяции
- *          в генетическом программировании
+ * @brief   Class CPopulation - population analog
  * @date    13/02/2009
- * @version 1.18
+ * @version 3.3
 **/
 #include <math.h>
 #include "../idl/IFitness.h"
@@ -47,8 +45,8 @@ GPL, while maintaining information about developer this library.
     #include <QtCore/QMutexLocker>
 #endif
 /**
- * @brief   Конструктор
- * @param   size - размер популяции
+ * @brief   Constructor
+ * @param   size - population size
 **/
 InsularGenetica::
 CPopulation::
@@ -79,10 +77,8 @@ CPopulation(int size) :
     }
 };
 /**
- * @brief   Конструктор копирования
- *          Производится глубокое копирование данных
- * @param   pop - популяция, из которой происходит
- *          конструирование текущей популяции
+ * @brief   Copy constructor
+ * @param   pop - source population
 **/
 InsularGenetica::
 CPopulation::
@@ -112,7 +108,7 @@ CPopulation(const CPopulation& pop) :
     }
 };
 /**
- * @brief   Деструктор
+ * @brief   Destructor
 **/
 InsularGenetica::
 CPopulation::
@@ -120,8 +116,8 @@ CPopulation::
 {
 };
 /**
- * @brief  Размер хромосомы
- * @return Размер хромосомы
+ * @brief  Population size
+ * @return Size of population
 **/
 int
 InsularGenetica::
@@ -132,8 +128,9 @@ size() const
     return m_data.size();
 };
 /**
- * @brief  Получить хромосому
- * @return Хромосома
+ * @brief  Getting chromosome by index
+ * @param  index - index of chromosome
+ * @return Chromosome
 **/
 const
 InsularGenetica::
@@ -151,8 +148,8 @@ getChromosome(int index) const
 #endif
 };
 /**
- * @brief  Добавить хромосому в популяцию
- * @param  chr - хромосома
+ * @brief  Add chromosome in population
+ * @param  chr - chromosome
 **/
 void
 InsularGenetica::
@@ -186,13 +183,10 @@ addChromosome(const CChromosome& chr)
     }
 };
 /**
- * @brief  Рассчитать стенень однородности популяции
- * @param  pseudo - параметр позволяет рассчитать при (pseudo == true)
- *         псвдооднородность популяции. Псвдооднородность популяции
- *         рассчитывается с учетом незначительности отдельных несовпадений
- *         в генах приподавляющем большинстве совпадений.
- * @return Стенень однородности популяции в диапазоне от 0 до 1
- * @return Стенень псевдооднородности популяции в диапазоне от 0.5 до 1
+ * @brief  Getting population homogeineity
+ * @param  pseudo - getting population pseudo homogeineity
+ * @return Population homogeineity [0;1]
+ * @return Population pseudo-homogeineity [0.5;1]
 **/
 double
 InsularGenetica::
@@ -226,8 +220,8 @@ getHomogeneity(bool pseudo) const
            double(CChromosome::size()*(pseudo?m_data.size():1));
 };
 /**
- * @brief  Заменить в популяции худшую хромосому
- * @param  chr - хромосома для замены
+ * @brief  Method of replace chromosome
+ * @param  chr - chromosome
 **/
 void
 InsularGenetica::
@@ -246,8 +240,8 @@ replaceChromosome(const CChromosome&chr)
     }
 };
 /**
- * @brief  Проверить, есть ли в популяции такая же хромосома
- * @param  chr - хромосома для проверки
+ * @brief  Checking chromosome exists
+ * @param  chr - chromosome
 **/
 bool
 InsularGenetica::
@@ -266,10 +260,8 @@ isPresent(const CChromosome&chr) const
     return false;
 };
 /**
- * @brief   Оператор копирования
- *          Производится глубокое копирование данных
- * @param   pop - популяция, из которой происходит
- *          конструирование текущей популяции
+ * @brief   Copy operator
+ * @param   pop - source population
 **/
 InsularGenetica::
 CPopulation&

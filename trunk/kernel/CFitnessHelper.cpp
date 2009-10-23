@@ -26,7 +26,7 @@ GPL, while maintaining information about developer this library.
  * @brief   Class contains extra methods for genotype to phenotype
  *          and bitstring to double conversions
  * @date    20/02/2009
- * @version 1.18
+ * @version 3.3
 **/
 #include "../include/CFitnessHelper.h"
 #include "../include/CChromosome.h"

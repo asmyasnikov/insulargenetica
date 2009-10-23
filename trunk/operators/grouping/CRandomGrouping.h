@@ -22,9 +22,9 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    CRandomGrouping.h
- * @brief   Файл содержит класс CRandomGrouping отбора родительских хромосом
+ * @brief   Class CRandomGrouping
  * @date    20/02/2009
- * @version 1.18
+ * @version 3.3
 **/
 #ifndef C_RANDOM_GROUPING_H_INCLUDED
 #define C_RANDOM_GROUPING_H_INCLUDED
@@ -50,17 +50,17 @@ namespace InsularGenetica
     struct CRandomGrouping : virtual public IGrouping
     {
         /**
-         * @brief   Базовый конструктор
+         * @brief   Constructor
         **/
         CRandomGrouping(){};
         /**
-         * @brief   Деструктор
+         * @brief   Destructor
         **/
         ~CRandomGrouping(){};
         /**
-         * @brief  Метод отбора пар родительских хромосом для скрещивания
-         * @param  sel - популяция родителей для скрещивания
-         * @return par - набор пар родителей
+         * @brief  Method of grouping chromosomes from pool of parents to pairs
+         * @param  sel - pool of parents
+         * @return par - pairs of parents
         **/
         void group(const CPopulation&sel, CParents&par)
         {
@@ -82,12 +82,12 @@ namespace InsularGenetica
             }
         };
         /**
-         * @brief   Метод получения наименования генетического оператора
-         * @return  наименование генетического оператора
+         * @brief   Getting name of genetic operator
+         * @return  name of genetic operator
         **/
         const QString name()
         {
-            return QObject::trUtf8("Группировка всех хромосом со всеми");
+            return QObject::trUtf8("Grouping all chromosomes with all");
         };
     };
 };

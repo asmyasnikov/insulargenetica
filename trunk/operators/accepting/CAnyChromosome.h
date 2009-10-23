@@ -25,7 +25,7 @@ GPL, while maintaining information about developer this library.
  * @class   CAnyChromosome
  * @brief   Accepting all chromosomes
  * @date    20/02/2009
- * @version 1.18
+ * @version 3.3
 **/
 #ifndef C_ANY_CHROMOSOME_H_INCLUDED
 #define C_ANY_CHROMOSOME_H_INCLUDED

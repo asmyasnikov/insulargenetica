@@ -22,9 +22,9 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    CUnifiedCrossover.h
- * @brief   Файл содержит класс CUnifiedCrossover отбора родительских хромосом
+ * @brief   Class CUnifiedCrossover
  * @date    20/02/2009
- * @version 1.18
+ * @version 3.3
 **/
 #ifndef C_UNIFIED_CROSSOVER_H_INCLUDED
 #define C_UNIFIED_CROSSOVER_H_INCLUDED
@@ -44,11 +44,11 @@ namespace InsularGenetica
     struct CUnifiedCrossover : virtual public IReproduction
     {
         /**
-         * @brief   Базовый конструктор
+         * @brief   Constructor
         **/
         CUnifiedCrossover(){};
         /**
-         * @brief   Деструктор
+         * @brief   Destructor
         **/
         ~CUnifiedCrossover(){};
         /**
@@ -75,13 +75,12 @@ namespace InsularGenetica
             cids.addChromosome(child2);
         };
         /**
-         * @brief   Метод получения наименования генетического оператора
-         * @return  наименование генетического оператора
+         * @brief   Getting name of genetic operator
+         * @return  name of genetic operator
         **/
         const QString name()
         {
-            return QObject::trUtf8("Универсальный "
-                                   "мультиточечный кроссинговер");
+            return QObject::trUtf8("Unified multi-dot crossover");
         };
     };
 };

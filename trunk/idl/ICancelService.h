@@ -24,7 +24,7 @@ GPL, while maintaining information about developer this library.
  * @file    ICancelService.h
  * @brief   Service of canceling evaluatings
  * @date    17/05/2009
- * @version 1.18
+ * @version 3.3
 **/
 #ifndef CANCEL_SERVICE_INTERFACE
 #define CANCEL_SERVICE_INTERFACE

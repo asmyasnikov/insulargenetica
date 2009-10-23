@@ -22,9 +22,9 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    CRandomSelection.h
- * @brief   Файл содержит класс CRandomSelection отбора родительских хромосом
+ * @brief   Class CRandomSelection
  * @date    20/02/2009
- * @version 1.18
+ * @version 3.3
 **/
 #ifndef C_RANDOM_SELECTION_H_INCLUDED
 #define C_RANDOM_SELECTION_H_INCLUDED
@@ -44,18 +44,17 @@ namespace InsularGenetica
     struct CRandomSelection : virtual public ISelection
     {
         /**
-         * @brief   Базовый конструктор
+         * @brief   Constructor
         **/
         CRandomSelection(){};
         /**
-         * @brief   Деструктор
+         * @brief   Destructor
         **/
         ~CRandomSelection(){};
         /**
-         * @brief  Метод отбора из популяции хромосом для дальнейшего
-         *         скрещивания и мутации
-         * @param  pop - популяция родителей, из которых производится отбор
-         * @return sel - популяция родителей для скрещивания и мутаций
+         * @brief  Method of selection chromosomes from population
+         * @param  pop - parents population
+         * @return sel - parents pool
         **/
         void select(const CPopulation&pop, CPopulation&sel)
         {
@@ -67,12 +66,12 @@ namespace InsularGenetica
             Q_ASSERT(sel.size() > 1);
         };
         /**
-         * @brief   Метод получения наименования генетического оператора
-         * @return  наименование генетического оператора
+         * @brief   Getting name of genetic operator
+         * @return  name of genetic operator
         **/
         const QString name()
         {
-            return QObject::trUtf8("Случайный отбор");
+            return QObject::trUtf8("Random selection");
         };
     };
 };

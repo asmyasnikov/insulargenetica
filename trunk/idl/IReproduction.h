@@ -24,7 +24,7 @@ GPL, while maintaining information about developer this library.
  * @file    IReproduction.h
  * @brief   Interface IReproduction
  * @date    17/02/2009
- * @version 1.18
+ * @version 3.3
 **/
 #ifndef INTERFACE_REPRODUCTION_H_INCLUDED
 #define INTERFACE_REPRODUCTION_H_INCLUDED

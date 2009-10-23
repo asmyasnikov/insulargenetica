@@ -22,9 +22,9 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    COutBreeding.h
- * @brief   Файл содержит класс COutBreeding отбора родительских хромосом
+ * @brief   Class COutBreeding
  * @date    20/02/2009
- * @version 1.18
+ * @version 3.3
 **/
 #ifndef C_OUTBRIDING_H_INCLUDED
 #define C_OUTBRIDING_H_INCLUDED
@@ -54,17 +54,17 @@ namespace InsularGenetica
     struct COutBreeding : virtual public IGrouping
     {
         /**
-         * @brief   Базовый конструктор
+         * @brief   Constructor
         **/
         COutBreeding(){};
         /**
-         * @brief   Деструктор
+         * @brief   Destructor
         **/
         ~COutBreeding(){};
         /**
-         * @brief  Метод отбора пар родительских хромосом для скрещивания
-         * @param  sel - популяция родителей для скрещивания
-         * @return par - набор пар родителей
+         * @brief  Method of grouping chromosomes from pool of parents to pairs
+         * @param  sel - pool of parents
+         * @return par - pairs of parents
         **/
         void group(const CPopulation&sel, CParents&par)
         {
@@ -115,13 +115,12 @@ namespace InsularGenetica
             }
         };
         /**
-         * @brief   Метод получения наименования генетического оператора
-         * @return  наименование генетического оператора
+         * @brief   Getting name of genetic operator
+         * @return  name of genetic operator
         **/
         const QString name()
         {
-            return QObject::trUtf8("Аутбридинг (группировка "
-                                   "дальних хромосом)");
+            return QObject::trUtf8("Outbreeding");
         };
     };
 };

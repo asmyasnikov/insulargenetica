@@ -22,13 +22,11 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    CGeneticController.h
- * @brief   Файл содержит класс CGeneticController, который отвечает
- *          за бизнес-логику островной модели генетического алгоритма
- *          Генетический алгорит является алгоритмом безусловной
- *          оптимизации. Для того, чтобы учесть ограничения, можно
- *          использовать, например, метод штрафных (барьерных) функций.
+ * @brief   Class CGeneticController provide controller of
+ *          start and end of evalutions, organizate islands
+ *          cooperation
  * @date    23/03/2009
- * @version 1.18
+ * @version 3.3
 **/
 #ifndef C_GENETIC_CONTROLLER_H_INCLUDED
 #define C_GENETIC_CONTROLLER_H_INCLUDED
@@ -47,69 +45,28 @@ namespace InsularGenetica
     class CGeneticAlgorithm;
     class IGeneticOperator;
     /**
-     * @brief Это основной класс генетического алгоритма
-     *        Конструктор класса намеренно недоступен
-     *        Существует 2 способа расчета:
-     *
-     *      1)Без возможности отмены расчета в произвольный момент времени:
-     *
-     *        |
-     *        | CPopulation pop = CGeneticController::calc(...)
-     *        |
-     *
-     *      2)С возможностью отмены расчета в произвольный момент времени:
-     *
-     *        |
-     *        | CGeneticController*calc = NULL;
-     *        |
-     *        | // слот расчета
-     *        | SomeDialog::calculate()
-     *        | {
-     *        |    ::calc = CGeneticController::getCalculator(...);
-     *        |                                    |
-     *        |                                    | Обработка событий
-     *        |                                    | пользователя, например,
-     *        |                                    | нажатие на кнопку
-     *        |                                    | "Отмена", приводящее
-     *        |                                    | к срабатыванию слота
-     *        |                                    | SomeDialog::cancel()
-     *        |                                    | // Слот отмены расчета
-     *        |    CPopulation pop =               | SomeDialog::cancel()
-     *        |      ::calc->getBestSolutions(3);  | {
-     *        |                                    |   if(::calc)
-     *        |                                    |      ::calc->cancel();
-     *        |                                    | }
-     *        |                                    |
-     *        |    delete ::calc;
-     *        |    ::calc = NULL;
-     *        | }
-     *        |
-     *
+     * @brief Main class of insulargenetica genetic algorithm
     **/
     struct Q_DECL_EXPORT CGeneticController : public ICancelService
     {
         /**
-         * @brief Деструктор
+         * @brief Destructor
         **/
         ~CGeneticController(void);
         /**
-         * @brief Получить результаты расчета
+         * @brief Getting result of evalutions
         **/
         CPopulation getBestSolutions(int size);
         /**
-         * @brief Статический метод поиска решения
-         * @param fitness - целевая функция (функция здоровья),
-         * @param chromosom - размер хромосомы,
-         * @param population - размер популяции,
-         * @param minutes - максимальное количество минут для расчета,
-         * @param island - количество островов алгоритма. При (island = -1)
-         *                 количество островов определяется автоматически
-         *                 (в 2 раза больше числа установленных процессоров).
-         *  `              По определению, надежность решения повышается при
-         *                 увеличении числа островов. Однако время поиска
-         *                 увеличивается за счет потребления ресурсов при
-         *                 передаче управления "островам".
-         * Допускается НЕпотокобезопасная реализация функции здоровья
+         * @brief Static method of evaluate
+         * @param fitness - fitness function,
+         * @param chromosom - size of chromosome,
+         * @param population - size of population,
+         * @param minutes - limit of evalution time [minutes],
+         * @param island - number of islands.
+         *                 If (island = -1) number of islands automatically
+         *                 detecting by 2*number of processors in system
+         * @param cancel_service - service of cancelling evalutions
         **/
         static CPopulation calc(IFitness*       fitness,
                                 unsigned int    chromosom,
@@ -118,19 +75,15 @@ namespace InsularGenetica
                                 int             island = -1,
                                 ICancelService* cancel_service = NULL);
         /**
-         * @brief Статический метод конструирования "калькулятора"
-         * @param fitness - целевая функция (функция здоровья),
-         * @param chromosom - размер хромосомы,
-         * @param population - размер популяции,
-         * @param minutes - максимальное количество минут для расчета,
-         * @param island - количество островов алгоритма. При (island = -1)
-         *                 количество островов определяется автоматически
-         *                 (в2 раза больше числа установленных процессоров).
-         *  `              По определению, надежность решения повышается при
-         *                 увеличении числа островов. Однако время поиска
-         *                 увеличивается за счет потребления ресурсов при
-         *                 передаче управления "островам".
-         * Допускается НЕпотокобезопасная реализация функции здоровья
+         * @brief Static method of constructing calculator
+         * @param fitness - fitness function,
+         * @param chromosom - size of chromosome,
+         * @param population - size of population,
+         * @param minutes - limit of evalution time [minutes],
+         * @param island - number of islands.
+         *                 If (island = -1) number of islands automatically
+         *                 detecting by 2*number of processors in system
+         * @param cancel_service - service of cancelling evalutions
         **/
         static CGeneticController*getCalculator(IFitness*       fitness,
                                                 unsigned int    chromosom,
@@ -145,8 +98,14 @@ namespace InsularGenetica
         bool isCanceled();
     private:
         /**
-         * @brief Конструктор
-         * @param island - количество островов
+         * @brief Constructor
+         * @param fitness - fitness function,
+         * @param population - size of population,
+         * @param minutes - limit of evalution time [minutes],
+         * @param island - number of islands.
+         *                 If (island = -1) number of islands automatically
+         *                 detecting by 2*number of processors in system
+         * @param cancel_service - service of cancelling evalutions
         **/
         CGeneticController(IFitness*       fitness,
                            unsigned int    population,
@@ -167,23 +126,23 @@ namespace InsularGenetica
             Mutation
         };
 #if QT_VERSION < 0x040000
-        ///<! Острова - потоки генетических алгоритмов
+        ///<! Single islands
         QValueList <CGeneticAlgorithm*>m_algorithms;
-        ///<! Словарь операторов отбора
+        ///<! Genetic operators
         QValueList <IGeneticOperator*> m_operators;
 #else
-        ///<! Острова - потоки генетических алгоритмов
+        ///<! Single islands
         QList <CGeneticAlgorithm*>     m_algorithms;
-        ///<! Словарь операторов отбора
+        ///<! Genetic operators
         QList <IGeneticOperator*>      m_operators;
 #endif
-        ///<! Популяция лучших решений
+        ///<! Result population
         CPopulation                    m_best_solutions;
-        ///<! Размер популяции лучших решений
+        ///<! Size of result population
         unsigned long                  m_best_solutions_size;
-        ///<! Длительность расчета в минутах
+        ///<! Limit of evalution time [minutes]
         unsigned long                  m_minutes;
-        ///<! Функция расчета здоровья хромосомы
+        ///<! Fitness function
         IFitness*                      m_function;
         ///<! Cancel service pointer
         ICancelService*                m_cancel_service;

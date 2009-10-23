@@ -25,7 +25,7 @@ GPL, while maintaining information about developer this library.
  * @brief   Class CGeneticAlgorithm implement business logic of
  *          genetic algorithm, provide control of genetic operators
  * @date    05/03/2009
- * @version 1.18
+ * @version 3.3
 **/
 #include "CGeneticAlgorithm.h"
 #include <math.h>

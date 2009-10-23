@@ -22,9 +22,9 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    CTwoDotCrossover.h
- * @brief   Файл содержит класс CTwoDotCrossover отбора родительских хромосом
+ * @brief   Class CTwoDotCrossover
  * @date    20/02/2009
- * @version 1.18
+ * @version 3.3
 **/
 #ifndef C_TWO_DOT_CROSSOVER_H_INCLUDED
 #define C_TWO_DOT_CROSSOVER_H_INCLUDED
@@ -50,11 +50,11 @@ namespace InsularGenetica
     struct CTwoDotCrossover : virtual public IReproduction
     {
         /**
-         * @brief   Базовый конструктор
+         * @brief   Constructor
         **/
         CTwoDotCrossover(){};
         /**
-         * @brief   Деструктор
+         * @brief   Destructor
         **/
         ~CTwoDotCrossover(){};
         /**
@@ -95,12 +95,12 @@ namespace InsularGenetica
             cids.addChromosome(child2);
         };
         /**
-         * @brief   Метод получения наименования генетического оператора
-         * @return  наименование генетического оператора
+         * @brief   Getting name of genetic operator
+         * @return  name of genetic operator
         **/
         const QString name()
         {
-            return QObject::trUtf8("Двухточечный кроссинговер");
+            return QObject::trUtf8("Two-dot crossover");
         };
     };
 };

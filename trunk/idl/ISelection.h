@@ -24,7 +24,7 @@ GPL, while maintaining information about developer this library.
  * @file    ISelection.h
  * @brief   Interface ISelection
  * @date    17/02/2009
- * @version 1.18
+ * @version 3.3
 **/
 #ifndef INTERFACE_SELECTION_H_INCLUDED
 #define INTERFACE_SELECTION_H_INCLUDED

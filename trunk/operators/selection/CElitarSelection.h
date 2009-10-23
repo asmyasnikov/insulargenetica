@@ -26,7 +26,7 @@ GPL, while maintaining information about developer this library.
  * @brief   Elitar selection of chromosomes from population to
  *          parents pool
  * @date    20/02/2009
- * @version 1.18
+ * @version 3.3
 **/
 #ifndef C_ELITAR_SELECTION_H_INCLUDED
 #define C_ELITAR_SELECTION_H_INCLUDED

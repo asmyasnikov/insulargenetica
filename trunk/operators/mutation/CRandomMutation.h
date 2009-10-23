@@ -22,9 +22,9 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    CRandomMutation.h
- * @brief   Файл содержит класс CRandomMutation отбора родительских хромосом
+ * @brief   Class CRandomMutation
  * @date    20/02/2009
- * @version 1.18
+ * @version 3.3
 **/
 #ifndef C_RANDOM_MUTATION_H_INCLUDED
 #define C_RANDOM_MUTATION_H_INCLUDED
@@ -44,28 +44,27 @@ namespace InsularGenetica
     Q_DECL_EXPORT struct CRandomMutation : virtual public IMutation
     {
         /**
-         * @brief   Базовый конструктор
+         * @brief   Constructor
         **/
         CRandomMutation(double percentage = 0.5);
         /**
-         * @brief   Деструктор
+         * @brief   Destructor
         **/
         ~CRandomMutation();
         /**
-         * @brief  Метод "рождения" мутированных потомков
-         * @param  chr  - родительская хромосома, из которой "рождается"
-         *                мутированный потомок
-         * @return cids - популяция потомков
+         * @brief  Method of getting childs by mutation
+         * @param  chr  - parent
+         * @return cids - childs population
         **/
         void mutate(const CChromosome&  chr,
                     CPopulation&        cids);
         /**
-         * @brief   Метод получения наименования генетического оператора
-         * @return  наименование генетического оператора
+         * @brief   Getting name of genetic operator
+         * @return  name of genetic operator
         **/
         const QString name();
     private:
-        int m_percentage; ///<! Доля генов хромосомы
+        int m_percentage;
     };
 };
 #endif // C_RANDOM_MUTATION_H_INCLUDED

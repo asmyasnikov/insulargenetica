@@ -25,7 +25,7 @@ GPL, while maintaining information about developer this library.
  * @brief   Inteface IAccepting provide chromosome selection
  *          from childs population
  * @date    17/02/2009
- * @version 1.18
+ * @version 3.3
 **/
 #ifndef INTERFACE_ACCEPTING_H_INCLUDED
 #define INTERFACE_ACCEPTING_H_INCLUDED

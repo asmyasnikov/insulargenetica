@@ -24,7 +24,7 @@ GPL, while maintaining information about developer this library.
  * @file    export.h
  * @brief   Macros definitions
  * @date    18/02/2009
- * @version 1.18
+ * @version 3.3
 **/
 #ifndef EXPORT_H_INCLUDED
 #define EXPORT_H_INCLUDED

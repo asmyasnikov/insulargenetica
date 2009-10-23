@@ -24,7 +24,7 @@ GPL, while maintaining information about developer this library.
  * @file    IMutation.h
  * @brief   Interface IMutation
  * @date    17/02/2009
- * @version 1.18
+ * @version 3.3
 **/
 #ifndef INTERFACE_MUTATION_H_INCLUDED
 #define INTERFACE_MUTATION_H_INCLUDED

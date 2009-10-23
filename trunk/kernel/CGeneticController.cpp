@@ -22,10 +22,11 @@ GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
  * @file    CGeneticController.cpp
- * @brief   Файл содержит реализацию класса CGeneticController, который
- *          отвечает за бизнес-логику островной модели ГА
+ * @brief   Class CGeneticController provide controller of
+ *          start and end of evalutions, organizate islands
+ *          cooperation
  * @date    23/03/2009
- * @version 1.18
+ * @version 3.3
 **/
 #include <qglobal.h>
 #if QT_VERSION < 0x040000
@@ -80,8 +81,14 @@ GPL, while maintaining information about developer this library.
     #include <windows.h>
 #endif
 /**
- * @brief Конструктор
- * @param island - количество островов
+ * @brief Constructor
+ * @param fitness - fitness function,
+ * @param population - size of population,
+ * @param minutes - limit of evalution time [minutes],
+ * @param island - number of islands.
+ *                 If (island = -1) number of islands automatically
+ *                 detecting by 2*number of processors in system
+ * @param cancel_service - service of cancelling evalutions
 **/
 InsularGenetica::
 CGeneticController::
@@ -158,7 +165,7 @@ CGeneticController(IFitness*     fitness,
     }
 };
 /**
- * @brief Деструктор
+ * @brief Destructor
 **/
 InsularGenetica::
 CGeneticController::
@@ -190,7 +197,7 @@ CGeneticController::
     delete m_function;
 };
 /**
- * @brief Основной цикл потока
+ * @brief Main loop of evalutions
 **/
 void
 InsularGenetica::
@@ -245,18 +252,15 @@ calculate()
     }
 };
 /**
- * @brief Статический метод поиска решения
- * @param fitness - целевая функция (функция здоровья),
- * @param chromosom - размер хромосомы,
- * @param population - размер популяции,
- * @param minutes - максимальное количество минут для расчета,
- * @param island - количество островов алгоритма. При (island < 1)
- *                 количество островов определяется автоматически
- *                 (в2 раза больше числа установленных процессоров) .
- *  `              По определению, надежность решения повышается при
- *                 увеличении числа островов. Однако время поиска
- *                 увеличивается за счет потребления ресурсов при
- *                 передаче управления "островам".
+ * @brief Static method of evalutions
+ * @param fitness - fitness function,
+ * @param chromosom - size of chromosome,
+ * @param population - size of population,
+ * @param minutes - limit of evalution time [minutes],
+ * @param island - number of islands.
+ *                 If (island = -1) number of islands automatically
+ *                 detecting by 2*number of processors in system
+ * @param cancel_service - service of cancelling evalutions
 **/
 InsularGenetica::
 CPopulation
@@ -309,18 +313,15 @@ calc(IFitness*       fitness,
     return control.m_best_solutions;
 };
 /**
- * @brief Статический метод конструирования потока "калькулятора"
- * @param fitness - целевая функция (функция здоровья),
- * @param chromosom - размер хромосомы,
- * @param population - размер популяции,
- * @param minutes - максимальное количество минут для расчета,
- * @param island - количество островов алгоритма. При (island = -1)
- *                 количество островов определяется автоматически
- *                 (в2 раза больше числа установленных процессоров) .
- *  `              По определению, надежность решения повышается при
- *                 увеличении числа островов. Однако время поиска
- *                 увеличивается за счет потребления ресурсов при
- *                 передаче управления "островам".
+ * @brief Static method of constructing calculator
+ * @param fitness - fitness function,
+ * @param chromosom - size of chromosome,
+ * @param population - size of population,
+ * @param minutes - limit of evalution time [minutes],
+ * @param island - number of islands.
+ *                 If (island = -1) number of islands automatically
+ *                 detecting by 2*number of processors in system
+ * @param cancel_service - service of cancelling evalutions
 **/
 InsularGenetica::
 CGeneticController*
@@ -376,7 +377,7 @@ getCalculator(IFitness*       fitness,
     return control;
 };
 /**
- * @brief Получить результаты расчета
+ * @brief Getting result of evalutions
 **/
 InsularGenetica::
 CPopulation

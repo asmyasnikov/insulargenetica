@@ -26,7 +26,7 @@ GPL, while maintaining information about developer this library.
  * @brief   Accepting if fitness of chomosome better the best
  *          fitness in population
  * @date    20/02/2009
- * @version 1.18
+ * @version 3.3
 **/
 #ifndef C_BEST_FITNESS_H_INCLUDED
 #define C_BEST_FITNESS_H_INCLUDED

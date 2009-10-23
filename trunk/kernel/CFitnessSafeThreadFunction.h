@@ -25,7 +25,7 @@ GPL, while maintaining information about developer this library.
  * @brief   Class CFitnessSafeThreadFunction implement safe-thread
  *          fitness function with user-value non safe-thread implementation
  * @date    23/03/2009
- * @version 1.18
+ * @version 3.3
 **/
 #ifndef C_FITNESS_SAFE_THREAD_FUNCTION_H_INCLUDED
 #define C_FITNESS_SAFE_THREAD_FUNCTION_H_INCLUDED
