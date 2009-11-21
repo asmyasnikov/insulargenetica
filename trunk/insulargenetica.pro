@@ -1,13 +1,35 @@
+debug_and_release {
+    CONFIG -= debug_and_release
+}
+debug_and_release_target {
+    CONFIG -= debug_and_release_target
+}
+release {
+    debug {
+        CONFIG -= debug
+    }
+}
+debug {
+    release {
+        CONFIG -= release
+    }
+}
 TEMPLATE = lib
 TARGET = insulargenetica
+debug {
+    TARGET = $$join(TARGET,,,d)
+}
 LANGUAGE = C++
 QT -= gui
-CONFIG += plugin \
-    release
+CONFIG += plugin
 UI_DIR = ./src.gen/ui
 MOC_DIR = ./src.gen/moc
 OBJECTS_DIR = ./src.gen/obj
-DESTDIR = ./build
+asp {
+    DESTDIR = ../../ASPDBEditor/build
+}else{
+    DESTDIR = ./build
+}
 DEPENDPATH += . \
     include \
     kernel \

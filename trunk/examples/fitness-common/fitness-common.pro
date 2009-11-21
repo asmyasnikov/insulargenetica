@@ -1,10 +1,33 @@
 TEMPLATE = lib
 TARGET = fitness-common
+debug_and_release {
+    CONFIG -= debug_and_release
+}
+debug_and_release_target {
+    CONFIG -= debug_and_release_target
+}
+release {
+    debug {
+        CONFIG -= debug
+    }
+}
+debug {
+    release {
+        CONFIG -= release
+    }
+}
+INSULARGENETICALIB = insulargenetica
+debug {
+    TARGET = $$join(TARGET,,,d)
+    INSULARGENETICALIB = $$join(INSULARGENETICALIB,,,d)
+}
+LIBS += -L../../build
+LIBS += -l$$INSULARGENETICALIB
 DEPENDPATH += . src
 INCLUDEPATH += .
 LANGUAGE = C++
 QT -= gui
-CONFIG += release plugin
+CONFIG += plugin
 LIBS += -L../../build -linsulargenetica
 # Input
 HEADERS += ../include/CDeJong.h
