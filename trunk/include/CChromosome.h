@@ -56,17 +56,17 @@ namespace InsularGenetica
          * @brief   Default constructor
          *          Chromosome init the random values
         **/
-        CChromosome(void);
+        explicit CChromosome(void);
         /**
          * @brief   Constructor
          * @param   def - value of chromosome genes
         **/
-        CChromosome(bool def);
+        explicit CChromosome(bool def);
         /**
          * @brief   Copy constructor
          * @param   chr - source chromosome
         **/
-        CChromosome(const CChromosome& chr);
+        explicit CChromosome(const CChromosome& chr);
         /**
          * @brief   Copy constructor
          * @param   chr - source chromosome

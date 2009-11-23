@@ -300,7 +300,7 @@ run()
     }
     QTime timer;
     timer.start();
-    CChromosome best_chr = m_population.getChromosome(0);
+    CChromosome best_chr(m_population.getChromosome(0));
     QTime unimprovability;
     unimprovability.start();
     unsigned int counter = 0;
