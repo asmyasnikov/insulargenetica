@@ -168,7 +168,7 @@ void CalcThread::updateResults()
     for(int i = 0; i < qMin(best->size(),d->ui->spin_box_results_count->value()); i++)
     {
         d->ui->tbl_results->setRowCount(d->ui->tbl_results->rowCount()+1);
-        InsularGenetica::CChromosome chr = best->getChromosome(i);
+        InsularGenetica::CChromosome chr(best->getChromosome(i));
         if(helper)
         {
             QList<double>phenotype = helper->genotype2phenotype(chr);

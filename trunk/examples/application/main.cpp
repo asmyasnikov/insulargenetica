@@ -226,7 +226,7 @@ int main(int argc, char**argv)
     InsularGenetica::CFitnessHelper *helper = dynamic_cast<InsularGenetica::CFitnessHelper*>(f);
     for(int j = 0; j < best.size() && j < 3; j++)
     {
-        CChromosome chr = best.getChromosome(j);
+        CChromosome chr(best.getChromosome(j));
         if(helper)
         {
             QString arguments;
