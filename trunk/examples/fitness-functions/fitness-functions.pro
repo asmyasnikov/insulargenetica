@@ -10,4 +10,8 @@ SUBDIRS += dejong2 \
            rastrigin10invert \
            rastrigin2 \
            rastrigin2-limit-25-percent-bits \
-           rastrigin2invert
+           rastrigin2invert \
+           stohasticquartic2 \
+           stohasticquartic2invert \
+           stohasticquartic10 \
+           stohasticquartic10invert

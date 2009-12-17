@@ -57,6 +57,24 @@ GPL, while maintaining information about developer this library.
 #define INFINITE_LOOPING_TIME_SECONDS   30
 // Time of process events - 0.5 second
 #define PROCESS_EVENTS_TIME_MSECONDS    500
+// Don't use mutation
+//#define DONT_USE_MUTATION
+// Use mutation
+#define USE_MUTATION
+// Use stohastic mutation
+//#define USE_STOHASTIC_MUTATION
+
+#ifdef DONT_USE_MUTATION
+    #undef USE_MUTATION
+    #undef USE_STOHASTIC_MUTATION
+#else
+    #ifdef USE_STOHASTIC_MUTATION
+        #ifdef USE_MUTATION
+            #undef USE_MUTATION
+        #endif
+    #endif
+#endif
+
 namespace InsularGenetica
 {
     struct COperatorStatistics
@@ -321,12 +339,16 @@ run()
         ISelection   *m_selection    = getGeneticOperator(m_selections   );
         IGrouping    *m_grouping     = getGeneticOperator(m_groupings    );
         IReproduction*m_reproduction = getGeneticOperator(m_reproductions);
+#ifndef DONT_USE_MUTATION
         IMutation    *m_mutation     = getGeneticOperator(m_mutations    );
+#endif
         IAccepting   *m_accepting    = getGeneticOperator(m_acceptings   );
         Q_ASSERT(m_selection);
         Q_ASSERT(m_grouping);
         Q_ASSERT(m_reproduction);
+#ifndef DONT_USE_MUTATION
         Q_ASSERT(m_mutation);
+#endif
         Q_ASSERT(m_accepting);
         CPopulation selection;
         QTime time;
@@ -358,9 +380,11 @@ run()
             }
         }
         CPopulation reproduct;
-        CPopulation mutation;
         unsigned int good_reproduct = 0;
+#ifndef DONT_USE_MUTATION
+        CPopulation mutation;
         unsigned int good_mutation  = 0;
+#endif
         CParents parents;
         time.restart();
         m_grouping->group(selection, parents);
@@ -384,9 +408,13 @@ run()
         recalcStatisticalFrequency(m_reproductions, m_reproduction,
                                    grouping_time+reproduct_time,
                                    good_reproduct);
+#ifndef DONT_USE_MUTATION
         time.restart();
         for(int i = 0; i < selection.size(); i++)
         {
+#ifndef USE_STOHASTIC_MUTATION
+            if(double(rand())/double(RAND_MAX) < 1./double(CChromosome::size()))
+#endif
             m_mutation->mutate(selection.getChromosome(i), mutation);
         }
         double mutation_time = double(time.elapsed());
@@ -399,13 +427,22 @@ run()
         }
         recalcStatisticalFrequency(m_mutations, m_mutation,
                                    mutation_time, good_mutation);
+#endif
         if(!timeIsUp)
         {
             recalcStatisticalFrequency( m_selections,
                                         m_selection,
-                                        selection_time+reproduct_time+
-                                        mutation_time+grouping_time,
-                                        good_reproduct+good_mutation);
+                                        selection_time+
+                                        reproduct_time
+#ifndef DONT_USE_MUTATION
+                                        +mutation_time
+#endif
+                                        +grouping_time,
+                                        good_reproduct
+#ifndef DONT_USE_MUTATION
+                                        +good_mutation
+#endif
+                                      );
         }
         time.restart();
         for(int i = 0; i < reproduct.size(); i++)
@@ -417,6 +454,7 @@ run()
                 m_population.replaceChromosome(reproduct.getChromosome(i));
             }
         }
+#ifndef DONT_USE_MUTATION
         for(int i = 0; i < mutation.size(); i++)
         {
             if(m_accepting->accept(&m_population, mutation.getChromosome(i)))
@@ -425,18 +463,27 @@ run()
                 m_population.replaceChromosome(mutation.getChromosome(i));
             }
         }
+#endif
         double accepting_time = double(time.elapsed());
         if(prev_accepting)
         {
             recalcStatisticalFrequency( m_acceptings,
                                         prev_accepting,
                                         prev_accepting_time,
-                                        good_reproduct+good_mutation );
+                                        good_reproduct
+#ifndef DONT_USE_MUTATION
+                                        +good_mutation
+#endif
+                                      );
         }
         prev_accepting      = m_accepting;
         prev_accepting_time = accepting_time;
         counter++;
-        childs += reproduct.size() + mutation.size();
+        childs += reproduct.size() 
+#ifndef DONT_USE_MUTATION
+                  + mutation.size()
+#endif
+                  ;
         if(result() != Cancel)
         {
             QMutexLocker locker(&m_mutex);
