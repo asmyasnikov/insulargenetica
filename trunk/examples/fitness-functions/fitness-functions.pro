@@ -14,4 +14,5 @@ SUBDIRS += dejong2 \
            stohasticquartic2 \
            stohasticquartic2invert \
            stohasticquartic10 \
-           stohasticquartic10invert
+           stohasticquartic10invert \
+           cyrcle
