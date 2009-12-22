@@ -172,14 +172,14 @@ void CalcThread::updateResults()
         if(helper)
         {
             QList<double>phenotype = helper->genotype2phenotype(chr);
-            d->ui->tbl_results->setColumnCount(qMax(d->ui->tbl_results->columnCount(),phenotype.size()));
+            d->ui->tbl_results->setColumnCount(qMax(d->ui->tbl_results->columnCount(),phenotype.size()+1));
             for(int j = 0; j < phenotype.size(); j++)
             {
                 d->ui->tbl_results->setItem(d->ui->tbl_results->rowCount()-1, j,
                                             new QTableWidgetItem(QString::number(phenotype.at(j))));
             }
         }else{
-            d->ui->tbl_results->setColumnCount(qMax(d->ui->tbl_results->columnCount(),1));
+            d->ui->tbl_results->setColumnCount(qMax(d->ui->tbl_results->columnCount(),2));
             char* code = new char[InsularGenetica::CChromosome::size()+1];
             for(unsigned int i = 0; i < InsularGenetica::CChromosome::size(); ++i)
             {
@@ -190,12 +190,16 @@ void CalcThread::updateResults()
                                         new QTableWidgetItem(QString(code)));
             delete[] code;
         }
+        d->ui->tbl_results->setItem(d->ui->tbl_results->rowCount()-1,
+                                    d->ui->tbl_results->columnCount()-1,
+                                    new QTableWidgetItem(QString::number(f->calc(chr),'f',3)));
     }
     QStringList headers;
-    for(int i = 0; i < d->ui->tbl_results->columnCount(); i++)
+    for(int i = 0; i < d->ui->tbl_results->columnCount()-1; i++)
     {
         headers.append(trUtf8("X%1").arg(i));
     }
+    headers.append("F");
     d->ui->tbl_results->setHorizontalHeaderLabels(headers);
     d->ui->progress->setValue(0);
     d->ui->btn_calc->setText(trUtf8("Evaluate"));

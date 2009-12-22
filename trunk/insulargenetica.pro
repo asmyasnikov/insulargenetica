@@ -1,3 +1,7 @@
+DEFINES += MUTATE_CHILDS
+DEFINES += USE_STOHASTIC_MUTATION
+#DEFINES += DONT_USE_MUTATION
+
 debug_and_release {
     CONFIG -= debug_and_release
 }

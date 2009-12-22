@@ -57,20 +57,14 @@ GPL, while maintaining information about developer this library.
 #define INFINITE_LOOPING_TIME_SECONDS   30
 // Time of process events - 0.5 second
 #define PROCESS_EVENTS_TIME_MSECONDS    500
-// Don't use mutation
-//#define DONT_USE_MUTATION
-// Use mutation
-#define USE_MUTATION
-// Use stohastic mutation
-//#define USE_STOHASTIC_MUTATION
 
 #ifdef DONT_USE_MUTATION
-    #undef USE_MUTATION
     #undef USE_STOHASTIC_MUTATION
+    #undef MUTATE_CHILDS
 #else
-    #ifdef USE_STOHASTIC_MUTATION
-        #ifdef USE_MUTATION
-            #undef USE_MUTATION
+    #ifdef MUTATE_CHILDS
+        #ifndef USE_STOHASTIC_MUTATION
+            #define USE_STOHASTIC_MUTATION
         #endif
     #endif
 #endif
@@ -410,12 +404,25 @@ run()
                                    good_reproduct);
 #ifndef DONT_USE_MUTATION
         time.restart();
-        for(int i = 0; i < selection.size(); i++)
+        for(int i = 0;
+#ifdef MUTATE_CHILDS
+            i < reproduct.size();
+#else
+            i < selection.size();
+#endif
+            i++)
         {
 #ifndef USE_STOHASTIC_MUTATION
             if(double(rand())/double(RAND_MAX) < 1./double(CChromosome::size()))
 #endif
-            m_mutation->mutate(selection.getChromosome(i), mutation);
+            m_mutation->mutate(
+#ifdef MUTATE_CHILDS
+                               reproduct.getChromosome(i),
+#else
+                               selection.getChromosome(i),
+#endif
+                               mutation
+                              );
         }
         double mutation_time = double(time.elapsed());
         for(int i = 0; i < mutation.size(); i++)
@@ -472,7 +479,9 @@ run()
                                         prev_accepting_time,
                                         good_reproduct
 #ifndef DONT_USE_MUTATION
+    #ifndef MUTATE_CHILDS
                                         +good_mutation
+    #endif
 #endif
                                       );
         }
@@ -481,7 +490,9 @@ run()
         counter++;
         childs += reproduct.size() 
 #ifndef DONT_USE_MUTATION
+    #ifndef MUTATE_CHILDS
                   + mutation.size()
+    #endif
 #endif
                   ;
         if(result() != Cancel)

@@ -59,7 +59,6 @@ struct Q_DECL_EXPORT CDeJong : virtual public InsularGenetica::IFitness,
      * @return  name of function
     **/
     const QString name() const;
-private:
     /**
      * @brief   Evaluate method
      * @return  output value of De Jong function

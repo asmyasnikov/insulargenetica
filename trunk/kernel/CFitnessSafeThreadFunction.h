@@ -88,7 +88,6 @@ namespace InsularGenetica
             QMutexLocker locker(&m_mutex);
             return m_fitness->compare(chr1,chr2);
         };
-    protected:
         /**
          * @brief   Method of function value calculating
          * @return  value of fitness function

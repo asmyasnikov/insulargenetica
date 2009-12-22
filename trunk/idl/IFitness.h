@@ -59,7 +59,6 @@ namespace InsularGenetica
             return (calc(chr1) > calc(chr2));
         };
 
-    protected:
         /**
          * @brief   Method of function value calculating
          * @return  value of fitness function
