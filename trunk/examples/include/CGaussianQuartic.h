@@ -14,16 +14,16 @@ in file LICENSE along with this program.  If not, see
 I draw your attention to the fact that the library InsularGenetica
 is registered Russian Agency for Patents and Trademarks (ROSPATENT),
 which issued the "Certificate of official registration of computer
-programs for № FIXME FIXME FIXME FIXME". A copy of the certificate
+programs for N FIXME FIXME FIXME FIXME". A copy of the certificate
 of registration is presented in the file CERTIFICATE in the root
 of the project. It does not impose on the end developers / users,
 no additional restrictions other than those prescribed by GNU Lesser
 GPL, while maintaining information about developer this library.
 ****************************************************************/
 /**
- * @file    CStohasticQuartic.h
- * @class   CStohasticQuartic
- * @brief   Declaration of CStohasticQuartic
+ * @file    CGaussianQuartic.h
+ * @class   CGaussianQuartic
+ * @brief   Declaration of CGaussianQuartic
  * @date    17/12/2009
  * @version 1.18
 **/
@@ -38,22 +38,22 @@ GPL, while maintaining information about developer this library.
 
 class QString;
 
-struct Q_DECL_EXPORT CStohasticQuartic : virtual public InsularGenetica::IFitness,
+struct Q_DECL_EXPORT CGaussianQuartic : virtual public InsularGenetica::IFitness,
                                          virtual public InsularGenetica::CFitnessHelper
 {
     /**
      * @brief   Base constructor
     **/
-    CStohasticQuartic();
+    CGaussianQuartic();
     /**
      * @brief   Constructor
      * @param   count - variables count of De Jong function
     **/
-    CStohasticQuartic(unsigned int count, bool invert = false);
+    CGaussianQuartic(unsigned int count, bool invert = false);
     /**
      * @brief   Destructor
     **/
-    ~CStohasticQuartic();
+    ~CGaussianQuartic();
     /**
      * @brief   Getting name of function
      * @return  name of function

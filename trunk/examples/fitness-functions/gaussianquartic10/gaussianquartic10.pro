@@ -1,5 +1,5 @@
 TEMPLATE = lib
-TARGET = stohasticquartic10
+TARGET = gaussianquartic10
 debug_and_release {
     CONFIG -= debug_and_release
 }

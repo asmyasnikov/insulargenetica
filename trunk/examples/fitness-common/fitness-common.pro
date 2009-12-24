@@ -22,11 +22,11 @@ LIBS += -L../../build \
 
 # Input
 HEADERS += ../include/CDeJong.h \
-    ../include/CStohasticQuartic.h
+    ../include/CGaussianQuartic.h
 HEADERS += ../include/CGriewank.h
 HEADERS += ../include/CRastrigin.h
 SOURCES += src/CDeJong.cpp \
-    src/CStohasticQuartic.cpp
+    src/CGaussianQuartic.cpp
 SOURCES += src/CGriewank.cpp
 SOURCES += src/CRastrigin.cpp
 UI_DIR = ./src.gen/ui

@@ -14,7 +14,7 @@ in file LICENSE along with this program.  If not, see
 I draw your attention to the fact that the library InsularGenetica
 is registered Russian Agency for Patents and Trademarks (ROSPATENT),
 which issued the "Certificate of official registration of computer
-programs for № FIXME FIXME FIXME FIXME". A copy of the certificate
+programs for N FIXME FIXME FIXME FIXME". A copy of the certificate
 of registration is presented in the file CERTIFICATE in the root
 of the project. It does not impose on the end developers / users,
 no additional restrictions other than those prescribed by GNU Lesser
@@ -25,11 +25,11 @@ GPL, while maintaining information about developer this library.
  * @date    17/12/2009
  * @version 1.18
 **/
-#include "../../include/CStohasticQuartic.h"
+#include "../../include/CGaussianQuartic.h"
 
 DLLEXPORT InsularGenetica::Interface* CreateModule();
 
 InsularGenetica::Interface* CreateModule()
 {
-    return (InsularGenetica::Interface*)(new CStohasticQuartic(2));
+    return (InsularGenetica::Interface*)(new CGaussianQuartic(10));
 }
