@@ -35,7 +35,7 @@ GPL, while maintaining information about developer this library.
 #include "../../include/CChromosome.h"
 namespace InsularGenetica
 {
-    Q_DECL_EXPORT struct CElitarSelection : virtual public ISelection
+    struct Q_DECL_EXPORT CElitarSelection : virtual public ISelection
     {
         /**
          * @brief   Constructor

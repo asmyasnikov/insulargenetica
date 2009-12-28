@@ -41,7 +41,7 @@ GPL, while maintaining information about developer this library.
 #endif
 namespace InsularGenetica
 {
-    Q_DECL_EXPORT struct CRandomMutation : virtual public IMutation
+    struct Q_DECL_EXPORT CRandomMutation : virtual public IMutation
     {
         /**
          * @brief   Constructor

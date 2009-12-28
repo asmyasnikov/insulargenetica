@@ -30,13 +30,15 @@ GPL, while maintaining information about developer this library.
 
 #include "../../include/CGaussianQuartic.h"
 #include <math.h>
-#include <qglobal.h>
+#include <stdlib.h>
 #if QT_VERSION < 0x040000
     #include <qstring.h>
     #include <qobject.h>
+    #include <qglobal.h>
 #else
     #include <QtCore/QString>
     #include <QtCore/QObject>
+    #include <QtGlobal>
 #endif
 
 double gauss(double mx, double sigma)

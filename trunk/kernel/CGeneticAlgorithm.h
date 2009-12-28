@@ -54,7 +54,7 @@ namespace InsularGenetica
     class IReproduction;
     class IMutation;
     class IAccepting;
-    Q_DECL_EXPORT struct CGeneticAlgorithm : public QThread,
+    struct Q_DECL_EXPORT CGeneticAlgorithm : public QThread,
                                      virtual public Interface
     {
         enum ResultCode

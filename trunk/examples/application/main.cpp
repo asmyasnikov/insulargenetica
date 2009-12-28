@@ -40,6 +40,7 @@ GPL, while maintaining information about developer this library.
     #include <qfile.h>
     #include <qtextstream.h>
     #include <qtextcodec.h>
+    #include <qdatetime.h>
 #else
     #include <QtCore/QCoreApplication>
     #include <QtCore/QLibrary>
@@ -47,6 +48,7 @@ GPL, while maintaining information about developer this library.
     #include <QtCore/QFile>
     #include <QtCore/QTextStream>
     #include <QtCore/QTextCodec>
+    #include <QtCore/QTime>
 #endif
 #include <math.h>
 
@@ -54,7 +56,7 @@ using namespace InsularGenetica;
 
 int main(int argc, char**argv)
 {
-    srand(clock() % 128);
+    srand(QTime::currentTime().msec() % 128);
 #if QT_VERSION < 0x040000
     QApplication app(argc, argv);
 #else

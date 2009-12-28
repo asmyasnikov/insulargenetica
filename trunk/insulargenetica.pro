@@ -29,7 +29,6 @@ CONFIG += plugin
 UI_DIR = ./src.gen/ui
 MOC_DIR = ./src.gen/moc
 OBJECTS_DIR = ./src.gen/obj
-CONFIG -= asp
 asp {
     DESTDIR = ../../ASPDBEditor/build
 }else{
