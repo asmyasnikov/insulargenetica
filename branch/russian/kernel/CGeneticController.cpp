@@ -1,5 +1,5 @@
 /****************************************************************************
-** Copyright (C) 2009 Мясников Алексей Сергеевич.
+** Copyright (C) 2009 Мясников А.С. Сергеевич.
 ** Contact: AlekseyMyasnikov@yandex.ru
 **          amyasnikov@npomis.ru
 **          AlekseyMyasnikov@mail.ru
@@ -22,7 +22,7 @@
 ** Обращаю Ваше внимание на то, что библиотека InsularGenetica
 ** зарегистрирована Российским агенством по патентам и товарным знакам
 ** (РОСПАТЕНТ), о чем выдано "Свидетельство об официальной регистрации
-** программы для ЭВМ" за № FIXME от FIXME FIXME FIXME года. Копия
+** программы для ЭВМ" за N 2010610175 от 11.01.2010 г. Копия
 ** свидетельства о регистрации представлена в файле CERTIFICATE
 ** в корне проекта.
 ** Это не накладывает на конечных разработчиков/пользователей никаких
@@ -34,7 +34,7 @@
  * @brief   Файл содержит реализацию класса CGeneticController, который
  *          отвечает за бизнес-логику островной модели ГА
  * @date    23/03/2009
- * @version 1.14
+ * @version 1.18
 **/
 #include <qglobal.h>
 #if QT_VERSION < 0x040000
@@ -97,7 +97,17 @@ CGeneticController::
 CGeneticController(IFitness*     fitness,
                    unsigned int  population,
                    unsigned int  island,
-                   unsigned long minutes )
+                   unsigned long minutes,
+                   ICancelService* cancel_service) :
+    m_cancel_service(cancel_service),
+    m_is_calculate(false),
+    m_mutex(
+#if QT_VERSION < 0x040000
+            true
+#else
+            QMutex::Recursive
+#endif
+           )
 {
     m_function = new CFitnessSafeThreadFunction(fitness);
     CChromosome::setFitnessFunction(m_function);
@@ -132,7 +142,7 @@ CGeneticController(IFitness*     fitness,
     m_operators.append(new CBetterAverageFitness);
     for(unsigned int i = 0; i < island; i++)
     {
-        CGeneticAlgorithm*alg = new CGeneticAlgorithm(m_operators,m_minutes);
+        CGeneticAlgorithm*alg = new CGeneticAlgorithm(this, m_operators,m_minutes);
         m_algorithms.append(alg);
     };
     CGeneticAlgorithm*prev = NULL;
@@ -186,18 +196,6 @@ CGeneticController::
         delete (*i);
     }
     m_operators.clear();
-#if QT_VERSION < 0x040000
-    if(running())
-#else
-    if(isRunning())
-#endif
-    {
-#if QT_VERSION >= 0x040000
-        setTerminationEnabled();
-        terminate();
-#endif
-        wait();
-    }
     delete m_function;
 };
 /**
@@ -206,51 +204,59 @@ CGeneticController::
 void
 InsularGenetica::
 CGeneticController::
-run()
+calculate()
 {
-    QTime timer;
-    timer.start();
+    if(!m_is_calculate)
+    {
+        if(m_algorithms.size() == 1)
+        {
+            (*m_algorithms.begin())->calculate();
+            m_best_solutions = (*m_algorithms.begin())->getBestChromosomes(m_best_solutions_size);
+        }else{
 #if QT_VERSION < 0x040000
-    for(QValueList<CGeneticAlgorithm*>::iterator i = m_algorithms.begin();
-        i != m_algorithms.end(); i++)
-    {
-        CGeneticAlgorithm*alg = *i;
-        if(!alg->running())
-#else
-    foreach(CGeneticAlgorithm*alg, m_algorithms)
-    {
-        if(!alg->isRunning())
-#endif
-        {
-            alg->start(QThread::LowestPriority);
-        }
-    }
-#if QT_VERSION < 0x040000
-    for(QValueList<CGeneticAlgorithm*>::iterator i = m_algorithms.begin();
-        i != m_algorithms.end(); i++)
-    {
-        CGeneticAlgorithm*alg = *i;
-        if(alg->running())
-#else
-    foreach(CGeneticAlgorithm*alg, m_algorithms)
-    {
-        if(alg->isRunning())
-#endif
-        {
-            alg->wait();
-        }
-        CPopulation pop = alg->
-                          getBestChromosomes(qMax(int(m_best_solutions_size)/
-                                                  m_algorithms.size(),1));
-        for(int j = 0; j < pop.size(); j++)
-        {
-            if(m_best_solutions.size() < int(m_best_solutions_size))
+            for(QValueList<CGeneticAlgorithm*>::iterator i = m_algorithms.begin();
+                i != m_algorithms.end(); i++)
             {
-                m_best_solutions.addChromosome(pop.getChromosome(j));
-            }else{
-                m_best_solutions.replaceChromosome(pop.getChromosome(j));
+                CGeneticAlgorithm*alg = *i;
+                if(!alg->running())
+#else
+            foreach(CGeneticAlgorithm*alg, m_algorithms)
+            {
+                if(!alg->isRunning())
+#endif
+                {
+                    alg->start();
+                }
+            }
+#if QT_VERSION < 0x040000
+            for(QValueList<CGeneticAlgorithm*>::iterator i = m_algorithms.begin();
+                i != m_algorithms.end(); i++)
+            {
+                CGeneticAlgorithm*alg = *i;
+                if(alg->running())
+#else
+            foreach(CGeneticAlgorithm*alg, m_algorithms)
+            {
+                if(alg->isRunning())
+#endif
+                {
+                    alg->wait();
+                }
+                CPopulation pop = alg->
+                                  getBestChromosomes(qMax(int(m_best_solutions_size)/
+                                                          m_algorithms.size(),1));
+                for(uint j = 0; j < pop.size(); j++)
+                {
+                    if(m_best_solutions.size() < m_best_solutions_size)
+                    {
+                        m_best_solutions.addChromosome(pop.getChromosome(j));
+                    }else{
+                        m_best_solutions.replaceChromosome(pop.getChromosome(j));
+                    }
+                }
             }
         }
+        m_is_calculate = true;
     }
 };
 /**
@@ -271,11 +277,12 @@ InsularGenetica::
 CPopulation
 InsularGenetica::
 CGeneticController::
-calc(IFitness*    fitness,
-     unsigned int chromosom,
-     unsigned int population,
-     unsigned int minutes,
-     int          island)
+calc(IFitness*       fitness,
+     unsigned int    chromosom,
+     unsigned int    population,
+     unsigned int    minutes,
+     int             island,
+     ICancelService* cancel_service)
 {
     Q_ASSERT(population);
     Q_ASSERT(chromosom);
@@ -311,36 +318,9 @@ calc(IFitness*    fitness,
     };
     CGeneticAlgorithm::setPopulationSize(population);
     CChromosome::setSize(chromosom);
-    CGeneticController control(fitness, population, island, minutes);
-    control.start(QThread::LowPriority);
-    control.wait();
+    CGeneticController control(fitness, population, island, minutes, cancel_service);
+    control.calculate();
     return control.m_best_solutions;
-};
-/**
- * @brief Отмена расчета алгоритма
-**/
-void
-InsularGenetica::
-CGeneticController::
-cancel()
-{
-    for(
-#if QT_VERSION < 0x040000
-        QValueList<CGeneticAlgorithm*>::iterator i = m_algorithms.begin();
-#else
-        QList<CGeneticAlgorithm*>::iterator i = m_algorithms.begin();
-#endif
-        i != m_algorithms.end(); i++)
-    {
-#if QT_VERSION < 0x040000
-        if(!(*i)->running())
-#else
-        if(!(*i)->isRunning())
-#endif
-        {
-            (*i)->cancel();
-        }
-    }
 };
 /**
  * @brief Статический метод конструирования потока "калькулятора"
@@ -360,11 +340,12 @@ InsularGenetica::
 CGeneticController*
 InsularGenetica::
 CGeneticController::
-getCalculator(IFitness*    fitness,
-              unsigned int chromosom,
-              unsigned int population,
-              unsigned int minutes,
-              int          island )
+getCalculator(IFitness*       fitness,
+              unsigned int    chromosom,
+              unsigned int    population,
+              unsigned int    minutes,
+              int             island,
+              ICancelService* cancel_service )
 {
     Q_ASSERT(population);
     Q_ASSERT(chromosom);
@@ -403,7 +384,8 @@ getCalculator(IFitness*    fitness,
     CGeneticController*control = new CGeneticController(fitness,
                                                         population,
                                                         island,
-                                                        minutes);
+                                                        minutes,
+                                                        cancel_service);
     return control;
 };
 /**
@@ -413,14 +395,51 @@ InsularGenetica::
 CPopulation
 InsularGenetica::
 CGeneticController::
-getBestSolutions(int size)
+getBestSolutions(uint size)
 {
-    start(QThread::LowPriority);
-    wait();
+    if(!m_is_calculate) calculate();
     CPopulation result;
-    for(int i = 0; i < m_best_solutions.size() && i < size; i++)
+    for(uint i = 0; i < m_best_solutions.size() && i < size; i++)
     {
         result.addChromosome(m_best_solutions.getChromosome(i));
     }
     return result;
 };
+/**
+ * @brief   Метод проверки статуса отмены
+ * @return  Статус отмены
+**/
+bool
+InsularGenetica::
+CGeneticController::
+isCanceled()
+{
+    QMutexLocker locker(&m_mutex);
+    if(m_cancel_service) return m_cancel_service->isCanceled();
+    else                 return false;
+};
+
+/**
+ * @brief   Заменить худшую хромосому на заданную
+ *          Этот метод помогает инициализироватьисходную популяцию
+ *          нужным значением
+ * @chr     Хромосома для замены
+**/
+void
+InsularGenetica::
+CGeneticController::
+replaceWorstChromosome(const CChromosome& chr)
+{
+#if QT_VERSION < 0x040000
+   for(QValueList<CGeneticAlgorithm*>::iterator i = m_algorithms.begin();
+       i != m_algorithms.end(); i++)
+   {
+       CGeneticAlgorithm*alg = *i;
+#else
+   foreach(CGeneticAlgorithm*alg, m_algorithms)
+   {
+#endif
+       alg->replaceWorstChromosome(chr);
+   }
+};
+

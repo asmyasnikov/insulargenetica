@@ -1,5 +1,5 @@
 /****************************************************************************
-** Copyright (C) 2009 Мясников Алексей Сергеевич.
+** Copyright (C) 2009 Мясников А.С. Сергеевич.
 ** Contact: AlekseyMyasnikov@yandex.ru
 **          amyasnikov@npomis.ru
 **          AlekseyMyasnikov@mail.ru
@@ -22,7 +22,7 @@
 ** Обращаю Ваше внимание на то, что библиотека InsularGenetica
 ** зарегистрирована Российским агенством по патентам и товарным знакам
 ** (РОСПАТЕНТ), о чем выдано "Свидетельство об официальной регистрации
-** программы для ЭВМ" за № FIXME от FIXME FIXME FIXME года. Копия
+** программы для ЭВМ" за N 2010610175 от 11.01.2010 г. Копия
 ** свидетельства о регистрации представлена в файле CERTIFICATE
 ** в корне проекта.
 ** Это не накладывает на конечных разработчиков/пользователей никаких
@@ -73,21 +73,21 @@ namespace InsularGenetica
         **/
         void group(const CPopulation&sel, CParents&par)
         {
-        if(sel.size()>1)
-        {
+            if(sel.size()>1)
+            {
                 unsigned int size_new = sel.size()/2;
                 for(unsigned int i = 0; i < size_new; i++)
                 {
-                unsigned int sel1 = 0;
-                unsigned int sel2 = 0;
-                while(sel1 == sel2)
-                {
-                        sel1 = rand()%sel.size();
-                        sel2 = rand()%sel.size();
+                    unsigned int sel1 = 0;
+                    unsigned int sel2 = 0;
+                    while(sel1 == sel2)
+                    {
+                            sel1 = rand()%sel.size();
+                            sel2 = rand()%sel.size();
+                    }
+                    par.append(qMakePair(&sel.getChromosome(sel1),
+                                             &sel.getChromosome(sel2)));
                 }
-                par.append(qMakePair(&sel.getChromosome(sel1),
-                                         &sel.getChromosome(sel2)));
-            }
             }
         };
         /**
@@ -102,3 +102,4 @@ namespace InsularGenetica
 };
 
 #endif // C_RANDOM_GROUPING_H_INCLUDED
+

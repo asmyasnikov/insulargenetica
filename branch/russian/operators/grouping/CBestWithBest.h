@@ -1,5 +1,5 @@
 /****************************************************************************
-** Copyright (C) 2009 Мясников Алексей Сергеевич.
+** Copyright (C) 2009 Мясников А.С. Сергеевич.
 ** Contact: AlekseyMyasnikov@yandex.ru
 **          amyasnikov@npomis.ru
 **          AlekseyMyasnikov@mail.ru
@@ -22,7 +22,7 @@
 ** Обращаю Ваше внимание на то, что библиотека InsularGenetica
 ** зарегистрирована Российским агенством по патентам и товарным знакам
 ** (РОСПАТЕНТ), о чем выдано "Свидетельство об официальной регистрации
-** программы для ЭВМ" за № FIXME от FIXME FIXME FIXME года. Копия
+** программы для ЭВМ" за N 2010610175 от 11.01.2010 г. Копия
 ** свидетельства о регистрации представлена в файле CERTIFICATE
 ** в корне проекта.
 ** Это не накладывает на конечных разработчиков/пользователей никаких
@@ -77,11 +77,11 @@ namespace InsularGenetica
             Q_ASSERT(sel.size());
         if(sel.size()>3)
         {
-                unsigned int size_new = int(double(sel.size()) *
-                                            double(rand()) /
-                                            double(RAND_MAX));
-                for(unsigned int i = 0; i < size_new; i++)
-                {
+            unsigned int size_new = int(double(sel.size()) *
+                                        double(rand()) /
+                                        double(RAND_MAX));
+            for(unsigned int i = 0; i < size_new; i++)
+            {
                 unsigned int best1 = 0;
                 unsigned int best2 = 0;
                 while(best1 == best2)
@@ -95,7 +95,7 @@ namespace InsularGenetica
             }else if(sel.size()>1){
                 par.append(qMakePair(&sel.getChromosome(0),
                                      &sel.getChromosome(1)));
-        }
+            }
         };
         /**
          * @brief   Метод получения наименования генетического оператора
@@ -109,3 +109,4 @@ namespace InsularGenetica
 };
 
 #endif // C_BE
+

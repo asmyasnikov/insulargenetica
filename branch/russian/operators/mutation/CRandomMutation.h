@@ -1,5 +1,5 @@
 /****************************************************************************
-** Copyright (C) 2009 Мясников Алексей Сергеевич.
+** Copyright (C) 2009 Мясников А.С. Сергеевич.
 ** Contact: AlekseyMyasnikov@yandex.ru
 **          amyasnikov@npomis.ru
 **          AlekseyMyasnikov@mail.ru
@@ -22,7 +22,7 @@
 ** Обращаю Ваше внимание на то, что библиотека InsularGenetica
 ** зарегистрирована Российским агенством по патентам и товарным знакам
 ** (РОСПАТЕНТ), о чем выдано "Свидетельство об официальной регистрации
-** программы для ЭВМ" за № FIXME от FIXME FIXME FIXME года. Копия
+** программы для ЭВМ" за N 2010610175 от 11.01.2010 г. Копия
 ** свидетельства о регистрации представлена в файле CERTIFICATE
 ** в корне проекта.
 ** Это не накладывает на конечных разработчиков/пользователей никаких
@@ -50,7 +50,7 @@
 #endif
 namespace InsularGenetica
 {
-    struct Q_DECL_EXPORT CRandomMutation : virtual public IMutation
+    Q_DECL_EXPORT struct CRandomMutation : virtual public IMutation
     {
         /**
          * @brief   Базовый конструктор
@@ -78,3 +78,4 @@ namespace InsularGenetica
     };
 };
 #endif // C_RANDOM_MUTATION_H_INCLUDED
+

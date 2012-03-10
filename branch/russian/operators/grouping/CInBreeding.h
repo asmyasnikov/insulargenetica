@@ -1,5 +1,5 @@
 /****************************************************************************
-** Copyright (C) 2009 Мясников Алексей Сергеевич.
+** Copyright (C) 2009 Мясников А.С. Сергеевич.
 ** Contact: AlekseyMyasnikov@yandex.ru
 **          amyasnikov@npomis.ru
 **          AlekseyMyasnikov@mail.ru
@@ -22,7 +22,7 @@
 ** Обращаю Ваше внимание на то, что библиотека InsularGenetica
 ** зарегистрирована Российским агенством по патентам и товарным знакам
 ** (РОСПАТЕНТ), о чем выдано "Свидетельство об официальной регистрации
-** программы для ЭВМ" за № FIXME от FIXME FIXME FIXME года. Копия
+** программы для ЭВМ" за N 2010610175 от 11.01.2010 г. Копия
 ** свидетельства о регистрации представлена в файле CERTIFICATE
 ** в корне проекта.
 ** Это не накладывает на конечных разработчиков/пользователей никаких
@@ -85,9 +85,9 @@ namespace InsularGenetica
             QVector<QPair<double, QPair<const CChromosome*,
                                         const CChromosome*> > >h_matrix;
 #endif
-            for(int i = 0; i < sel.size(); i++)
+            for(uint i = 0; i < sel.size(); i++)
             {
-                for(int j = i+1; j < sel.size(); j++)
+                for(uint j = i+1; j < sel.size(); j++)
                 {
                     const CChromosome*first  = &sel.getChromosome(i);
                     const CChromosome*second = &sel.getChromosome(j);
@@ -104,9 +104,9 @@ namespace InsularGenetica
                                                  qMakePair(first,second)));
                 }
             }
-            for(int i = 0; i < h_matrix.size(); i++)
+            for(uint i = 0; i < h_matrix.size(); i++)
             {
-                for(int j = i+1; j < h_matrix.size(); j++)
+                for(uint j = i+1; j < h_matrix.size(); j++)
                 {
                     if(h_matrix[i].first < h_matrix[j].first)
                     {
@@ -118,7 +118,7 @@ namespace InsularGenetica
                     }
                 }
             }
-            for(int i = 0; i < qMin(h_matrix.size(), sel.size()*2); i++)
+            for(uint i = 0; i < qMin(h_matrix.size(), sel.size()*2); i++)
             {
                 par.append(h_matrix[i].second);
             }
@@ -136,3 +136,4 @@ namespace InsularGenetica
 };
 
 #endif // C_INBRIDING_H_INCLUDED
+

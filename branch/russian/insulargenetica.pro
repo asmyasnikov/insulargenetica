@@ -2,11 +2,25 @@ TEMPLATE = lib
 TARGET = insulargenetica
 LANGUAGE = C++
 QT -= gui
-CONFIG += plugin thread release
-UI_DIR = ./src.gen/ui
-MOC_DIR = ./src.gen/moc
-OBJECTS_DIR = ./src.gen/obj
-DESTDIR = ./build
+CONFIG += plugin thread
+
+
+release:BUILD 	= release
+debug:BUILD 	= debug
+unix:OS			= linux
+win32:OS		= windows
+
+OBJECTS_DIR		= ./build/$$OS/$$BUILD/tmp
+DESTDIR			= ./build/$$OS/$$BUILD/out
+UI_DIR			= ./src.gen  # (User Interface Compler)
+MOC_DIR			= ./src.gen  # (Meta Object Compler)
+
+
+
+#UI_DIR = ./src.gen/ui
+#MOC_DIR = ./src.gen/moc
+#OBJECTS_DIR = ./src.gen/obj
+#DESTDIR = ./build
 
 DEPENDPATH += . \
               include \
@@ -51,3 +65,6 @@ SOURCES += kernel/CChromosome.cpp \
            kernel/CPopulation.cpp \
            operators/selection/CElitarSelection.cpp \
            operators/mutation/CRandomMutation.cpp
+
+DEFINES+=QT_NO_STL
+

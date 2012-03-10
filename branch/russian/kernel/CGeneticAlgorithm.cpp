@@ -1,5 +1,5 @@
 /****************************************************************************
-** Copyright (C) 2009 Мясников Алексей Сергеевич.
+** Copyright (C) 2009 Мясников А.С. Сергеевич.
 ** Contact: AlekseyMyasnikov@yandex.ru
 **          amyasnikov@npomis.ru
 **          AlekseyMyasnikov@mail.ru
@@ -22,7 +22,7 @@
 ** Обращаю Ваше внимание на то, что библиотека InsularGenetica
 ** зарегистрирована Российским агенством по патентам и товарным знакам
 ** (РОСПАТЕНТ), о чем выдано "Свидетельство об официальной регистрации
-** программы для ЭВМ" за № FIXME от FIXME FIXME FIXME года. Копия
+** программы для ЭВМ" за N 2010610175 от 11.01.2010 г. Копия
 ** свидетельства о регистрации представлена в файле CERTIFICATE
 ** в корне проекта.
 ** Это не накладывает на конечных разработчиков/пользователей никаких
@@ -36,10 +36,11 @@
  *          модулей генетического алгоритма, за динамическое определение
  *          частот использования генетических операторов
  * @date    05/03/2009
- * @version 1.14
+ * @version 1.18
 **/
 #include "CGeneticAlgorithm.h"
 #include <math.h>
+#include <stdlib.h>
 #include <qglobal.h>
 #if QT_VERSION < 0x040000
     #include <qapplication.h>
@@ -67,7 +68,7 @@
 // Время для контроля бесконечных циклов - 30 секунд
 #define INFINITE_LOOPING_TIME_SECONDS   30
 // Время опроса событий пользователя - 0.5 секунды
-#define PROCESS_EVENTS_TIME_MSECONDS    500
+#define PROCESS_EVENTS_TIME_MSECONDS    50
 namespace InsularGenetica
 {
     struct COperatorStatistics
@@ -97,7 +98,7 @@ setPopulationSize(unsigned int size)
 **/
 InsularGenetica::
 CGeneticAlgorithm::
-CGeneticAlgorithm(
+CGeneticAlgorithm(ICancelService*cancel_service,
 #if QT_VERSION < 0x040000
                   QValueList<IGeneticOperator*>operators,
 #else
@@ -115,6 +116,7 @@ CGeneticAlgorithm(
            )
 {
     QMutexLocker locker(&m_mutex);
+    m_cancel_service = cancel_service;
     m_result_code = NoCode;
     m_population = CPopulation(m_population_size);
     initLibraries(m_selections   , operators);
@@ -304,6 +306,16 @@ InsularGenetica::
 CGeneticAlgorithm::
 run()
 {
+    calculate();
+}
+/**
+* @brief    Метод безпоточного расчета
+*/
+void
+InsularGenetica::
+CGeneticAlgorithm::
+calculate()
+{
     QDateTime time_control = QDateTime::currentDateTime()
                              .addSecs(m_minutes*60);
     m_mutex.lock();
@@ -332,11 +344,15 @@ run()
     {
         if(timer.elapsed() > PROCESS_EVENTS_TIME_MSECONDS)
         {
-#if QT_VERSION < 0x040000
-            qApp->processEvents();
-#else
-            QCoreApplication::processEvents();
-#endif
+            if(!running())
+            {
+                qApp->processEvents();
+            }
+            if(m_cancel_service->isCanceled())
+            {
+                QMutexLocker locker(&m_mutex);
+                m_result_code = Cancel;
+            }
             timer.restart();
         }
         ISelection   *m_selection    = getGeneticOperator(m_selections   );
@@ -371,7 +387,7 @@ run()
                 CPopulation best_of_neighbour =
                     m_neighbour->getBestChromosomes(qMax(m_population_size/10,
                                                          (unsigned int)(1)));
-                for(int i = 0; i < best_of_neighbour.size(); i++)
+                for(uint i = 0; i < best_of_neighbour.size(); i++)
                 {
                     QMutexLocker locker(&m_mutex);
                     m_population.replaceChromosome(best_of_neighbour
@@ -398,7 +414,7 @@ run()
             m_reproduction->reproduct(*i, reproduct);
         }
         double reproduct_time = double(time.elapsed());
-        for(int i = 0; i < reproduct.size(); i++)
+        for(uint i = 0; i < reproduct.size(); i++)
         {
             QMutexLocker locker(&m_mutex);
             if(reproduct.getChromosome(i).fitness() <
@@ -418,12 +434,12 @@ run()
                                    good_reproduct);
         // "Мутируем" потомков
         time.restart();
-        for(int i = 0; i < selection.size(); i++)
+        for(uint i = 0; i < selection.size(); i++)
         {
             m_mutation->mutate(selection.getChromosome(i), mutation);
         }
         double mutation_time = double(time.elapsed());
-        for(int i = 0; i < mutation.size(); i++)
+        for(uint i = 0; i < mutation.size(); i++)
         {
             QMutexLocker locker(&m_mutex);
             if(mutation.getChromosome(i).fitness() <
@@ -450,7 +466,7 @@ run()
                                         good_reproduct+good_mutation);
         }
         time.restart();
-        for(int i = 0; i < reproduct.size(); i++)
+        for(uint i = 0; i < reproduct.size(); i++)
         {
             QMutexLocker locker(&m_mutex);
             if(m_accepting->accept(&m_population,reproduct.getChromosome(i)))
@@ -459,7 +475,7 @@ run()
                 m_population.replaceChromosome(reproduct.getChromosome(i));
             }
         }
-        for(int i = 0; i < mutation.size(); i++)
+        for(uint i = 0; i < mutation.size(); i++)
         {
             if(m_accepting->accept(&m_population, mutation.getChromosome(i)))
             {
@@ -521,11 +537,11 @@ InsularGenetica::
 CPopulation
 InsularGenetica::
 CGeneticAlgorithm::
-getBestChromosomes(int size) const
+getBestChromosomes(uint size) const
 {
     QMutexLocker locker(&m_mutex);
     CPopulation result;
-    for(int i = 0; i < m_population.size() && i < size; i++)
+    for(uint i = 0; i < m_population.size() && i < size; i++)
     {
         result.addChromosome(m_population.getChromosome(i));
     }
@@ -549,3 +565,19 @@ cancel()
         m_neighbour->cancel();
     }
 };
+
+/**
+ * @brief   Заменить худшую хромосому на заданную
+ *          Этот метод помогает инициализироватьисходную популяцию
+ *          нужным значением
+ * @chr     Хромосома для замены
+**/
+void
+InsularGenetica::
+CGeneticAlgorithm::
+replaceWorstChromosome(const CChromosome& chr)
+{
+    QMutexLocker locker(&m_mutex);
+    m_population.replaceChromosome(chr);
+};
+

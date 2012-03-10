@@ -1,5 +1,5 @@
 /****************************************************************************
-** Copyright (C) 2009 Мясников Алексей Сергеевич.
+** Copyright (C) 2009 Мясников А.С. Сергеевич.
 ** Contact: AlekseyMyasnikov@yandex.ru
 **          amyasnikov@npomis.ru
 **          AlekseyMyasnikov@mail.ru
@@ -22,7 +22,7 @@
 ** Обращаю Ваше внимание на то, что библиотека InsularGenetica
 ** зарегистрирована Российским агенством по патентам и товарным знакам
 ** (РОСПАТЕНТ), о чем выдано "Свидетельство об официальной регистрации
-** программы для ЭВМ" за № FIXME от FIXME FIXME FIXME года. Копия
+** программы для ЭВМ" за N 2010610175 от 11.01.2010 г. Копия
 ** свидетельства о регистрации представлена в файле CERTIFICATE
 ** в корне проекта.
 ** Это не накладывает на конечных разработчиков/пользователей никаких
@@ -41,6 +41,7 @@
 #include "../../include/CPopulation.h"
 #include "../../include/CChromosome.h"
 #include <qglobal.h>
+#include <stdlib.h>
 #if QT_VERSION < 0x040000
     #include <qstring.h>
     #include <qobject.h>
@@ -71,16 +72,16 @@ namespace InsularGenetica
             Q_ASSERT(pop.size() > 1);
             double miminum = pop.getMinimumFitness();
             double summary = 0.;
-            for(int j = 0; j < pop.size(); j++)
+            for(uint j = 0; j < pop.size(); j++)
             {
                 summary += (pop.getChromosome(j).fitness() - miminum);
             }
-            for(int i = 0; i < pop.size(); i++)
+            for(uint i = 0; i < pop.size(); i++)
             {
                 double number     = double(rand()) /
                                     double(RAND_MAX) * summary;
                 double accumulate = 0.;
-                for(int j = 0; j < pop.size(); j++)
+                for(uint j = 0; j < pop.size(); j++)
                 {
                     accumulate += (pop.getChromosome(j).fitness() - miminum);
                     if(accumulate > number)
@@ -110,3 +111,4 @@ namespace InsularGenetica
 };
 
 #endif // C_ROUL
+

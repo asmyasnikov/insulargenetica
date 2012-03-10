@@ -1,5 +1,5 @@
 /****************************************************************************
-** Copyright (C) 2009 Мясников Алексей Сергеевич.
+** Copyright (C) 2009 Мясников А.С. Сергеевич.
 ** Contact: AlekseyMyasnikov@yandex.ru
 **          amyasnikov@npomis.ru
 **          AlekseyMyasnikov@mail.ru
@@ -22,7 +22,7 @@
 ** Обращаю Ваше внимание на то, что библиотека InsularGenetica
 ** зарегистрирована Российским агенством по патентам и товарным знакам
 ** (РОСПАТЕНТ), о чем выдано "Свидетельство об официальной регистрации
-** программы для ЭВМ" за № FIXME от FIXME FIXME FIXME года. Копия
+** программы для ЭВМ" за N 2010610175 от 11.01.2010 г. Копия
 ** свидетельства о регистрации представлена в файле CERTIFICATE
 ** в корне проекта.
 ** Это не накладывает на конечных разработчиков/пользователей никаких
@@ -50,6 +50,7 @@
     #include <QtCore/QSet>
 #endif
 #include "CPopulation.h"
+#include "../idl/ICancelService.h"
 namespace InsularGenetica
 {
     class CGeneticAlgorithm;
@@ -57,65 +58,17 @@ namespace InsularGenetica
     /**
      * @brief Это основной класс генетического алгоритма
      *        Конструктор класса намеренно недоступен
-     *        Существует 2 способа расчета:
-     *
-     *      1)Без возможности отмены расчета в произвольный момент времени:
-     *
-     *        |
-     *        | CPopulation pop = CGeneticController::calc(...)
-     *        |
-     *
-     *      2)С возможностью отмены расчета в произвольный момент времени:
-     *
-     *        |
-     *        | CGeneticController*calc = NULL;
-     *        |
-     *        | // слот расчета
-     *        | SomeDialog::calculate()
-     *        | {
-     *        |    ::calc = CGeneticController::getCalculator(...);
-     *        |                                    |
-     *        |                                    | Обработка событий
-     *        |                                    | пользователя, например,
-     *        |                                    | нажатие на кнопку
-     *        |                                    | "Отмена", приводящее
-     *        |                                    | к срабатыванию слота
-     *        |                                    | SomeDialog::cancel()
-     *        |                                    | // Слот отмены расчета
-     *        |    CPopulation pop =               | SomeDialog::cancel()
-     *        |      ::calc->getBestSolutions(3);  | {
-     *        |                                    |   if(::calc)
-     *        |                                    |      ::calc->cancel();
-     *        |                                    | }
-     *        |                                    |
-     *        |    delete ::calc;
-     *        |    ::calc = NULL;
-     *        | }
-     *        |
-     *
     **/
-    struct Q_DECL_EXPORT CGeneticController : protected QThread
+    struct Q_DECL_EXPORT CGeneticController : public ICancelService
     {
-        enum OperatorType
-        {
-            Accepting,
-            Grouping,
-            Reproduction,
-            Selection,
-            Mutation
-        };
         /**
          * @brief Деструктор
         **/
         ~CGeneticController(void);
         /**
-         * @brief Отмена расчета алгоритма
-        **/
-        void cancel();
-        /**
          * @brief Получить результаты расчета
         **/
-        CPopulation getBestSolutions(int size);
+        CPopulation getBestSolutions(uint size);
         /**
          * @brief Статический метод поиска решения
          * @param fitness - целевая функция (функция здоровья),
@@ -124,20 +77,21 @@ namespace InsularGenetica
          * @param minutes - максимальное количество минут для расчета,
          * @param island - количество островов алгоритма. При (island = -1)
          *                 количество островов определяется автоматически
-         *                 (в2 раза больше числа установленных процессоров).
+         *                 (в 2 раза больше числа установленных процессоров).
          *  `              По определению, надежность решения повышается при
          *                 увеличении числа островов. Однако время поиска
          *                 увеличивается за счет потребления ресурсов при
          *                 передаче управления "островам".
          * Допускается НЕпотокобезопасная реализация функции здоровья
         **/
-        static CPopulation calc(IFitness*    fitness,
-                                unsigned int chromosom,
-                                unsigned int population = 128,
-                                unsigned int minutes = 60,
-                                int          island = -1);
+        static CPopulation calc(IFitness*       fitness,
+                                unsigned int    chromosom,
+                                unsigned int    population = 128,
+                                unsigned int    minutes = 60,
+                                int             island = -1,
+                                ICancelService* cancel_service = NULL);
         /**
-         * @brief Статический метод конструирования потока "калькулятора"
+         * @brief Статический метод конструирования "калькулятора"
          * @param fitness - целевая функция (функция здоровья),
          * @param chromosom - размер хромосомы,
          * @param population - размер популяции,
@@ -151,25 +105,48 @@ namespace InsularGenetica
          *                 передаче управления "островам".
          * Допускается НЕпотокобезопасная реализация функции здоровья
         **/
-        static CGeneticController*getCalculator(IFitness*    fitness,
-                                                unsigned int chromosom,
-                                                unsigned int population = 128,
-                                                unsigned int minutes = 60,
-                                                int          island = -1 );
+        static CGeneticController*getCalculator(IFitness*       fitness,
+                                                unsigned int    chromosom,
+                                                unsigned int    population = 128,
+                                                unsigned int    minutes = 60,
+                                                int             island = -1,
+                                                ICancelService* cancel_service = NULL);
+        /**
+         * @brief   Этот метод позволяет проверить факт отмены расчета
+         * @return  cancel status
+        **/
+        bool isCanceled();
+
+        /**
+         * @brief   Заменить худшую хромосому на заданную
+         *          Этот метод помогает инициализироватьисходную популяцию
+         *          нужным значением
+         * @chr     Хромосома для замены
+        **/
+        void replaceWorstChromosome(const CChromosome& chr);
     private:
         /**
          * @brief Конструктор
          * @param island - количество островов
         **/
-        CGeneticController(IFitness*     fitness,
-                           unsigned int  population,
-                           unsigned int  island,
-                           unsigned long minutes);
+        CGeneticController(IFitness*       fitness,
+                           unsigned int    population,
+                           unsigned int    island,
+                           unsigned long   minutes,
+                           ICancelService* cancel_service = NULL);
         /**
-         * @brief Основной цикл потока
+         * @brief Calculate method
         **/
-        void run();
+        void calculate();
     private:
+        enum OperatorType
+        {
+            Accepting,
+            Grouping,
+            Reproduction,
+            Selection,
+            Mutation
+        };
 #if QT_VERSION < 0x040000
         ///<! Острова - потоки генетических алгоритмов
         QValueList <CGeneticAlgorithm*>m_algorithms;
@@ -189,6 +166,13 @@ namespace InsularGenetica
         unsigned long                  m_minutes;
         ///<! Функция расчета здоровья хромосомы
         IFitness*                      m_function;
+        ///<! Указатель на сервис отмены
+        ICancelService*                m_cancel_service;
+        ///<! Статус расчета
+        bool                           m_is_calculate;
+        ///<! Блокатор
+        QMutex                         m_mutex;
     };
 };
 #endif // C_GENETIC_CONTROLLER_H_INCLUDED
+

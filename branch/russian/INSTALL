@@ -26,3 +26,4 @@ You need Qt library 3.* or 4.* version installed in your system
    export LD_LIBRARY_PATH=`pwd`
    ./insulargenetica
 
+

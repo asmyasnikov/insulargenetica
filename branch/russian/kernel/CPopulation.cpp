@@ -1,5 +1,5 @@
 /****************************************************************************
-** Copyright (C) 2009 Мясников Алексей Сергеевич.
+** Copyright (C) 2009 Мясников А.С. Сергеевич.
 ** Contact: AlekseyMyasnikov@yandex.ru
 **          amyasnikov@npomis.ru
 **          AlekseyMyasnikov@mail.ru
@@ -22,7 +22,7 @@
 ** Обращаю Ваше внимание на то, что библиотека InsularGenetica
 ** зарегистрирована Российским агенством по патентам и товарным знакам
 ** (РОСПАТЕНТ), о чем выдано "Свидетельство об официальной регистрации
-** программы для ЭВМ" за № FIXME от FIXME FIXME FIXME года. Копия
+** программы для ЭВМ" за N 2010610175 от 11.01.2010 г. Копия
 ** свидетельства о регистрации представлена в файле CERTIFICATE
 ** в корне проекта.
 ** Это не накладывает на конечных разработчиков/пользователей никаких
@@ -61,7 +61,7 @@
 **/
 InsularGenetica::
 CPopulation::
-CPopulation(int size) :
+CPopulation(uint size) :
     m_mutex(
 #if QT_VERSION < 0x040000
              true
@@ -102,7 +102,7 @@ CPopulation(const CPopulation& pop) :
     if(pop.size())
     {
         m_data.reserve(pop.size());
-        for(int i = 0; i < pop.size(); i++)
+        for(uint i = 0; i < pop.size(); i++)
         {
             m_data.push_back(new CChromosome(pop.getChromosome(i)));
         }
@@ -116,7 +116,7 @@ CPopulation::
 ~CPopulation()
 {
     QMutexLocker locker(&m_mutex);
-    for(int j = 0; j < m_data.size(); j++)
+    for(uint j = 0; j < m_data.size(); j++)
     {
         delete m_data[j];
     }
@@ -125,7 +125,7 @@ CPopulation::
  * @brief  Размер хромосомы
  * @return Размер хромосомы
 **/
-int
+uint
 InsularGenetica::
 CPopulation::
 size() const
@@ -142,7 +142,7 @@ InsularGenetica::
 CChromosome&
 InsularGenetica::
 CPopulation::
-getChromosome(int index) const
+getChromosome(uint index) const
 {
     QMutexLocker locker(&m_mutex);
     Q_ASSERT(index < m_data.size());
@@ -165,7 +165,7 @@ addChromosome(const CChromosome& chr)
         m_data.push_back(cur);
         if(m_data.size() > 1)
         {
-            for(int i = m_data.size()-1; i > 0; i--)
+            for(uint i = m_data.size()-1; i > 0; i--)
             {
                 if(fnew > m_data[i-1]->fitness())
                 {
@@ -188,7 +188,7 @@ getAverageFitness() const
 {
     QMutexLocker locker(&m_mutex);
     double average = 0.;
-    for(int i = 0; i < m_data.size(); i++)
+    for(uint i = 0; i < m_data.size(); i++)
     {
         average += m_data[i]->fitness();
     }
@@ -234,11 +234,11 @@ CPopulation::
 getHomogeneity(bool pseudo) const
 {
     QMutexLocker locker(&m_mutex);
-    int homogeneity = 0;
-    for(unsigned int i = 0; i < CChromosome::size(); i++)
+    uint homogeneity = 0;
+    for(uint i = 0; i < CChromosome::size(); i++)
     {
-        int tgene = 0;
-        for(int j = 0; j < m_data.size(); j++)
+        uint tgene = 0;
+        for(uint j = 0; j < m_data.size(); j++)
         {
             if(m_data[j]->getGene(i)) tgene++;
         }
@@ -275,7 +275,7 @@ replaceChromosome(const CChromosome&chr)
             m_data[m_data.size()-1] = cur;
             if(m_data.size() > 1)
             {
-                for(int i = m_data.size()-1; i > 0; i--)
+                for(uint i = m_data.size()-1; i > 0; i--)
                 {
                     if(fnew > m_data[i-1]->fitness())
                     {
@@ -298,7 +298,7 @@ CPopulation::
 isPresent(const CChromosome&chr) const
 {
     QMutexLocker locker(&m_mutex);
-    for(int i = 0; i < m_data.size(); i++)
+    for(uint i = 0; i < m_data.size(); i++)
     {
         if(*m_data[i] == chr) return true;
     }
@@ -320,10 +320,11 @@ operator=(const CPopulation& pop)
     if(pop.size())
     {
         m_data.reserve(pop.size());
-        for(int i = 0; i < pop.size(); i++)
+        for(uint i = 0; i < pop.size(); i++)
         {
             m_data.push_back(new CChromosome(pop.getChromosome(i)));
         }
     }
     return *this;
 };
+

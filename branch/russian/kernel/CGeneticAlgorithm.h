@@ -1,5 +1,5 @@
 /****************************************************************************
-** Copyright (C) 2009 Мясников Алексей Сергеевич.
+** Copyright (C) 2009 Мясников А.С. Сергеевич.
 ** Contact: AlekseyMyasnikov@yandex.ru
 **          amyasnikov@npomis.ru
 **          AlekseyMyasnikov@mail.ru
@@ -22,7 +22,7 @@
 ** Обращаю Ваше внимание на то, что библиотека InsularGenetica
 ** зарегистрирована Российским агенством по патентам и товарным знакам
 ** (РОСПАТЕНТ), о чем выдано "Свидетельство об официальной регистрации
-** программы для ЭВМ" за № FIXME от FIXME FIXME FIXME года. Копия
+** программы для ЭВМ" за N 2010610175 от 11.01.2010 г. Копия
 ** свидетельства о регистрации представлена в файле CERTIFICATE
 ** в корне проекта.
 ** Это не накладывает на конечных разработчиков/пользователей никаких
@@ -53,6 +53,7 @@
     #include <QtCore/QList>
 #endif
 #include "../idl/IGeneticOperator.h"
+#include "../idl/ICancelService.h"
 #include "../include/CPopulation.h"
 class QString;
 namespace InsularGenetica
@@ -64,7 +65,7 @@ namespace InsularGenetica
     class IReproduction;
     class IMutation;
     class IAccepting;
-    struct Q_DECL_EXPORT CGeneticAlgorithm : public QThread,
+    Q_DECL_EXPORT struct CGeneticAlgorithm : public QThread,
                                      virtual public Interface
     {
         enum ResultCode
@@ -87,7 +88,7 @@ namespace InsularGenetica
          * @param operators - Генетические операторы
          * @param minutes   - Ограничение по времени
         **/
-        CGeneticAlgorithm(
+        CGeneticAlgorithm(ICancelService*cancel_service,
 #if QT_VERSION < 0x040000
                           QValueList<IGeneticOperator*> operators,
 #else
@@ -114,15 +115,27 @@ namespace InsularGenetica
          * @param   size - размер популяции на выходе
          * @return  Популяция size или меньших наилучших решений
         **/
-        CPopulation getBestChromosomes(int size) const;
+        CPopulation getBestChromosomes(uint size) const;
         /**
-         * @brief Основной цикл потока
-        **/
-        void run();
+        * @brief    Метод безпоточного расчета
+        */
+        void calculate();
         /**
          * @brief Прерывание работы основного цикла потока
         **/
         void cancel();
+        /**
+         * @brief   Заменить худшую хромосому на заданную
+         *          Этот метод помогает инициализироватьисходную популяцию
+         *          нужным значением
+         * @chr     Хромосома для замены
+        **/
+        void replaceWorstChromosome(const CChromosome& chr);
+    protected:
+        /**
+         * @brief Основной цикл потока
+        **/
+        void run();
     private:
         /**
          * @brief Шаблон инициализирует статистические частоты для
@@ -187,6 +200,9 @@ namespace InsularGenetica
         CGeneticAlgorithm*                         m_neighbour;
         ///<! Блокатор совместных данных
         mutable QMutex                             m_mutex;
+        ///<! Cancel service pointer
+        ICancelService*                m_cancel_service;
     };
 };
 #endif // GENETIC_ALGORITHM_FACTORY_H_INCLUDED
+
